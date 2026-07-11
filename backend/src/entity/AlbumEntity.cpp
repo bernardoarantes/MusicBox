@@ -18,21 +18,22 @@ class AlbumEntity : Entity {
             type(albumType),
             artists(artistIds) {}
 
-      string getId() override {
-          return this->id;
-      }
+        string getId() override {
+            return this->id;
+        }
 
-      string toJson() override {
-          string artists_str = "[";
-          for (string artist : artists) {
-              artists_str.append(artist).append(",");
-          }
-          artists_str.append("]");
-          return "{\"id\":\"" + id + 
-                 "\",\"title\":\"" + title +
-                 "\",\"type\":" + type  +
-                 "\",\"release_date\":" + release_date  +
-                 "\",\"artists\":\"" + artists_str + "}";
-      }
+        string toJson() override {
+            string artists_str = "[";
+            for (string artist : artists) {
+                artists_str.append(artist).append(",");
+            }
+            artists_str.append("]");
+            return "{\"id\":\"" + id + 
+                   "\",\"title\":\"" + title +
+                   "\",\"type\":" + type  +
+                   "\",\"release_date\":" + release_date  +
+                   "\",\"artists\":\"" + artists_str +
+                   "}";
+        }
 
 };

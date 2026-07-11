@@ -19,21 +19,22 @@ class MusicEntity : Entity {
             duration(duration),
             artists(artistIds) {}
 
-      string getId() override {
-          return this->id;
-      }
+        string getId() override {
+            return this->id;
+        }
 
-      string toJson() override {
-          string artists_str = "[";
-          for (string artist : artists) {
-              artists_str.append(artist).append(",");
-          }
-          artists_str.append("]");
-          return "{\"id\":\"" + id + 
-                 "\",\"title\":\"" + title +
-                 "\",\"album\":\"" + album +
-                 "\",\"artists\":\"" + artists_str +
-                 "\",\"duration_ms\":" + std::to_string(duration) + "}";
-      }
+        string toJson() override {
+            string artists_str = "[";
+            for (string artist : artists) {
+                artists_str.append(artist).append(",");
+            }
+            artists_str.append("]");
+            return "{\"id\":\"" + id + 
+                   "\",\"title\":\"" + title +
+                   "\",\"album\":\"" + album +
+                   "\",\"artists\":\"" + artists_str +
+                   "\",\"duration_ms\":" + std::to_string(duration) +
+                   "}";
+        }
 
 };

@@ -1,6 +1,5 @@
 #include "Entity.cpp"
 #include <vector>
-#include <format>
 
 using std::vector;
 
@@ -14,13 +13,14 @@ class ArtistEntity : Entity {
             id(id),
             name(name) {}
 
-      string getId() override {
-          return this->id;
-      }
+        string getId() override {
+            return this->id;
+        }
 
-      string toJson() override {
-          return "{\"id\":\"" + id + 
-                 "\",\"name\":\"" + name + "}";
-      }
+        string toJson() override {
+            return "{\"id\":\"" + id + 
+                   "\",\"name\":\"" + name +
+                   "}";
+        }
 
 };
