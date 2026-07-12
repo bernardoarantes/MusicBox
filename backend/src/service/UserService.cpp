@@ -20,7 +20,7 @@ class UserService {
                 throw ValidationException("user with email " + email + " already exists");
 
             string user_id = registry->generateUserId();
-            workspace->addUser(new UserEntity(user_id, email, name, password));
+            workspace->addUser(new UserEntity(user_id, name, email, password));
             registry->incrementUserCount();
         }
 };

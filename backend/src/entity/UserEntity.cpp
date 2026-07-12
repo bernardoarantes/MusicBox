@@ -43,15 +43,15 @@ class UserEntity : public Entity {
                     throw ValidationException("email cannot contain blanks");
 
             if (!std::regex_match(this->email, std::regex("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", std::regex_constants::icase)))
-                throw ValidationException("invalid email");
+                throw ValidationException("invalid email " + this->email);
         }
 
         void validateName() {
-            if (this->email.empty())
+            if (this->name.empty())
                 throw ValidationException("username cannot be empty");
 
-            if (!std::regex_match(this->name, std::regex("^[A-Z0-9._%+-]", std::regex_constants::icase)))
-                throw ValidationException("invalid username");
+            if (!std::regex_match(this->name, std::regex("^[A-Z0-9._%+-]+", std::regex_constants::icase)))
+                throw ValidationException("invalid username " + name);
         }
 
         bool hasEmail(const string &email) const {

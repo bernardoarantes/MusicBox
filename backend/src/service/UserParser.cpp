@@ -8,7 +8,7 @@
 class UserParser : public EntityParser {
     public:
         const UserEntity *parseJson(const json &j) const override {
-            return new UserEntity(j["id"], j["email"], j["name"], j["password"]);
+            return new UserEntity(j["id"], j["name"], j["email"], j["password"]);
         }
 };
 
