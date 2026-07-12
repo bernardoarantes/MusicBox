@@ -6,7 +6,7 @@ interface searchResult {
     id: string;
     title: string;
     artist: string[];
-    duration: number;
+    duration: any;
     album: string;
     coverImg: string;
 }
@@ -15,20 +15,31 @@ export const SearchMusicBar = () => {
         const [requestedTerm, setRequestedTerm] = useState<string>("");
         const [results, setResults] = useState<searchResult[]>([]);
         const [isLoading, setIsLoading] = useState<boolean>(false);
+        const url = "https://api.example.com";
+        const endpoint = "/search?query=";
 
         const fetchMusicAPI = async (query: string) => {
-            if(query.trim()) {
+
+            if(!query.trim()) {
                 setResults([]);
                 return;
             }
             setIsLoading(true);
             try {
-            const response = await fetch('https://localhost:8080/query-music', );
-            if (!response.ok) {
-                throw new Error('Erro ao buscar API de música');
-            }
-            const data = await response.json();
-            setResults(data.items || data)
+                const fullUrl = `${url}${endpoint}${encodeURIComponent(query)}`;
+                const method = "GET";
+                const response = await fetch(fullUrl, {
+                    method,
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: undefined,
+                });
+                if (!response.ok) {
+                    throw new Error('Erro ao buscar API de música');
+                }
+                const data = await response.json();
+                setResults(data.items || data)
         } 
         catch (error) {
             console.error('Error fetching music data:', error);
@@ -45,7 +56,7 @@ export const SearchMusicBar = () => {
             }
             else{
                 setResults([]);
-            }500;})
+            }}, 500);
             return () => clearTimeout(delayTime);
         }, [requestedTerm]);
 
@@ -63,7 +74,7 @@ export const SearchMusicBar = () => {
                         key={music.id}
                         title={music.title}
                         artist={music.artist}
-                        duration={music.duration}
+                        duration={music.duration/1000 + "s"}
                         album={music.album}
                         coverImg={music.coverImg}
                         />

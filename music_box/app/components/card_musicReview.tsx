@@ -27,11 +27,12 @@ export const DynamicStar = ({ rating }: DynamicStarProps) => {
 };
 
 export const CardMusicReview = (
-    title: string,
-    artist: string,
-    duration: string,
-    rating: number,
-    coverImg: string
+  id : string,
+  title: string,
+  artist: string,
+  duration: string,
+  rating: number,
+  coverImg: string
 ) => {
   return (
     <div className="flex items-center p-4 rounded-md w-full max-w-md">
