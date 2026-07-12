@@ -21,12 +21,12 @@ class CreateUserHandler : public DefaultHandler {
             this->userService = &userService;
         }
 
-        void operator()(const Request &req, Response res) override final {
-            json data = json::parse(req.body);
-            const string name     = extract(data, "name", res);
-            const string email    = extract(data, "email", res);
-            const string password = extract(data, "password", res);
+        const json handle(const json &j) override {
+            const string name     = extract(j, "name");
+            const string email    = extract(j, "email");
+            const string password = extract(j, "password");
             userService->addUser(name, email, password);
+            return "";
         }
 };
 

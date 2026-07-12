@@ -8,7 +8,6 @@
 class UserParser : public EntityParser {
     public:
         const UserEntity *parseJson(const json &j) const override {
-            std::cout << j.dump();
             return new UserEntity(j["id"], j["email"], j["name"], j["password"]);
         }
 };
