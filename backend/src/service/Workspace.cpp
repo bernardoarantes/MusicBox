@@ -49,8 +49,8 @@ class Workspace {
             entries->save(new EntryEntity(entry_id, user_id, type, target_id, comment, rating));
         }
 
-        void addUser(const string &user_id, const string &name, const string &password) {
-            users->save(new UserEntity(user_id, name, password));
+        void addUser(const string &user_id, const string &email, const string &name, const string &password) {
+            users->save(new UserEntity(user_id, email, name, password));
         }
 
         vector<EntryEntity> listEntriesByUser(const string& user_id){

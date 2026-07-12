@@ -15,9 +15,9 @@ class UserService {
             this->registry = &registry;
         }
 
-        void addUser(const string &name, const string &password) {
+        void addUser(const string &name, const string &email, const string &password) {
             string user_id = registry->generateUserId();
-            workspace->addUser(user_id, name, password);
+            workspace->addUser(user_id, email, name, password);
             registry->incrementUserCount();
         }
 };
