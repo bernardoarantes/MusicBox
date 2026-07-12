@@ -19,11 +19,11 @@ using std::vector;
 
 class Workspace {
     private:
-        Repository users;
-        Repository entries;
+        Repository *users;
+        Repository *entries;
 
         const UserEntity getUser(const string& user_id){
-            for (const Entity *user : users) {
+            for (const Entity *user : *users) {
                 if (user->getId() == user_id) {
                     return *((UserEntity *) user);
                 }
@@ -32,7 +32,7 @@ class Workspace {
         }
 
         const EntryEntity getEntry(const string &entry_id) {
-            for (const Entity *entry : entries) {
+            for (const Entity *entry : *entries) {
                 if (entry->getId() == entry_id) {
                     return *((EntryEntity *) entry);
                 }
@@ -41,21 +41,21 @@ class Workspace {
         }
 
     public:
-        Workspace(const string &users_path, const string &entries_path, const UserParser &user_parser, const EntryParser &entry_parser) :
-            users(users_path, user_parser),
-            entries(entries_path, entry_parser) {}
+        Workspace(Repository &users, Repository &entries) :
+            users(&users),
+            entries(&entries) {}
 
         void addEntry(const string &user_id, const string &entry_id, const string &type, const string &target_id, const string &comment, unsigned rating) {
-            entries.save(new EntryEntity(entry_id, user_id, type, target_id, comment, rating));
+            entries->save(new EntryEntity(entry_id, user_id, type, target_id, comment, rating));
         }
 
         void addUser(const string &user_id, const string &name, const string &password) {
-            users.save(new UserEntity(user_id, name, password));
+            users->save(new UserEntity(user_id, name, password));
         }
 
         vector<EntryEntity> *listEntriesByUser(const string& user_id){
             vector<EntryEntity> *user_entries = new vector<EntryEntity>();
-            for (const Entity *entry : entries) {
+            for (const Entity *entry : *entries) {
                 EntryEntity *_entry = (EntryEntity *) entry;
                 if (_entry->getOwnerId() == user_id)
                     user_entries->push_back(*_entry);
