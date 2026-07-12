@@ -14,11 +14,19 @@ class RegistryService {
             entry_count(entry_count) {}
 
         string generateUserId() {
-            return to_string(++entry_count);
+            return to_string(entry_count);
         }
 
         string generateEntryId() {
-            return to_string(++user_count);
+            return to_string(user_count);
+        }
+
+        void incrementUserCount() {
+            user_count++;
+        }
+
+        void incrementEntryCount() {
+            entry_count++;
         }
 };
 
