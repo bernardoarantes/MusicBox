@@ -3,7 +3,7 @@
 
 #include "entity/Entity.cpp"
 
-class EntryEntity : Entity {
+class EntryEntity : public Entity {
     private:
         const string id;
         const string owner_id;
@@ -21,7 +21,7 @@ class EntryEntity : Entity {
             comment(comment),
             rating(rating) {}
 
-        string getId() override {
+        const string getId() const override {
             return this->id;
         }
 
@@ -29,8 +29,9 @@ class EntryEntity : Entity {
             return this->getOwnerId();
         }
 
-        json toJson() override {
+        json toJson() const override {
             return "{\"id\":\"" + id + 
+                   "\",\"owner_id\":\"" + owner_id +
                    "\",\"type\":\"" + type +
                    "\",\"target_id\":\"" + target_id +
                    "\",\"comment\":\"" + comment +

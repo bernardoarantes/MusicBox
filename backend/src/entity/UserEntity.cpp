@@ -3,7 +3,7 @@
 
 #include "entity/Entity.cpp"
 
-class UserEntity : Entity {
+class UserEntity : public Entity {
     private:
         const string id;
         const string name;
@@ -15,13 +15,14 @@ class UserEntity : Entity {
             name(name),
             password(password) {}
 
-        string getId() override {
+        const string getId() const override {
             return this->id;
         }
 
-        json toJson() override {
+        json toJson() const override {
             return "{\"id\":\"" + id + 
                    "\",\"name\":\"" + name +
+                   "\",\"password\":\"" + password +
                    "}";
         }
 
