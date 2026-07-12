@@ -67,6 +67,10 @@ class Repository {
         vector<const Entity *>::iterator end() {
             return entities.end();
         }
+
+        size_t size() {
+            return entities.size();
+        }
 };
 
 #endif
