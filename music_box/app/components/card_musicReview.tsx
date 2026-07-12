@@ -26,16 +26,18 @@ export const DynamicStar = ({ rating }: DynamicStarProps) => {
   );
 };
 
-export const CardMusicReview = (
+interface CardMusicReviewProps {
     title: string,
     artist: string,
     duration: string,
     rating: number,
     coverImg: string
-) => {
+}
+
+export const CardMusicReview = ({ title, artist, duration, rating, coverImg }: CardMusicReviewProps) => {
   return (
     <div className="flex items-center p-4 rounded-md w-full max-w-md">
-      /*Imagem da capa do album/faixa */
+      {/*Imagem da capa do album/faixa */}
       <div className="w-16 h-16 rounded-lg flex-shrink-0">
         <img src={coverImg} alt={"Capa de " + title} className="w-16 h-16 object-cover rounded-md"/>
       </div>
