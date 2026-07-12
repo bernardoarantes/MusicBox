@@ -25,7 +25,7 @@ export default function Login() {
   }
 
   return (
-    <div className="flex flex-col items-center text-center">
+    <div className="flex flex-col items-center text-center pb-20">
       <div className="py-3">
         <Image src="/assets/music_boxd.png" alt="MusicBoxd" width={200} height={200} />
         <p>avalie musicas e albuns!</p>

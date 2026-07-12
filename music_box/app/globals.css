@@ -35,3 +35,23 @@ body {
   font-weight: bold;
   text-decoration: underline;
 }
+
+.maintext {
+  font-family: 'Roboto';
+  font-size: 20;
+  font-weight: bold;
+  color: #FFFFFF;
+}
+
+.subtext {
+  font-family: 'Roboto';
+  font-size: 14;
+  color: #B7BFBE;
+}
+
+.appName {
+  font-family: 'Blanka';
+  font-size: 20;
+  font-weight: bold;
+  color: #FFFFFF;
+}
