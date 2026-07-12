@@ -2,9 +2,6 @@
 #define USERENTITY
 
 #include "entity/Entity.cpp"
-#include <vector>
-
-using std::vector;
 
 class UserEntity : Entity {
     private:
@@ -22,7 +19,7 @@ class UserEntity : Entity {
             return this->id;
         }
 
-        string toJson() override {
+        json toJson() override {
             return "{\"id\":\"" + id + 
                    "\",\"name\":\"" + name +
                    "}";

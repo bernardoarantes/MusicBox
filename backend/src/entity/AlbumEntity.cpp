@@ -15,17 +15,18 @@ class AlbumEntity : Entity {
         const vector<string> artists;
 
     public:
-        AlbumEntity(const string &id, const string &title, const string &albumType, const vector<string> &artistIds, unsigned duration) :
+        AlbumEntity(const string &id, const string &title, const string &albumType, const string &release_date, const vector<string> &artistIds) :
             id(id),
             title(title),
             type(albumType),
+            release_date(release_date),
             artists(artistIds) {}
 
         string getId() override {
             return this->id;
         }
 
-        string toJson() override {
+        json toJson() override {
             string artists_str = "[";
             for (string artist : artists) {
                 artists_str.append(artist).append(",");

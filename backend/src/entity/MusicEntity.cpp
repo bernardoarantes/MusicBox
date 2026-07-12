@@ -26,7 +26,7 @@ class MusicEntity : Entity {
             return this->id;
         }
 
-        string toJson() override {
+        json toJson() override {
             string artists_str = "[";
             for (string artist : artists) {
                 artists_str.append(artist).append(",");

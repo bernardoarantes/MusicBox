@@ -2,9 +2,6 @@
 #define ENTRYENTITY
 
 #include "entity/Entity.cpp"
-#include <vector>
-
-using std::vector;
 
 class EntryEntity : Entity {
     private:
@@ -32,7 +29,7 @@ class EntryEntity : Entity {
             return this->getOwnerId();
         }
 
-        string toJson() override {
+        json toJson() override {
             return "{\"id\":\"" + id + 
                    "\",\"type\":\"" + type +
                    "\",\"target_id\":\"" + target_id +

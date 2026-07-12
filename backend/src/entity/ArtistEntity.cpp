@@ -2,9 +2,6 @@
 #define ARTISTENTITY
 
 #include "entity/Entity.cpp"
-#include <vector>
-
-using std::vector;
 
 class ArtistEntity : Entity {
     private:
@@ -20,7 +17,7 @@ class ArtistEntity : Entity {
             return this->id;
         }
 
-        string toJson() override {
+        json toJson() override {
             return "{\"id\":\"" + id + 
                    "\",\"name\":\"" + name +
                    "}";

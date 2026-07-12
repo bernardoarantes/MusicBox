@@ -2,8 +2,10 @@
 #define ENTITY
 
 #include <string>
+#include "json.hpp"
 
 using std::string;
+using nlohmann::json;
 
 /**
  * Entity interface.
@@ -18,7 +20,7 @@ class Entity {
         /**
          * @returns Serialized Entity in Json format.
          */
-        virtual string toJson();
+        virtual json toJson();
 };
 
 #endif
