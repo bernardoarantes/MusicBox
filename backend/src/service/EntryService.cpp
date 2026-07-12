@@ -1,8 +1,11 @@
 #ifndef ENTRYSERVICE
 #define ENTRYSERVICE
 
+#include "json.hpp"
 #include "service/RegistryService.cpp"
 #include "service/Workspace.cpp"
+
+using nlohmann::json;
 
 class EntryService {
     private:
@@ -19,6 +22,14 @@ class EntryService {
             string entry_id = registry->generateEntryId();
             workspace->addEntry(user_id, entry_id, type, target_id, comment, rating);
             registry->incrementEntryCount();
+        }
+        string fetchEntriesFromOwnerId(const string& id){
+            string s = "[";
+            for (EntryEntity entry: workspace->findAllUserEntries(id)) {
+                s += entry.toJson() + ",";
+            }
+            s += "]";
+            return s;
         }
 };
 
