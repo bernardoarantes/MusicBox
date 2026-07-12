@@ -1,12 +1,14 @@
 #ifndef USERPARSER
 #define USERPARSER
 
+#include <iostream>
 #include "service/EntityParser.cpp"
 #include "entity/UserEntity.cpp"
 
 class UserParser : public EntityParser {
     public:
         const UserEntity *parseJson(const json &j) const override {
+            std::cout << j.dump();
             return new UserEntity(j["id"], j["name"], j["password"]);
         }
 };

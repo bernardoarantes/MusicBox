@@ -1,3 +1,4 @@
+#define CPPHTTPLIB_OPENSSL_SUPPORT
 #include "httplib.h"
 #include "EndpointFactory.cpp"
 #include "service/RegistryService.cpp"
@@ -9,8 +10,8 @@
 #include "service/SpotifyAPIQueryService.cpp"
 #include "service/persistence/Repository.cpp"
 
-#define ENTRIES_PATH "data/entries.json"
-#define USERS_PATH "data/users.json"
+#define ENTRIES_PATH "data/entries.jsonl"
+#define USERS_PATH "data/users.jsonl"
 #define API_KEY "SOME_KEY"
 
 int main() {

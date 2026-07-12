@@ -1,10 +1,10 @@
 #ifndef LISTENTRYHANDLER
 #define LISTENTRYHANDLER
 
-#import "httplib.h"
-#import "json.hpp"
-#import "service/EntryService.cpp"
-#import "service/handler/DefaultHandler.cpp"
+#include "httplib.h"
+#include "json.hpp"
+#include "service/EntryService.cpp"
+#include "service/handler/DefaultHandler.cpp"
 
 using httplib::Request;
 using httplib::Response;

@@ -3,7 +3,6 @@
 
 #include "entity/Entity.cpp"
 #include "exceptions/EntityNotFoundException.cpp"
-#include "service/EntityService.cpp"
 #include "service/EntityParser.cpp"
 #include <filesystem>
 #include <fstream>
@@ -29,11 +28,15 @@ class Repository {
             if (!in_file.is_open())
                 throw EntityNotFoundException("Bad input file path " + file_path);
             
-            json data;
-            file >> data;
+            json data = json::array();
 
-            if (!std::filesystem::is_empty(file_path))
-                in_file >> data;
+            if (!std::filesystem::is_empty(file_path)) {
+                string line;
+                while (std::getline(in_file, line)) {
+                    if (line.empty()) continue;
+                    data += json::parse(line);
+                }
+            }
 
             in_file.close();
 
@@ -57,7 +60,7 @@ class Repository {
 
         void save(const Entity *entity) {
             entities.push_back(entity);
-            file << "," + entity->toJson().dump();
+            file << "\n" + entity->toJson().dump();
         }
 
         vector<const Entity *>::iterator begin() {

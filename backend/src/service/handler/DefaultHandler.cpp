@@ -1,10 +1,10 @@
 #ifndef DEFAULTHANDLER
 #define DEFAULTHANDLER
 
-#import "exceptions/FormatException.cpp"
-#import "httplib.h"
-#import "json.hpp"
-#import "service/EntryService.cpp"
+#include "exceptions/FormatException.cpp"
+#include "httplib.h"
+#include "json.hpp"
+#include "service/EntryService.cpp"
 
 using httplib::Request;
 using httplib::Response;
@@ -14,6 +14,8 @@ using std::string;
 
 class DefaultHandler : public Server::Handler {
     public:
+        virtual ~DefaultHandler() = default;
+
         const json extract(json data, const char *field, Response &res) const {
             if (!data.contains(field)) {
                 res.status = 400;
@@ -23,7 +25,7 @@ class DefaultHandler : public Server::Handler {
             return data[field];
         }
 
-        virtual void operator()(const Request &req, Response res);
+        virtual void operator()(const Request &req, Response res) = 0;
 };
 
 #endif

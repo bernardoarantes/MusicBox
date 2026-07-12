@@ -53,12 +53,12 @@ class Workspace {
             users->save(new UserEntity(user_id, name, password));
         }
 
-        vector<EntryEntity> *listEntriesByUser(const string& user_id){
-            vector<EntryEntity> *user_entries = new vector<EntryEntity>();
+        vector<EntryEntity> listEntriesByUser(const string& user_id){
+            vector<EntryEntity> user_entries = vector<EntryEntity>();
             for (const Entity *entry : *entries) {
                 EntryEntity *_entry = (EntryEntity *) entry;
                 if (_entry->getOwnerId() == user_id)
-                    user_entries->push_back(*_entry);
+                    user_entries.push_back(*_entry);
             }
             return user_entries;
         };
