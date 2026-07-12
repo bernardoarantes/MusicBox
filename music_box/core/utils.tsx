@@ -1,10 +1,9 @@
 export const emailValidator = (email: string) => {
-  // const re = /\S+@\S+\.\S+/;
-  // const re = /[a-z]{1}\/[0-9]{6}\@dac\.unicamp\.br
-  const re = /^[a-z][0-9]{6}@dac\.unicamp\.br$/;
+  const re = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,6}$/
 
   if (!email || email.length <= 0) return 'Email cannot be empty.';
-  if (!re.test(email)) return 'Oops! Email isnt a123456@dac.unicamp.br alike.';
+  if (!re.test(email)) return 'Oops! Invalid Email.';
+
   return '';
 };
 
@@ -16,7 +15,10 @@ export const passwordValidator = (password: string) => {
 };
 
 export const nameValidator = (name: string) => {
+  const letters = /^[A-Za-z]+$/;
+
   if (!name || name.length <= 0) return 'Name cannot be empty.';
+  if (!letters.test(name)) return "Name field should be all chars"
 
   return '';
 };
@@ -26,9 +28,3 @@ export const newPasswordValidator = (password1: string, password2: string) => {
 
   return ''
 }
-
-// fazer uma request para averiguar se aquele usuario com ra e senha (ra imbutido)
-// ja existe no banco de dados ou nao
-export const loginValidator = (email:string, password: string) => {
-  
-};
