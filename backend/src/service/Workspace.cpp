@@ -40,6 +40,15 @@ class Workspace {
             throw EntityNotFoundException("bad entry id " + entry_id);
         }
 
+        UserEntity getUserFromEmail(const string &email) {
+            for (const Entity *_user : *users) {
+                UserEntity *user = (UserEntity *) _user;
+                if (user->hasEmail(email))
+                    return *user;
+            }
+            throw EntityNotFoundException("no user with email " + email);
+        }
+
     public:
         Workspace(Repository &users, Repository &entries) :
             users(&users),
@@ -67,9 +76,17 @@ class Workspace {
             for (const Entity *_user : *users) {
                 UserEntity *user = (UserEntity *) _user;
                 if (user->hasEmail(email))
-                    return false;
+                    return true;
             }
-            return true;
+            return false;
+        }
+
+        string checkLogin(const string &email, const string &password) {
+            UserEntity user = getUserFromEmail(email);
+            if (user.hasPassword(password))
+                return user.getId();
+
+            throw ValidationException("wrong credentials");
         }
 };
 

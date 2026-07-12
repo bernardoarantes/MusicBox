@@ -57,6 +57,10 @@ class UserEntity : public Entity {
         bool hasEmail(const string &email) const {
             return this->email == email;
         }
+
+        bool hasPassword(const string &password) const {
+            return this->password == password;
+        }
 };
 
 #endif

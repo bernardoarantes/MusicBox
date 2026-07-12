@@ -23,6 +23,10 @@ class UserService {
             workspace->addUser(new UserEntity(user_id, name, email, password));
             registry->incrementUserCount();
         }
+
+        string checkLogin(const string &email, const string &password) {
+            return workspace->checkLogin(email, password);
+        }
 };
 
 #endif

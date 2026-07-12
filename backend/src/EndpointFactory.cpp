@@ -9,6 +9,7 @@
 #include "service/handler/CreateEntryHandler.cpp"
 #include "service/handler/CreateUserHandler.cpp"
 #include "service/handler/ListEntryHandler.cpp"
+#include "service/handler/LoginHandler.cpp"
 #include "service/handler/MusicQueryHandler.cpp"
 
 using httplib::Request;
@@ -29,6 +30,7 @@ class EndpointFactory {
             registerEndpoint(svr, "/create-entry", CreateEntryHandler(entry_service));
             registerEndpoint(svr, "/create-user",  CreateUserHandler(user_service));
             registerEndpoint(svr, "/list-entry",   ListEntryHandler(entry_service));
+            registerEndpoint(svr, "/login",        LoginHandler(user_service));
             registerEndpoint(svr, "/music-query",  MusicQueryHandler(music_query_interface));
         }
 
