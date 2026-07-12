@@ -48,7 +48,7 @@ class Repository {
                 if (entity->getId() == id) 
                     return *entity;
 
-            throw new EntityNotFoundException("Bad id " + id);
+            throw EntityNotFoundException("Bad id " + id);
         }
 
         vector<const Entity *> findAll() const {

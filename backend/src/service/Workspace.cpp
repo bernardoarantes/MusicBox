@@ -28,7 +28,7 @@ class Workspace {
                     return *((UserEntity *) user);
                 }
             }
-            throw new EntityNotFoundException("Bad user id " + user_id);
+            throw EntityNotFoundException("Bad user id " + user_id);
         }
 
         const EntryEntity getEntry(const string &entry_id) {
@@ -37,7 +37,7 @@ class Workspace {
                     return *((EntryEntity *) entry);
                 }
             }
-            throw new EntityNotFoundException("Bad entry id " + entry_id);
+            throw EntityNotFoundException("Bad entry id " + entry_id);
         }
 
     public:
