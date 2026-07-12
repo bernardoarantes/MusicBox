@@ -23,13 +23,13 @@ class EntryService {
             workspace->addEntry(user_id, entry_id, type, target_id, comment, rating);
             registry->incrementEntryCount();
         }
-        string fetchEntriesFromOwnerId(const string& id){
-            string s = "[";
-            for (EntryEntity entry: workspace->findAllUserEntries(id)) {
-                s += entry.toJson() + ",";
-            }
-            s += "]";
-            return s;
+
+        json fetchEntriesFromOwner(const string &user_id) {
+            json entries;
+            for (EntryEntity entry : workspace->listEntriesByUser(user_id))
+                entries += entry.toJson();
+
+            return entries;
         }
 };
 
