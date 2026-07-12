@@ -16,6 +16,9 @@ class UserService {
         }
 
         void addUser(const string &name, const string &email, const string &password) {
+            if (workspace->userWithEmailExists(email))
+                throw ValidationException("user with email " + email + " already exists");
+
             string user_id = registry->generateUserId();
             workspace->addUser(new UserEntity(user_id, email, name, password));
             registry->incrementUserCount();

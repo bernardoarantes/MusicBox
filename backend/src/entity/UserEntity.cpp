@@ -2,6 +2,8 @@
 #define USERENTITY
 
 #include "entity/Entity.cpp"
+#include "exceptions/ValidationException.cpp"
+#include <regex>
 
 class UserEntity : public Entity {
     private:
@@ -15,7 +17,10 @@ class UserEntity : public Entity {
             id(id),
             name(name),
             email(email),
-            password(password) {}
+            password(password) {
+                validateEmail();
+                validateName();
+            }
 
         const string getId() const override {
             return this->id;
@@ -29,6 +34,29 @@ class UserEntity : public Entity {
                    "}";
         }
 
+        void validateEmail() {
+            if (this->email.empty())
+                throw ValidationException("email cannot be empty");
+            
+            for (char c : this->email) 
+                if (c == ' ')
+                    throw ValidationException("email cannot contain blanks");
+
+            if (!std::regex_match(this->email, std::regex("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", std::regex_constants::icase)))
+                throw ValidationException("invalid email");
+        }
+
+        void validateName() {
+            if (this->email.empty())
+                throw ValidationException("username cannot be empty");
+
+            if (!std::regex_match(this->name, std::regex("^[A-Z0-9._%+-]", std::regex_constants::icase)))
+                throw ValidationException("invalid username");
+        }
+
+        bool hasEmail(const string &email) const {
+            return this->email == email;
+        }
 };
 
 #endif

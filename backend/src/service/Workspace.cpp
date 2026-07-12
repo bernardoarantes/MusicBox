@@ -28,7 +28,7 @@ class Workspace {
                     return *((UserEntity *) user);
                 }
             }
-            throw EntityNotFoundException("Bad user id " + user_id);
+            throw EntityNotFoundException("bad user id " + user_id);
         }
 
         const EntryEntity getEntry(const string &entry_id) {
@@ -37,7 +37,7 @@ class Workspace {
                     return *((EntryEntity *) entry);
                 }
             }
-            throw EntityNotFoundException("Bad entry id " + entry_id);
+            throw EntityNotFoundException("bad entry id " + entry_id);
         }
 
     public:
@@ -55,13 +55,22 @@ class Workspace {
 
         vector<EntryEntity> listEntriesByUser(const string& user_id){
             vector<EntryEntity> user_entries = vector<EntryEntity>();
-            for (const Entity *entry : *entries) {
-                EntryEntity *_entry = (EntryEntity *) entry;
-                if (_entry->getOwnerId() == user_id)
-                    user_entries.push_back(*_entry);
+            for (const Entity *_entry : *entries) {
+                EntryEntity *entry = (EntryEntity *) _entry;
+                if (entry->getOwnerId() == user_id)
+                    user_entries.push_back(*entry);
             }
             return user_entries;
         };
+
+        bool userWithEmailExists(const string &email) const {
+            for (const Entity *_user : *users) {
+                UserEntity *user = (UserEntity *) _user;
+                if (user->hasEmail(email))
+                    return false;
+            }
+            return true;
+        }
 };
 
 #endif
