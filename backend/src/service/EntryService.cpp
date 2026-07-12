@@ -20,7 +20,7 @@ class EntryService {
 
         void addEntry(const string &user_id, const string &type, const string &target_id, const string &comment, unsigned rating) {
             string entry_id = registry->generateEntryId();
-            workspace->addEntry(user_id, entry_id, type, target_id, comment, rating);
+            workspace->addEntry(new EntryEntity(entry_id, user_id, type, target_id, comment, rating));
             registry->incrementEntryCount();
         }
 

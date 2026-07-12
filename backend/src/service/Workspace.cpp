@@ -45,12 +45,12 @@ class Workspace {
             users(&users),
             entries(&entries) {}
 
-        void addEntry(const string &user_id, const string &entry_id, const string &type, const string &target_id, const string &comment, unsigned rating) {
-            entries->save(new EntryEntity(entry_id, user_id, type, target_id, comment, rating));
+        void addEntry(EntryEntity *new_entry) {
+            entries->save(new_entry);
         }
 
-        void addUser(const string &user_id, const string &email, const string &name, const string &password) {
-            users->save(new UserEntity(user_id, email, name, password));
+        void addUser(UserEntity *new_user) {
+            users->save(new_user);
         }
 
         vector<EntryEntity> listEntriesByUser(const string& user_id){

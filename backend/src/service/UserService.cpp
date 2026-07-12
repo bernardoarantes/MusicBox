@@ -17,7 +17,7 @@ class UserService {
 
         void addUser(const string &name, const string &email, const string &password) {
             string user_id = registry->generateUserId();
-            workspace->addUser(user_id, email, name, password);
+            workspace->addUser(new UserEntity(user_id, email, name, password));
             registry->incrementUserCount();
         }
 };
