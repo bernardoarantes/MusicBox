@@ -1,14 +1,23 @@
+#ifndef FORMATEXCEPTION
+#define FORMATEXCEPTION
+
 #include <exception>
 #include <string>
 
-class FormatException: public std:: exception {
-    private:
-        std::string message;
-    public:
-        // converte str pra FormatException
-        explicit FormatException(const std::string& msg) { message = msg;}
+using std::exception;
+using std::string;
 
-        const char* what() const noexcept override {
+class FormatException : public exception {
+    private:
+        const string message;
+
+    public:
+        explicit FormatException(const string &message) :
+            message(message) {}
+
+        const char *what() const noexcept override {
             return message.c_str();
         }
 };
+
+#endif
