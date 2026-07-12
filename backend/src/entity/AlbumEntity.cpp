@@ -1,4 +1,7 @@
-#include "Entity.cpp"
+#ifndef ALBUMENTITY
+#define ALBUMENTITY
+
+#include "entity/Entity.cpp"
 #include <vector>
 
 using std::vector;
@@ -37,3 +40,5 @@ class AlbumEntity : Entity {
         }
 
 };
+
+#endif

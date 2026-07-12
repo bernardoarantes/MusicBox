@@ -1,3 +1,6 @@
+#ifndef REGISTRYSERVICE
+#define REGISTRYSERVICE
+
 #include <string>
 
 using std::string;
@@ -30,3 +33,4 @@ class RegistryService {
         }
 };
 
+#endif

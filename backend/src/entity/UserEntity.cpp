@@ -1,4 +1,7 @@
-#include "Entity.cpp"
+#ifndef USERENTITY
+#define USERENTITY
+
+#include "entity/Entity.cpp"
 #include <vector>
 
 using std::vector;
@@ -26,3 +29,5 @@ class UserEntity : Entity {
         }
 
 };
+
+#endif

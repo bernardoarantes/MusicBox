@@ -1,8 +1,8 @@
 #ifndef WORKSPACE
 #define WORKSPACE
 
-#include "../entity/EntryEntity.cpp"
-#include "../entity/UserEntity.cpp"
+#include "entity/EntryEntity.cpp"
+#include "entity/UserEntity.cpp"
 #include "json.hpp"
 #include <map>
 #include <string>

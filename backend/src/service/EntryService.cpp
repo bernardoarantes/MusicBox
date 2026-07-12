@@ -1,8 +1,8 @@
 #ifndef ENTRYSERVICE
 #define ENTRYSERVICE
 
-#include "RegistryService.cpp"
-#include "Workspace.cpp"
+#include "service/RegistryService.cpp"
+#include "service/Workspace.cpp"
 
 class EntryService {
     private:

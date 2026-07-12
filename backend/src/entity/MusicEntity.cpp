@@ -1,4 +1,7 @@
-#include "Entity.cpp"
+#ifndef MUSICENTITY
+#define MUSICENTITY
+
+#include "entity/Entity.cpp"
 #include <vector>
 
 using std::vector;
@@ -38,3 +41,5 @@ class MusicEntity : Entity {
         }
 
 };
+
+#endif

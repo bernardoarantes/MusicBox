@@ -1,4 +1,7 @@
-#include "Entity.cpp"
+#ifndef ENTRYENTITY
+#define ENTRYENTITY
+
+#include "entity/Entity.cpp"
 #include <vector>
 
 using std::vector;
@@ -33,3 +36,5 @@ class EntryEntity : Entity {
         }
 
 };
+
+#endif

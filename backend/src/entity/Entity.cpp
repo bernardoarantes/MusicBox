@@ -1,3 +1,6 @@
+#ifndef ENTITY
+#define ENTITY
+
 #include <string>
 
 using std::string;
@@ -17,3 +20,5 @@ class Entity {
          */
         virtual string toJson();
 };
+
+#endif

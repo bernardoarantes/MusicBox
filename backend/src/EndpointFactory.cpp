@@ -1,3 +1,6 @@
+#ifndef ENDPOINTFACTORY
+#define ENDPOINTFACTORY
+
 #include "httplib.h"
 #include "exception"
 #include "service/handler/CreateEntryHandler.cpp"
@@ -24,3 +27,5 @@ class EndpointFactory {
             new std::exception();
         };
 };
+
+#endif

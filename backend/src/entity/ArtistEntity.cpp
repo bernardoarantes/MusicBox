@@ -1,4 +1,7 @@
-#include "Entity.cpp"
+#ifndef ARTISTENTITY
+#define ARTISTENTITY
+
+#include "entity/Entity.cpp"
 #include <vector>
 
 using std::vector;
@@ -24,3 +27,5 @@ class ArtistEntity : Entity {
         }
 
 };
+
+#endif
