@@ -25,7 +25,7 @@ class EntryService {
         }
 
         json fetchEntriesFromOwner(const string &user_id) {
-            json entries;
+            json entries = json::array();
             for (EntryEntity entry : workspace->listEntriesByUser(user_id))
                 entries += entry.toJson();
 

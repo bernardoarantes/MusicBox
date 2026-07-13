@@ -26,7 +26,7 @@ class EntryEntity : public Entity {
         }
 
         string getOwnerId() {
-            return this->getOwnerId();
+            return this->owner_id;
         }
 
         json toJson() const override {

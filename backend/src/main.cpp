@@ -31,6 +31,17 @@ int main() {
 
     EndpointFactory endpoint_factory(svr, entry_service, user_service, spotify_api_query_service);
 
+    svr.set_pre_routing_handler([](const httplib::Request &req, httplib::Response &res) {
+            res.set_header("Access-Control-Allow-Origin", "*"); 
+            res.set_header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE");
+            res.set_header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+            if (req.method == "OPTIONS") {
+                res.status = 200;
+                return httplib::Server::HandlerResponse::Handled;
+            }
+            return httplib::Server::HandlerResponse::Unhandled;
+        });
     svr.listen("0.0.0.0", 8080);
 }
 

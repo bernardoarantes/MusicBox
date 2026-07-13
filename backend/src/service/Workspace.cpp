@@ -64,6 +64,7 @@ class Workspace {
 
         vector<EntryEntity> listEntriesByUser(const string& user_id){
             vector<EntryEntity> user_entries = vector<EntryEntity>();
+
             for (const Entity *_entry : *entries) {
                 EntryEntity *entry = (EntryEntity *) _entry;
                 if (entry->getOwnerId() == user_id)

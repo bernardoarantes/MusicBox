@@ -22,10 +22,13 @@ class ListEntryHandler : public DefaultHandler {
         }
 
         const json getData(const Request &req) override {
-            if (!req.has_param("q"))
+            std::cout << "Getting here!";
+            if (!req.has_param("user_id"))
                 throw FormatException("missing q param");
 
-            return json::parse("\"user_id\":\"" + req.get_param_value("q") + "\"");
+            auto a = req.get_param_value("user_id");
+
+            return json::parse("{\"user_id\":\"" + a + "\"}");
         }
 
         const json handle(const json &j) override {
