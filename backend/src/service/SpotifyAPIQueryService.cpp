@@ -24,11 +24,13 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
             };
         }
 
+
         const json formatMusic(const json &api_music) const {
             json music;
             music["id"] = api_music["id"];
             music["title"] = api_music["name"];
             music["album"] = api_music["album"]["id"];
+            music["cover"] = api_music["album"]["images"][0]["url"];
             music["duration"] = api_music["duration"];
             music["artists"] = json::array();
 
@@ -44,11 +46,11 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
             album["title"] = api_album["name"];
             album["type"] = api_album["type"];
             album["release_date"] = api_album["release_date"];
+            album["cover"] = api_album["images"][0]["url"];
             album["artists"] = json::array();
 
-            for (json artist : api_album["artists"]) {
+            for (json artist : api_album["artists"])
                 album["artists"] += artist["id"];
-            }
 
             return album;
         }
@@ -60,82 +62,58 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
             return artist;
         }
 
-    public:
-        SpotifyAPIQueryService(const string &api_key) :
-            api_key(api_key) {}
+    public : SpotifyAPIQueryService(const string &api_key)
+             : api_key(api_key) {}
 
-        const json findMusicByName(const string &name, unsigned page) override {
-            if (auto res = cli.Get("/v1/search?q=" + name + "&type=track&offset=" + std::to_string(10 * page), getHeaders())) {
-                json data = json::parse(res->body);
-                json j = json::array();
+             const json query(const string &type, const string &query, unsigned page) override {
+                 if (auto res = cli.Get("/v1/search?q=" + query + "&type=" + type + "&offset=" + std::to_string(10 * page), getHeaders())) {
+                     json data = json::parse(res->body);
+                     json j;
+                     j["items"] = json::array();
 
-                for (json music : data["tracks"]["items"])
-                    j += formatMusic(music);
+                     for (json item : data[type]["items"])
+                         if (type == "track")
+                             j += formatMusic(item);
+                         else if (type == "album")
+                             j += formatAlbum(item);
+                         else if (type == "artist")
+                             j += formatArtist(item);
 
-                return j;
-            } else {
-                throw EntityNotFoundException("failed to fetch from spotify api");
-            }
-        }
+                     return j;
+                 } else {
+                     throw EntityNotFoundException("failed to fetch from spotify api");
+                 }
+             }
 
-        const json findMusicByAlbum(const string &album_id, unsigned page) override {
-            if (auto res = cli.Get("/v1/albums/" + album_id + "/tracks?offset=" + std::to_string(10 * page), getHeaders())) {
-                json data = json::parse(res->body);
-                json j = json::array();
+             const json findMusicByAlbum(const string &album_id, unsigned page) override {
+                 if (auto res = cli.Get("/v1/albums/" + album_id + "/tracks?offset=" + std::to_string(10 * page), getHeaders())) {
+                     json data = json::parse(res->body);
+                     json j = json::array();
 
-                for (json music : data["tracks"]["items"])
-                    j += formatMusic(music);
+                     for (json music : data["tracks"]["items"])
+                         j += formatMusic(music);
 
-                return j;
-            } else {
-                throw EntityNotFoundException("failed to fetch from spotify api");
-            }
-        }
+                     return j;
+                 } else {
+                     throw EntityNotFoundException("failed to fetch from spotify api");
+                 }
+             }
 
-        const json findAlbumByName(const string &name, unsigned page) override {
-            if (auto res = cli.Get("/v1/search?q=" + name + "&type=album&offset=" + std::to_string(10 * page), getHeaders())) {
-                json data = json::parse(res->body);
-                json j = json::array();
 
-                for (json album : data["albums"]["items"]) {
-                    j += formatAlbum(album);
-                }
+             const json findAlbumByArtist(const string &artist_id, unsigned page) override {
+                 if (auto res = cli.Get("/v1/artist/" + artist_id + "/albums?offset=" + std::to_string(10 * page), getHeaders())) {
+                     json data = json::parse(res->body);
+                     json j = json::array();
 
-                return j;
-            } else {
-                throw EntityNotFoundException("failed to fetch from spotify api");
-            }
-        }
+                     for (json album : data["albums"]["items"]) {
+                         j += formatAlbum(album);
+                     }
 
-        const json findAlbumByArtist(const string &artist_id, unsigned page) override {
-            if (auto res = cli.Get("/v1/artist/" + artist_id + "/albums?offset=" + std::to_string(10 * page), getHeaders())) {
-                json data = json::parse(res->body);
-                json j = json::array();
-
-                for (json album : data["albums"]["items"]) {
-                    j += formatAlbum(album);
-                }
-
-                return j;
-            } else {
-                throw EntityNotFoundException("failed to fetch from spotify api");
-            }
-        }
-
-        const json findArtistByName(const string &name, unsigned page) override {
-            if (auto res = cli.Get("/v1/search?q=" + name + "&type=artist&offset=" + std::to_string(10 * page), getHeaders())) {
-                json data = json::parse(res->body);
-                json j = json::array();
-
-                for (json artist : data["artists"]["items"]) {
-                    j += formatArtist(artist);
-                }
-
-                return j;
-            } else {
-                throw EntityNotFoundException("failed to fetch from spotify api");
-            }
-        }
+                     return j;
+                 } else {
+                     throw EntityNotFoundException("failed to fetch from spotify api");
+                 }
+             }
 };
 
 #endif

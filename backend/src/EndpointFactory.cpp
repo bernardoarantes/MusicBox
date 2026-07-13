@@ -4,13 +4,11 @@
 #include "exception"
 #include "httplib.h"
 #include "service/UserService.cpp"
-#include "service/handler/AlbumQueryHandler.cpp"
-#include "service/handler/ArtistQueryHandler.cpp"
 #include "service/handler/CreateEntryHandler.cpp"
 #include "service/handler/CreateUserHandler.cpp"
 #include "service/handler/ListEntryHandler.cpp"
 #include "service/handler/LoginHandler.cpp"
-#include "service/handler/MusicQueryHandler.cpp"
+#include "service/handler/QueryHandler.cpp"
 
 using httplib::Request;
 using httplib::Response;
@@ -25,18 +23,20 @@ class EndpointFactory {
 
     private:
         void loadEndpoints(Server &svr, EntryService &entry_service, UserService &user_service, MusicQueryInterface &music_query_interface) {
-            registerEndpoint(svr, "/album-query",  AlbumQueryHandler(music_query_interface));
-            registerEndpoint(svr, "/artist-query", ArtistQueryHandler(music_query_interface));
-            registerEndpoint(svr, "/create-entry", CreateEntryHandler(entry_service));
-            registerEndpoint(svr, "/create-user",  CreateUserHandler(user_service));
-            registerEndpoint(svr, "/list-entry",   ListEntryHandler(entry_service));
-            registerEndpoint(svr, "/login",        LoginHandler(user_service));
-            registerEndpoint(svr, "/music-query",  MusicQueryHandler(music_query_interface));
+            registerPostEndpoint(svr, "/create-entry", CreateEntryHandler(entry_service));
+            registerPostEndpoint(svr, "/create-user",  CreateUserHandler(user_service));
+            registerPostEndpoint(svr, "/login",        LoginHandler(user_service));
+
+            registerGetEndpoint(svr, "/list-entry",   ListEntryHandler(entry_service));
+            registerGetEndpoint(svr, "/search",       QueryHandler(music_query_interface));
         }
 
-        void registerEndpoint(Server &svr, string pattern, Server::Handler handler) {
+        void registerGetEndpoint(Server &svr, string pattern, Server::Handler handler) {
             svr.Get(pattern, handler);
-            new std::exception();
+        };
+
+        void registerPostEndpoint(Server &svr, string pattern, Server::Handler handler) {
+            svr.Post(pattern, handler);
         };
 };
 

@@ -29,7 +29,7 @@ int main() {
 
     SpotifyAPIQueryService spotify_api_query_service(API_KEY);
 
-    EndpointFactory(svr, entry_service, user_service, spotify_api_query_service);
+    EndpointFactory endpoint_factory(svr, entry_service, user_service, spotify_api_query_service);
 
     svr.listen("0.0.0.0", 8080);
 }

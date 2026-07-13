@@ -21,6 +21,13 @@ class ListEntryHandler : public DefaultHandler {
             this->entry_service = &entry_service;
         }
 
+        const json getData(const Request &req) override {
+            if (!req.has_param("q"))
+                throw FormatException("missing q param");
+
+            return json::parse("\"user_id\":\"" + req.get_param_value("q") + "\"");
+        }
+
         const json handle(const json &j) override {
             const string user_id = extract(j, "user_id");
             return entry_service->fetchEntriesFromOwner(user_id);
