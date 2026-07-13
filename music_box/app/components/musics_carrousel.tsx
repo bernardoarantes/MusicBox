@@ -23,34 +23,34 @@ export const MusicsCarrousel = () => {
         }
     }
     return (
-    <div className="w-full max-w-5xl py-6 px-4">
+    <div className="h-full max-w-5xl py-6 px-4">
         <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold text-gray-100 mb-4">Músicas</h2>
+            <h2 className="text-xl font-bold text-gray-100 mb-4">Last Reviews</h2>
             <div className="flex gap-2">
                 <button 
                     onClick={scrollLeft}
-                    className="w-10 h-10 flex items-center justify-center bg-[#525B5B] text-white rounded-full hover:bg-gray-400 transition-colors duration-200"
+                    className="w-10 h-10 flex items-center justify-center duration-300 hover:shadow-2xl bg-[#525B5B] text-white rounded-full hover:bg-gray-400 transition-colors duration-200"
                     aria-label="Rolar para a esquerda"
                 >
-                    &#8592; {/* Seta para a esquerda em HTML */}
+                    <span className="material-symbols-outlined">arrow_back</span>
                 </button>
                 
                 <button 
                     onClick={scrollRight}
-                    className="w-10 h-10 flex items-center justify-center bg-[#525B5B] text-white rounded-full hover:bg-gray-400 transition-colors duration-200"
+                    className="w-10 h-10 flex items-center justify-center duration-300 hover:shadow-2xl bg-[#525B5B] text-white rounded-full hover:bg-gray-400 transition-colors duration-200"
                     aria-label="Rolar para a direita"
                 >
-                    &#8594; {/* Seta para a direita em HTML */}
+                    <span className="material-symbols-outlined">arrow_forward</span>
                 </button>
                 </div>
         </div>
     
         <div ref={carouselRef}
-        className="flex gap-4 space-between overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
+        className="flex gap-6 py-8 px-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
         style={{ scrollbarWidth: 'none' }}
         >
             {MockMusics.map((music) => (
-            <div key={music.id} className="snap-start shrink-0 w-[300px]">
+            <div key={music.id} className="snap-start shrink-0 w-[300px] my-6 ">
                 <MusicCarouselCard
                 title={music.title}
                 artist={music.artist}

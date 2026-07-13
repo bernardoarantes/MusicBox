@@ -19,7 +19,6 @@ export const SearchMusicBar = () => {
         const endpoint = "/search?query=";
 
         const fetchMusicAPI = async (query: string) => {
-
             if(!query.trim()) {
                 setResults([]);
                 return;
