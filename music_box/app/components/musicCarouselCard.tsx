@@ -3,14 +3,16 @@ import react from "react";
 // Removi o import { title } from "process", pois causa erros no client-side
 
 interface MusicCarouselCardProps {
-  title: string;
-  artist: string[];
-  duration: any;
-  album: string;
-  coverImg: string;
+    id: string;
+    title: string;
+    artist: string[];
+    duration: any;
+    album: string;
+    coverImg: string;
 }
 
-export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({ 
+export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
+    id,
     title,
     artist,
     duration,
@@ -20,7 +22,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
   return (
     <div className="w-full">
         <a 
-            href={"/review/page"} 
+            href={`/search/${id}/`}
             className="block hover:-translate-y-1 duration-300 ease-in-out hover:shadow-lg hover:shadow-green-500/30 rounded-md"
         >
             <div className="flex flex-col gap-4 bg-[#525B5B] items-center p-6 rounded-md w-full max-w-md">

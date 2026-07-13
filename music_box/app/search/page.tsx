@@ -2,7 +2,6 @@ import React from "react";
 import {SearchMusicBar} from "../components/SearchMusicBar";
 
 export default function(){
-    const = 
     return (
         <div>
             <div className="flex flex-col items-center justify-between">

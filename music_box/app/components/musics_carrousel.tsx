@@ -52,6 +52,7 @@ export const MusicsCarrousel = () => {
             {MockMusics.map((music) => (
             <div key={music.id} className="snap-start shrink-0 w-[300px] my-6 ">
                 <MusicCarouselCard
+                id={music.id}
                 title={music.title}
                 artist={music.artist}
                 duration={music.duration/1000 + "s"}

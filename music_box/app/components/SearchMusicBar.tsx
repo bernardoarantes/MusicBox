@@ -70,7 +70,7 @@ export const SearchMusicBar = () => {
                 <div>
                     {results.map((music) => (
                         <MusicCarouselCard
-                        key={music.id}
+                        id={music.id}
                         title={music.title}
                         artist={music.artist}
                         duration={music.duration/1000 + "s"}

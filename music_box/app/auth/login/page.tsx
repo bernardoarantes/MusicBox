@@ -34,6 +34,8 @@ export default function Login() {
     if (emailError || passwordError) return;
 
     handleLogin(email,password)
+    
+    // login endpoint
   }
 
   return (
