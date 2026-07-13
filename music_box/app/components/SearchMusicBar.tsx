@@ -5,17 +5,17 @@ import { MusicCarouselCard } from "./musicCarouselCard";
 interface searchResult {
     id: string;
     title: string;
-    artist: string[];
+    artists: string[];
     duration: number;
     album: string;
-    coverImg: string;
+    cover: string;
 }
 
 export const SearchMusicBar = () => {
         const [requestedTerm, setRequestedTerm] = useState<string>("");
         const [results, setResults] = useState<searchResult[]>([]);
         const [isLoading, setIsLoading] = useState<boolean>(false);
-        const url = "https://localhost:8080";
+        const url = "http://localhost:8080";
         const endpoint = "/search?type=track&query=";
 
         const fetchMusicAPI = async (query: string) => {
@@ -62,7 +62,7 @@ export const SearchMusicBar = () => {
     return (
         <div className="flex flex-col w-full max-w-5xl py-6 px-4">
             <div className="w-full max-w-md">
-                <input type="text" placeholder="Search music..." value={requestedTerm} onChange={(e) => setRequestedTerm(e.target.value)} className="w-full bg-[#FFFFFF] text-[#122022] placeholder:text-[#BBC2C2] border border-[#CCCCCC] focus:outline-none focus:ring-2 focus:ring-blue-500"/>
+                <input type="text" placeholder="Search for music..." value={requestedTerm} onChange={(e) => setRequestedTerm(e.target.value)} className="w-80 pb-0.5 border-b border-[#B7BFBE] text-[#B7BFBE] placeholder:text-[#BBC2C2] focus:outline-none"/>
                 
             </div>
             {isLoading && <p className="text-gray-500 mt-2">Searching for your musics...</p>}
@@ -72,10 +72,10 @@ export const SearchMusicBar = () => {
                         <MusicCarouselCard
                         id={music.id}
                         title={music.title}
-                        artist={music.artist}
+                        artists={music.artists}
                         duration={music.duration/1000}
                         album={music.album}
-                        coverImg={music.coverImg}
+                        cover={music.cover}
                         />
                         ))
                             }

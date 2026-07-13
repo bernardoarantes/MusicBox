@@ -5,19 +5,19 @@ import react from "react";
 interface MusicCarouselCardProps {
     id: string;
     title: string;
-    artist: string[];
+    artists: string[];
     duration: number;
     album: string;
-    coverImg: string;
+    cover: string;
 }
 
 export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
     id,
     title,
-    artist,
+    artists,
     duration,
     album,
-    coverImg 
+    cover
 }) => {
   return (
     <div className="w-full">
@@ -29,7 +29,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
                 
                 <div className="w-40 h-40 bg-black rounded-lg flex-shrink-0 shadow-md">
                     <img 
-                        src={coverImg} 
+                        src={cover} 
                         alt={"Capa de " + title} 
                         className="w-full h-full object-cover rounded-md"
                     />
@@ -38,7 +38,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
                 <div className="flex flex-row justify-between items-center w-full gap-4 mt-2"> 
                     <div className="flex flex-col gap-1 text-left flex-1">
                         <h3 className="text-xl font-bold text-white leading-tight truncate">{title}</h3>
-                        <p className="text-gray-200 font-medium truncate">{artist.join(", ")}</p>
+                        <p className="text-gray-200 font-medium truncate">{artists.join(", ")}</p>
                         <p className="text-sm text-gray-400">{duration} s</p>
                     </div>
                     

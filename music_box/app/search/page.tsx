@@ -6,7 +6,7 @@ export default function(){
         <div>
             <div className="flex flex-col items-center justify-between">
                 <h1>Search</h1>
-                {/* <SearchMusicBar /> */}
+                <SearchMusicBar />
             </div>
             <div>
 
