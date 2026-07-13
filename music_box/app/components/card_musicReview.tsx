@@ -28,26 +28,32 @@ export const DynamicStar = ({ rating }: DynamicStarProps) => {
 
 interface CardMusicReviewProps {
     title: string,
-    artist: string,
-    duration: string,
+    artist: Array<string>,
+    duration: number,
     rating: number,
-    coverImg: string
+    coverImg: string,
+    album: string,
+    commentary: string,
 }
 
-export const CardMusicReview = ({ title, artist, duration, rating, coverImg }: CardMusicReviewProps) => {
+export const CardMusicReview = ({ title, artist, duration, rating, coverImg, commentary }: CardMusicReviewProps) => {
+
+  const duration_treated = ((duration/1000)/60).toFixed(1)
+
   return (
     <div className="flex items-center p-4 rounded-md w-full max-w-md">
-      {/*Imagem da capa do album/faixa */}
-      <div className="w-16 h-16 rounded-lg flex-shrink-0">
+      <div className="w-16 h-16 rounded-lg flex-shrink-0 space-y-2">
         <img src={coverImg} alt={"Capa de " + title} className="w-16 h-16 object-cover rounded-md"/>
       </div>
       <div className="flex items-center gap-4 mt-1">
         <div className="flex flex-col gap-0.5 ml-2">
+          <h3 className="maintext">{title}</h3>
+          <p className="subtext">{artist}</p>
+          <p className="subtext">{duration_treated}</p>
+        </div>
+        <div className="flex flex-col gap-0.5">
           <DynamicStar rating={rating} />
-          <span className="text-sm text-gray-500">{rating.toFixed(1)} / 10</span>
-          <h3 className="text-lg font-bold">{title}</h3>
-          <p className="text-gray-600">{artist}</p>
-          <p className="text-sm text-gray-500">{duration}</p>
+          <span className="subtext">{rating.toFixed(1)} / 10</span>
         </div>
       </div>
     </div>

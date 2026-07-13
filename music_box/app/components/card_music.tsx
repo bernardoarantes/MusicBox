@@ -1,16 +1,15 @@
-import react from "react";
-
-export const CardMusic = (
+interface CardMusicProp {
     id: string,
     title: string,
     artist: string[],
     duration: number,
     album: string,
     coverImg: string
-) => {
+}
+
+export const CardMusic = ( {title, artist, duration, album, coverImg}: CardMusicProp) => {
   return (
     <div className="flex items-center p-4 rounded-md w-full max-w-md">
-      /*Imagem da capa do album/faixa */
       <div className="w-16 h-16 rounded-lg flex-shrink-0">
         <img src={coverImg} alt={"Capa de " + title} className="w-16 h-16 object-cover rounded-md"/>
       </div>
