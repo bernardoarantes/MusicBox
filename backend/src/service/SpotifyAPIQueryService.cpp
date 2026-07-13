@@ -65,8 +65,8 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
     public : SpotifyAPIQueryService(const string &api_key)
              : api_key(api_key) {}
 
-             const json query(const string &type, const string &query, unsigned page) override {
-                 if (auto res = cli.Get("/v1/search?q=" + query + "&type=" + type + "&offset=" + std::to_string(10 * page), getHeaders())) {
+             const json query(const string &type, const string &query, unsigned page = 0) override {
+                 if (auto res = cli.Get("/v1/search?limit=10&q=" + query + "&type=" + type + "&offset=" + std::to_string(10 * page), getHeaders())) {
                      json data = json::parse(res->body);
                      json j;
                      j["items"] = json::array();

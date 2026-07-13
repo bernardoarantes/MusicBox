@@ -26,20 +26,20 @@ class QueryHandler : public DefaultHandler {
             if (!req.has_param("q"))
                 throw FormatException("missing 'q' param");
 
-            if (!req.has_param("page"))
-                throw FormatException("missing 'page' param");
+            // if (!req.has_param("page"))
+            //     throw FormatException("missing 'page' param");
 
             json j;
             j["query"] = req.get_param_value("q");
-            j["page"] = req.get_param_value("page");
+            // j["page"] = req.get_param_value("page");
             return j;
         }
 
         const json handle(const json &j) override {
             const string type        = extract(j, "type");
             const string music_query = extract(j, "query");
-            unsigned page            = extract(j, "page");
-            return music_query_interface->query(type, music_query, page);
+            // unsigned page            = extract(j, "page");
+            return music_query_interface->query(type, music_query);
         }
 };
 
