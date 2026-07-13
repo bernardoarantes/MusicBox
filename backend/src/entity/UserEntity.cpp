@@ -26,6 +26,10 @@ class UserEntity : public Entity {
             return this->id;
         }
 
+        const string getName() const {
+            return this->name;
+        }
+
         json toJson() const override {
             return "{\"id\":\"" + id + 
                    "\",\"name\":\"" + name +

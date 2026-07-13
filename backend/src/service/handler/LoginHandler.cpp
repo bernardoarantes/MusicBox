@@ -24,7 +24,9 @@ class LoginHandler : public DefaultHandler {
         const json handle(const json &j) override {
             const string email    = extract(j, "email");
             const string password = extract(j, "password");
-            return json::parse("{\"user_id\":" + user_service->checkLogin(email, password) + "}");
+
+            const string user_id = user_service->checkLogin(email, password);
+            return json::parse("{\"user_id\":" + user_id + "\"name\":\"" + user_service->getName(user_id) + "\"}");
         }
 };
 

@@ -22,15 +22,6 @@ class Workspace {
         Repository *users;
         Repository *entries;
 
-        const UserEntity getUser(const string& user_id){
-            for (const Entity *user : *users) {
-                if (user->getId() == user_id) {
-                    return *((UserEntity *) user);
-                }
-            }
-            throw EntityNotFoundException("bad user id " + user_id);
-        }
-
         const EntryEntity getEntry(const string &entry_id) {
             for (const Entity *entry : *entries) {
                 if (entry->getId() == entry_id) {
@@ -72,6 +63,15 @@ class Workspace {
             }
             return user_entries;
         };
+
+        const UserEntity getUser(const string& user_id){
+            for (const Entity *user : *users) {
+                if (user->getId() == user_id) {
+                    return *((UserEntity *) user);
+                }
+            }
+            throw EntityNotFoundException("bad user id " + user_id);
+        }
 
         bool userWithEmailExists(const string &email) const {
             for (const Entity *_user : *users) {

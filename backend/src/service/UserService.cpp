@@ -24,8 +24,12 @@ class UserService {
             registry->incrementUserCount();
         }
 
-        string checkLogin(const string &email, const string &password) {
+        const string checkLogin(const string &email, const string &password) {
             return workspace->checkLogin(email, password);
+        }
+
+        const string getName(const string &user_id) {
+            return workspace->getUser(user_id).getName();
         }
 };
 
