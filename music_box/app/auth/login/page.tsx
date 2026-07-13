@@ -5,12 +5,24 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState, FormEvent } from "react";
+import { useAuth } from "../../../context/auth";
 import { emailValidator, passwordValidator } from "../../../core/utils";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
+  const { login } = useAuth();
+
+  async function handleLogin(email:string, password:string){
+    const res = await fetch("http://seu-backend/api/login/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password }),
+    });
+    const data = await res.json();
+    login({ id: data.user_id, name: data.name, email: email , password: password}); // token
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -21,7 +33,7 @@ export default function Login() {
 
     if (emailError || passwordError) return;
 
-    // login endpoint
+    handleLogin(email,password)
   }
 
   return (
