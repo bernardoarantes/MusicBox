@@ -8,10 +8,11 @@ interface ReviewFormProps {
   onCancel: () => void;
 }
 
-export function ReviewForm({ initialComment = "", initialRating = 0, onSubmit }: ReviewFormProps) {
+export function ReviewForm({ params }: { params: { id: string } }, { initialComment = "", initialRating = 0, onSubmit }: ReviewFormProps) {
+  const music_id = params.id;
   const [comment, setComment] = useState(initialComment);
   const [rating, setRating] = useState(initialRating);
-
+  
   return (
     <div className="flex flex-col gap-4">
       <textarea

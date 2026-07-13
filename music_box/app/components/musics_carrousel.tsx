@@ -55,7 +55,7 @@ export const MusicsCarrousel = () => {
                 id={music.id}
                 title={music.title}
                 artist={music.artist}
-                duration={music.duration/1000 + "s"}
+                duration={music.duration/1000}
                 album={music.album}
                 coverImg={music.coverImg}
                 />

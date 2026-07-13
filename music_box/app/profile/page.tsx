@@ -4,6 +4,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useAuth } from "../../context/auth";
 import { listEntries } from "../../services/entries";
 import { CardMusicReview } from "../components/card_musicReview";
 import { EntryStatus } from "next/dist/client/components/segment-cache/cache";
@@ -28,12 +29,13 @@ interface Entry {
 
 export default function Profile() {
     {/* id, number_of_reviews, rating of each thing */}
+    const { user } = useAuth();
     const [entries, setEntries] = useState<any[]>([]);
 
     useEffect(() => {
         async function fetchEntries() {
             try {
-                const data = await listEntries({ user_id:''}); // have user id so i can get it
+                const data = await listEntries({ user_id : user?.id || "" }); // have user id so i can get it
                 setEntries(data);
             } catch (err) {
                 console.error(err);
@@ -58,6 +60,7 @@ export default function Profile() {
                 {/* {entries.map((entry) => ( */}
                 {MockEntries.map((entry) => (
                     <CardMusicReview
+                        id={entry.id}
                         title={entry.title}
                         artist={entry.artist}
                         duration={entry.duration}

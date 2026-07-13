@@ -6,7 +6,7 @@ interface searchResult {
     id: string;
     title: string;
     artist: string[];
-    duration: any;
+    duration: number;
     album: string;
     coverImg: string;
 }
@@ -15,8 +15,8 @@ export const SearchMusicBar = () => {
         const [requestedTerm, setRequestedTerm] = useState<string>("");
         const [results, setResults] = useState<searchResult[]>([]);
         const [isLoading, setIsLoading] = useState<boolean>(false);
-        const url = "https://api.example.com";
-        const endpoint = "/search?query=";
+        const url = "https://localhost:8080";
+        const endpoint = "/search?type=track&query=";
 
         const fetchMusicAPI = async (query: string) => {
             if(!query.trim()) {
@@ -73,7 +73,7 @@ export const SearchMusicBar = () => {
                         id={music.id}
                         title={music.title}
                         artist={music.artist}
-                        duration={music.duration/1000 + "s"}
+                        duration={music.duration/1000}
                         album={music.album}
                         coverImg={music.coverImg}
                         />

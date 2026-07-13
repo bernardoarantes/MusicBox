@@ -6,7 +6,7 @@ interface MusicCarouselCardProps {
     id: string;
     title: string;
     artist: string[];
-    duration: any;
+    duration: number;
     album: string;
     coverImg: string;
 }
@@ -39,7 +39,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
                     <div className="flex flex-col gap-1 text-left flex-1">
                         <h3 className="text-xl font-bold text-white leading-tight truncate">{title}</h3>
                         <p className="text-gray-200 font-medium truncate">{artist.join(", ")}</p>
-                        <p className="text-sm text-gray-400">{duration}</p>
+                        <p className="text-sm text-gray-400">{duration} s</p>
                     </div>
                     
                     {/* Bloco da Direita: Nome do Álbum (Alinhado à direita) */}

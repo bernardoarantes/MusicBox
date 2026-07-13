@@ -27,6 +27,7 @@ export const DynamicStar = ({ rating }: DynamicStarProps) => {
 };
 
 interface CardMusicReviewProps {
+    id: string,
     title: string,
     artist: Array<string>,
     duration: number,
@@ -36,20 +37,20 @@ interface CardMusicReviewProps {
     commentary: string,
 }
 
-export const CardMusicReview = ({ title, artist, duration, rating, coverImg, commentary }: CardMusicReviewProps) => {
+export const CardMusicReview = ({id, title, artist, duration, rating, coverImg, commentary }: CardMusicReviewProps) => {
 
-  const duration_treated = ((duration/1000)/60).toFixed(1)
+  const duration_treated = ((duration/1000)).toFixed(0)
 
   return (
-    <div className="flex items-center p-4 rounded-md w-full max-w-md">
+    <div className="flex items-center gap-4 p-4 rounded-md w-full max-w-md">
       <div className="w-16 h-16 rounded-lg flex-shrink-0 space-y-2">
-        <img src={coverImg} alt={"Capa de " + title} className="w-16 h-16 object-cover rounded-md"/>
+        <img src={coverImg} alt={"Capa de " + title} className="w-16 h-16 bg-[#3C4445] object-cover rounded-md"/>
       </div>
       <div className="flex items-center gap-4 mt-1">
-        <div className="flex flex-col gap-0.5 ml-2">
+        <div className="flex flex-col gap-0.5 ml-2 items-start">
           <h3 className="maintext">{title}</h3>
           <p className="subtext">{artist}</p>
-          <p className="subtext">{duration_treated}</p>
+          <p className="subtext">{duration_treated} s</p>
         </div>
         <div className="flex flex-col gap-0.5">
           <DynamicStar rating={rating} />
