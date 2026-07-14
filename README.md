@@ -14,7 +14,21 @@ Running the frontend locally with dev mode on root:
 ```Shell
 npm run dev
 ```
-# Url Endpoints
+# Back-end Endpoints
+Base url:
+`https://localhost:8080`
+
+```http
+/fetch/tracks/${data.music_id}
+/fetch/artists/${data.artists_id}
+/fetch/albums/${data.album_id}
+
+/get-user?user_id=${data.user_id}
+
+/list-user-entries?user_id=${data.user_id}
+/list-music-entries?music_id=${data.music_id}
+```
+# Pages URL
 
 Base url:
 `https://localhost:3000`
@@ -24,10 +38,10 @@ Base url:
 /auth/register
 /auth/forgot_password
 
-/
+/main
 
-/search
-/search/[music_Id]
+/main/search
+/main/search/[music_Id]
 
-/profile
+/main/profile
 ```
