@@ -20,7 +20,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
     cover
 }) => {
     const [albumEntity, setAlbum] = useState<String>();
-    const [artistList, setArtistList] = useState<String[]>()
+    const [artistList, setArtistList] = useState<String>()
 
     async function fetchAlbum(){
         try{
@@ -34,7 +34,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
     
     async function fetchArtist(){
         try{
-            const data = await getArtists({artists_id : artists.join(",")});
+            const data = await getArtists({artists_id : artists});
             setArtistList(data);
         }catch(error){
             console.error("Artistas não encontrado")
@@ -59,7 +59,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
                 <div className="flex flex-row justify-between items-center w-full gap-4 mt-2">
                     <div className="flex flex-col gap-1 text-left flex-1">
                         <h3 className="text-xl font-bold text-white leading-tight truncate">{title}</h3>
-                        <p className="text-gray-200 font-medium truncate">{(artistList ? artistList.join(", ") : "")}</p>
+                        <p className="text-gray-200 font-medium truncate">{(artistList ? artistList : "")}</p>
                         <p className="text-sm text-gray-400">{duration} s</p>
                     </div>
                     
