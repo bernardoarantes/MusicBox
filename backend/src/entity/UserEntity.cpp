@@ -31,11 +31,11 @@ class UserEntity : public Entity {
         }
 
         json toJson() const override {
-            return "{\"id\":\"" + id + 
+            return json::parse("{\"id\":\"" + id + 
                    "\",\"name\":\"" + name +
                    "\",\"email\":\"" + email +
                    "\",\"password\":\"" + password +
-                   "}";
+                   "\"}");
         }
 
         void validateEmail() {

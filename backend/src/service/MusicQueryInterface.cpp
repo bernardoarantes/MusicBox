@@ -19,6 +19,7 @@ class MusicQueryInterface {
 
         virtual const json fetch(const string &type, const string &ids) = 0;
 
+        virtual const json queryRandomMusics() = 0;
 };
 
 #endif

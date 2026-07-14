@@ -26,7 +26,7 @@ class LoginHandler : public DefaultHandler {
             const string password = extract(j, "password");
 
             const string user_id = user_service->checkLogin(email, password);
-            return json::parse("{\"user_id\":" + user_id + "\"name\":\"" + user_service->getName(user_id) + "\"}");
+            return json::parse("{\"user_id\":\""+ user_id + "\",\"name\":\"" + user_service->getName(user_id) + "\"}");
         }
 };
 

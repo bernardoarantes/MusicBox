@@ -133,6 +133,24 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
                      throw EntityNotFoundException("failed to fetch from spotify api");
                  }
              }
+
+             const json queryRandomMusics() override {
+                 if (auto res_1 = cli.Get("/v1/featured-playlists?limit=1")) {
+                     json data = json::parse(res_1->body);
+                     json j = json::array();
+                     if (auto res = cli.Get(data["playlists"]["items"][0]["items"]["href"])) {
+                         for (json music : data["tracks"]["items"])
+                             j += formatMusic(music);
+
+                         return j;
+                     } else {
+                         throw EntityNotFoundException("failed to fetch from spotify api");
+                     }
+
+                 } else {
+                     throw EntityNotFoundException("failed to fetch from spotify api");
+                 }
+             }
 };
 
 #endif

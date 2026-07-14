@@ -26,7 +26,7 @@ class CreateUserHandler : public DefaultHandler {
             const string email    = extract(j, "email");
             const string password = extract(j, "password");
             userService->addUser(name, email, password);
-            return "";
+            return json();
         }
 };
 

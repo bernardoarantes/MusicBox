@@ -8,6 +8,7 @@
 #include "service/handler/CreateUserHandler.cpp"
 #include "service/handler/ListEntryByUserHandler.cpp"
 #include "service/handler/ListEntryByMusicHandler.cpp"
+#include "service/handler/ListRandomMusicsHandler.cpp"
 #include "service/handler/LoginHandler.cpp"
 #include "service/handler/SearchQueryHandler.cpp"
 #include "service/handler/FetchQueryHandler.cpp"
@@ -33,6 +34,7 @@ class EndpointFactory {
             registerGetEndpoint(svr, "/list-music-entries", ListEntryByMusicHandler(entry_service));
             registerGetEndpoint(svr, "/search",             SearchQueryHandler(music_query_interface));
             registerGetEndpoint(svr, "/fecth",              FetchQueryHandler(music_query_interface));
+            registerGetEndpoint(svr, "/list-random-musics", ListRandomMusicsHandler(music_query_interface));
         }
 
         void registerGetEndpoint(Server &svr, string pattern, Server::Handler handler) {
