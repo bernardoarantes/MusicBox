@@ -22,7 +22,7 @@ export default function Login() {
     });
     if(!res)return;
     const data = await res.json();
-    login({ id: data.user_id, name: data.name, email: email , password: password}); // token
+    login({ id: data.user_id, name: data.name, email: email , password: password});
   }
 
   function handleSubmit(e: FormEvent) {
@@ -35,8 +35,6 @@ export default function Login() {
     if (emailError || passwordError) return;
 
     handleLogin(email,password)
-    
-    // login endpoint
   }
 
   return (

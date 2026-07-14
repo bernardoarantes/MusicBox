@@ -15,7 +15,7 @@ interface ReviewData {
 }
 
 export const ReviewCard: React.FC<ReviewCardProps> = ({ id }) => {
-    const { user } = useAuth(); 
+    const { user } = useAuth();
     const [review, setReview] = useState<ReviewData | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 

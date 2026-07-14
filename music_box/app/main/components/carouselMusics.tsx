@@ -35,7 +35,7 @@ export const CarouselMusics = () => {
             if(!user?.id) return
             
             try{
-                    const data = await listUserEntries({ id : user?.id || "" });
+                    const data = await listUserEntries({ user_id : user?.id || "" });
                     setMusics(data)
                 }
                 catch(error){

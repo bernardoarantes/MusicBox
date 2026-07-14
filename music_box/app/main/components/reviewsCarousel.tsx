@@ -30,7 +30,7 @@ export const ReviewsCarousel = () => {
             if(!user?.id) return
 
             try{
-                    const data = await listUserEntries({ id : user?.id || "" })
+                    const data = await listUserEntries({ user_id : user?.id || "" })
                     setReviewedMusics(data)
                 }
                 catch(error){

@@ -28,7 +28,7 @@ export default function Profile() {
     useEffect(() => {
         async function fetchEntries() {
             try {
-                const data = await listUserEntries({ id : user?.id || "" });
+                const data = await listUserEntries({ user_id : user?.id || "" });
                 setEntries(data);
             } catch (err) {
                 console.error(err);
