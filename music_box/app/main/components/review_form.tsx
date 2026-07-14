@@ -24,8 +24,10 @@ export function ReviewForm({isOpen, onClose, music_id, musicTitle, cover, initia
   const [comment, setComment] = useState(initialComment);
   const [rating, setRating] = useState(initialRating);
   const [hoverRating, setHoverRating] = useState(0);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
+    
   const handleSave = async () => {
+    setIsSubmitting(true);
     try {
       const res = await fetch("http://localhost:8080/create-entry", {
         method: "POST",
@@ -41,6 +43,8 @@ export function ReviewForm({isOpen, onClose, music_id, musicTitle, cover, initia
       onClose(); 
     } catch (error) {
       console.error("Erro ao salvar a review:", error);
+    } finally{
+      setIsSubmitting(false)
     }
   };
 
@@ -102,16 +106,21 @@ export function ReviewForm({isOpen, onClose, music_id, musicTitle, cover, initia
             />
           </div>
         </div>
-        <div className="w-full flex justify-end gap-6 items-center flex-row">
-          <div className="flex">
-              <button onClick={handleSave} className="px-4 py-2 rounded-xl bg-black text-white hover:bg-grey-400">
-              Salvar
-              </button>
-          </div>
-          <div className="flex">
-              {/* deve voltar para a tela de details daquele som */}
-              <button onClick={onClose} className="bg-red-700 px-4 py-2 rounded-xl text-grey-300 hover:text-white trasition-colors hover:border-red-700 hover:bg-grey-400 hover:">Cancelar</button>
-          </div>
+        <div className="w-full flex justify-end gap-4 items-center flex-row mt-4">[cite: 3]
+          <button 
+            onClick={onClose} 
+            disabled={isSubmitting}
+            className="px-4 py-2 rounded-xl text-gray-400 hover:text-white transition-colors"
+          >
+            Cancelar
+          </button>
+          <button 
+            onClick={handleSave} 
+            disabled={isSubmitting}
+            className="px-6 py-2 rounded-xl bg-[#00e054] text-black font-bold hover:bg-[#00c348] transition-colors disabled:opacity-50"
+          >
+            {isSubmitting ? "Salvando..." : "Salvar"}
+          </button>
         </div>
       </div>
     </div>

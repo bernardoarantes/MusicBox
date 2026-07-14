@@ -1,4 +1,4 @@
-import { apiGetRequest } from "./api";
+import { apiGetRequest, apiPostRequest } from "./api";
 
 export interface ListEntryUser {
   user_id: string;
@@ -41,3 +41,4 @@ export async function getArtists(data: ListArtistsAlbum){
 export async function getMusic(data: ListEntryMusic){
   return apiGetRequest(`/fetch/tracks/${data.music_id}`)
 }
+
