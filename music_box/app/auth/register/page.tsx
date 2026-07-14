@@ -14,16 +14,16 @@ export default function Register() {
   const router = useRouter();
   const [errors, setErrors] = useState({ name: "", email: "", password: "", body: "" });
 
-  async function handleRegister(name:string,email:string,password:string):Promise<string>
-  {
+  async function handleRegister(name:string, email:string, password:string): Promise<void> {
     const res = await fetch("http://localhost:8080/create-user", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name, email, password }),
     });
-    const data = await res.json();
-    if(!res) throw new Error(data.message ?? "Erro ao criar conta");
-    return data;
+    if (!res.ok) {
+      const errorMsg = await res.text();
+      throw new Error(errorMsg || "Erro ao criar conta");
+    }
   }
 
   function handleSubmit(e: FormEvent) {
@@ -37,9 +37,13 @@ export default function Register() {
 
     if (nameError || emailError || passwordError) return;
 
-    handleRegister(name,email,password).then((response)=>{
-       setErrors((prev) => ({ ...prev, body: response }));
-    })
+    handleRegister(name, email, password)
+      .then(() => {
+        router.push("/auth/login");
+      })
+      .catch((err) => {
+        setErrors((prev) => ({ ...prev, body: err.message }));
+      });
   }
 
   return (
@@ -93,7 +97,7 @@ export default function Register() {
           {errors.password && <p className="mt-1 text-left text-xs text-red-400">{errors.password}</p>}
         </div>
         <button
-          type="submit" onClick={() => {router.push("/auth/login");}}
+          type="submit"
           className="enter_btn w-full rounded-md border border-surface2 bg-surface px-3 py-2.5 text-sm text-fog outline-none"
         >
           Cadastrar
