@@ -9,7 +9,7 @@ import { listUserEntries } from "@/services/entries";
 interface ReviewData {
     id: string,
     owner_id: string,
-    target: string,
+    target_id: string,
     comment: string,
     rating: number;
     type: string,

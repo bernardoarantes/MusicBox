@@ -16,7 +16,7 @@ interface Music {
 
 export const CarouselMusics = () => {
     const { user } = useAuth();
-    const [musics, setMusics] = useState<Music[]>([]);
+    const [musics, setMusics] = useState<any[]>([]);
     const carouselRef = useRef<HTMLDivElement>(null);
 
     const scrollLeft = () => {
@@ -75,15 +75,11 @@ export const CarouselMusics = () => {
         className="flex gap-6 py-8 px-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
         style={{ scrollbarWidth: 'none' }}
         >
-            {musics.map((music) => (
-            <div key={music.music_id} className="snap-start shrink-0 w-[300px] my-6 ">
+            {musics.map((music: any) => (
+            <div key={music.id} className="snap-start shrink-0 w-[300px] my-6 ">
                 <MusicCarouselCard
-                id={music.music_id}
-                title={music.title}
-                artists={music.artists}
-                duration={music.duration/1000}
-                album={music.album}
-                cover={music.cover}
+                  id={music.target_id}
+                  type={music.type}
                 />
             </div>
             ))}
