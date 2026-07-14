@@ -8,7 +8,7 @@ export default function MusicDetailPage({ params }: { params: { id: string } }) 
 
   return (
     <div>
-
+      
     </div>
   );
 }

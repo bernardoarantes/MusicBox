@@ -1,16 +1,20 @@
 "use client";
-import react, { useRef } from "react";
+import react, { useRef, useState, useEffect } from "react";
+import { useAuth } from "../../context/auth"
 import { MusicCarouselCard }  from "./musicCarouselCard";
 
-const MockMusics= [{id: "1", title: "Music 1", artists: ["Artist 1"], album: "Album 1", duration: 210000, cover: "/assets/music1.jpg"},
-{id: "2", title: "Music 2", artists: ["Artist 2"], album: "Album 2", duration: 180000, cover: "/assets/music2.jpg"},
-{id: "3", title: "Music 3", artists: ["Artist 3"], album: "Album 3", duration: 240000, cover: "/assets/music3.jpg"},
-{id: "4", title: "Music 4", artists: ["Artist 4"], album: "Album 4", duration: 200000, cover: "/assets/music4.jpg"},
-{id: "5", title: "Music 5", artists: ["Artist 5"], album: "Album 5", duration: 220000, cover: "/assets/music5.jpg"},
-{id: "6", title: "Music 6", artists: ["Artist 6"], album: "Album 6", duration: 190000, cover: "/assets/music6.jpg"},
-{id: "7", title: "Music 7", artists: ["Artist 7"], album: "Album 7", duration: 230000, cover: "/assets/music7.jpg"}];
+interface Music {
+    musicId: string,
+    title: string,
+    artists: string[],
+    album: string,
+    duration: number,
+    cover: string
+}
 
-export const MusicsCarrousel = () => {
+export const CarouselMusics = () => {
+    const { user } = useAuth();
+    const [musics, setMusics] = useState<Music[]>([]);
     const carouselRef = useRef<HTMLDivElement>(null);
     const scrollLeft = () => {
         if(carouselRef.current){
@@ -21,6 +25,34 @@ export const MusicsCarrousel = () => {
         if(carouselRef.current){
             carouselRef.current.scrollBy({ left: 320, behavior: "smooth" });
         }
+    }
+
+    useEffect(() => {
+        const fetchMusics = async() => {
+
+            if(!user?.id) return
+            try{
+                // arrumar o end point :)
+                const res = await fetch("http://seu-backend/api/login/", {
+                        method: "GET",
+                        headers: { "Content-Type": "application/json" },
+                        body: undefined,
+                    });
+                    if(!res.ok){
+                        throw new Error("Falha na requisação");
+                    }
+                    const data: Music[] = await res.json(); //recebe ids de cada music
+                    setMusics(data)
+                }
+                catch(error){
+                }
+                    console.error("Erro ao buscar reviews.")
+                }
+                fetchMusics();
+    }, [user?.id])
+
+    if(!musics || musics.length == 0){
+        return <div className="p-4 text-gray-400">Nenhuma música encontrada.</div>
     }
     return (
     <div className="h-full max-w-5xl py-6 px-4">
@@ -49,10 +81,10 @@ export const MusicsCarrousel = () => {
         className="flex gap-6 py-8 px-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
         style={{ scrollbarWidth: 'none' }}
         >
-            {MockMusics.map((music) => (
-            <div key={music.id} className="snap-start shrink-0 w-[300px] my-6 ">
+            {musics.map((music) => (
+            <div key={music.musicId} className="snap-start shrink-0 w-[300px] my-6 ">
                 <MusicCarouselCard
-                id={music.id}
+                id={music.musicId}
                 title={music.title}
                 artists={music.artists}
                 duration={music.duration/1000}

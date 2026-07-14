@@ -57,8 +57,7 @@ export default function Profile() {
             </div>
 
             <div className="flex-col flex space-y-3 pb-20">
-                {/* {entries.map((entry) => ( */}
-                {MockEntries.map((entry) => (
+                {entries.map((entry) => (
                     <CardMusicReview
                         id={entry.id}
                         title={entry.title}

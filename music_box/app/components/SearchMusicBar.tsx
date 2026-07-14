@@ -61,8 +61,11 @@ export const SearchMusicBar = () => {
 
     return (
         <div className="flex flex-col w-full max-w-5xl py-6 px-4">
-            <div className="w-full max-w-md">
-                <input type="text" placeholder="Search for music..." value={requestedTerm} onChange={(e) => setRequestedTerm(e.target.value)} className="w-80 pb-0.5 border-b border-[#B7BFBE] text-[#B7BFBE] placeholder:text-[#BBC2C2] focus:outline-none"/>
+            <div className="flex flex-row w-full max-w-md rounded-2xl bg-[#FFFFFF] px-6 py-3 gap-2 items-center">
+                <div className="w-5 h-5 -translate-x-0.5">
+                    <img src="assets/search_icon.png" alt="Search icon" />
+                </div>
+                <input type="text" placeholder="Search for music..." value={requestedTerm} onChange={(e) => setRequestedTerm(e.target.value)} className="w-80 pb-0.5 border-b border-[#B7BFBE] font-bold text-[#122022] placeholder:text-[#BBC2C2] placeholder:font-medium focus:outline-none"/>
                 
             </div>
             {isLoading && <p className="text-gray-500 mt-2">Searching for your musics...</p>}
