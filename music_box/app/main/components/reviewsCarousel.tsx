@@ -4,6 +4,7 @@ import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../../context/auth"
 import { MusicCarouselCard }  from "./musicCarouselCard";
 import { ReviewCard } from "./reviewCard";
+import { listUserEntries } from "@/services/entries";
 
 interface ReviewIds{
     id: string,
@@ -25,20 +26,11 @@ export const ReviewsCarousel = () => {
     }
 
     useEffect(() => {
-        const fetchUserReviews = async() => {
-
+        async function fetchUserReviews() {
             if(!user?.id) return
+
             try{
-                // arrumar o end point :)
-                const res = await fetch("", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ userId : user?.id }),
-                    });
-                    if(!res.ok){
-                        throw new Error("Falha na requisação");
-                    }
-                    const data: ReviewIds[] = await res.json(); //recebe ids de cada music
+                    const data = await listUserEntries({ id : user?.id || "" })
                     setReviewedMusics(data)
                 }
                 catch(error){
@@ -56,7 +48,7 @@ export const ReviewsCarousel = () => {
         <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold text-gray-100 mb-4">Last Reviews</h2>
             <div className="flex gap-2">
-                <button 
+                <button
                     onClick={scrollLeft}
                     className="w-10 h-10 flex items-center justify-center duration-300 hover:shadow-2xl bg-[#525B5B] text-white rounded-full hover:bg-gray-400 transition-colors duration-200"
                     aria-label="Rolar para a esquerda"
