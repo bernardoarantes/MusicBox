@@ -10,7 +10,18 @@ export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState({ name: "", email: "", password: "" });
+  const [errors, setErrors] = useState({ name: "", email: "", password: "", body: "" });
+
+  async function handleRegister(name:string,email:string,password:string):Promise<string>
+  {
+    const res = await fetch("http://localhost:8080/create-user", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name, email, password }),
+    });
+    const data = await res.json();
+    return data;
+  }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -18,11 +29,12 @@ export default function Register() {
     const nameError = nameValidator(name);
     const emailError = emailValidator(email);
     const passwordError = passwordValidator(password);
-    setErrors({ name: nameError, email: emailError, password: passwordError });
 
     if (nameError || emailError || passwordError) return;
 
-    // register endpoint
+    handleRegister(name,email,password).then((response)=>{
+        setErrors({ name: nameError, email: emailError, password: passwordError, body: response});
+    })
   }
 
   return (
@@ -81,6 +93,7 @@ export default function Register() {
         >
           Cadastrar
         </button>
+         {<p className="mt-1 text-left text-xs text-red-400">{errors.body}</p>}
       </form>
 
       <div className="items-center py-5">

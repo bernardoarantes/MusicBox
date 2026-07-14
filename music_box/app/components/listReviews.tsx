@@ -1,35 +1,9 @@
 "use client";
-import React, { useEffect, useState } from "react";
-// Importe o seu card (lembre-se de mudar para ReviewCard com letra maiúscula no seu arquivo!)
-import { ReviewCard } from "./reviewCard"; 
 
-// 1. Criamos um Mock de dados seguindo exatamente a sua interface reviewCard
-const MockReviews = [
-    {
-        id: "rev1",
-        username: "joao_farmaAura",
-        userId: "user_123",
-        title: "Obra prima!",
-        rating: 10,
-        text: "Esse álbum mudou a minha vida. As transições entre as faixas são perfeitas e a produção é impecável."
-    },
-    {
-        id: "rev2",
-        username: "arantesinho_do_67",
-        userId: "user_456",
-        title: "Bom, mas cansativo",
-        rating: 6,
-        text: "Achei a primeira metade incrível, mas da metade para o final as músicas começam a soar muito parecidas."
-    },
-    {
-        id: "rev3",
-        username: "laurinha_r",
-        userId: "user_789",
-        title: "Clássico",
-        rating: 9.5,
-        text: "Não tem como dar uma nota menor para um trabalho com tanto impacto na indústria."
-    }
-];
+import { useEffect, useState } from "react";
+import { ReviewCard } from "./reviewCard";
+import { useAuth } from "@/context/auth";
+import { listMusicEntries } from "../../services/entries"
 
 interface reviews {
     id: string,
@@ -38,25 +12,16 @@ interface reviews {
     rating: number,
     text: string
 }
-
-export const ReviewsList = () => {
-    // const { musicId } = funçãoPraPegarIdPelaURL
+export const ReviewsList = ( { params }: { params: { musicId:string }}) => {
     const [reviews, setReviews] = useState<reviews[]>([])
+    const musicId = params.musicId;
+    const { user } = useAuth();
 
     useEffect(() => {
         const fetchReviews = async() => {
-            // if(musicId == null || musicId == ""){return}
+            if(musicId == null || musicId == ""){return}
             try{
-                const res = await fetch("http://seu-backend/api/login/", {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({ musicId : reviews?.musicId }), //pegar musica
-                    });
-                    if(!res.ok){
-                        throw new Error("Falha na requisação");
-                    }
-
-                    const data: reviews[] = await res.json();
+                    const data: reviews[] = await listMusicEntries({ id: musicId});
                     setReviews(data);
             }
             catch(error){
@@ -76,15 +41,14 @@ export const ReviewsList = () => {
                     <ReviewCard
                         key={reviews.id}
                         id={reviews.id}
-                        username={}
-                        userId={}
+                        username={user?.name || ""}
                         title={reviews.title}
                         rating={reviews.rating}
                         text={reviews.text}
                     />
                 ))}
             </div>
-            {MockReviews.length === 0 && (
+            {reviews.length === 0 && (
                 <p className="text-gray-500 text-center py-4">
                     Nenhuma review ainda. Seja o primeiro a avaliar!
                 </p>

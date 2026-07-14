@@ -15,7 +15,7 @@ export default function Login() {
   const { login } = useAuth();
 
   async function handleLogin(email:string, password:string){
-    const res = await fetch("http://seu-backend/api/login/", {
+    const res = await fetch("http://localhost:8080/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
