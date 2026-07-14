@@ -37,14 +37,14 @@ export const ReviewsList = ( { params }: { params: { musicId:string }}) => {
             </h2>
 
             <div className="flex flex-col gap-6">
-                {reviews.map((reviews : reviews) => (
+                {reviews.map((review) => (
                     <ReviewCard
-                        key={reviews.id}
-                        id={reviews.id}
+                        key={review.id}
+                        id={review.id}
                         username={user?.name || ""}
-                        title={reviews.title}
-                        rating={reviews.rating}
-                        text={reviews.text}
+                        title={review.title}
+                        rating={review.rating}
+                        text={review.text}
                     />
                 ))}
             </div>
