@@ -7,7 +7,7 @@
 #include "service/EntryParser.cpp"
 #include "service/EntryService.cpp"
 #include "service/MusicQueryInterface.cpp"
-#include "service/SpotifyAPIQueryService.cpp"
+#include "service/MockQueryService.cpp"
 #include "service/persistence/Repository.cpp"
 #include <cstdlib>
 
@@ -16,9 +16,6 @@
 
 int main() {
     httplib::Server svr;
-
-    const char* spotify_api_key_env = std::getenv("SPOTIFY_API_KEY");
-    std::string spotify_api_key = spotify_api_key_env ? spotify_api_key_env : "SOME_KEY";
 
     Repository users(USERS_PATH, UserParser());
     Repository entries(ENTRIES_PATH, EntryParser());
@@ -29,9 +26,9 @@ int main() {
     UserService user_service(workspace, registry);
     EntryService entry_service(workspace, registry);
 
-    SpotifyAPIQueryService spotify_api_query_service(spotify_api_key);
+    MockQueryService mock_query_service;
 
-    EndpointFactory endpoint_factory(svr, entry_service, user_service, spotify_api_query_service);
+    EndpointFactory endpoint_factory(svr, entry_service, user_service, mock_query_service);
 
     svr.set_pre_routing_handler([](const httplib::Request &req, httplib::Response &res) {
             res.set_header("Access-Control-Allow-Origin", "*"); 
