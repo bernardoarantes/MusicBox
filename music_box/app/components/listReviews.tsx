@@ -21,7 +21,7 @@ export const ReviewsList = ( { params }: { params: { musicId:string }}) => {
         const fetchReviews = async() => {
             if(musicId == null || musicId == ""){return}
             try{
-                    const data: reviews[] = await listMusicEntries({ id: musicId});
+                    const data = await listMusicEntries({ id: musicId});
                     setReviews(data);
             }
             catch(error){

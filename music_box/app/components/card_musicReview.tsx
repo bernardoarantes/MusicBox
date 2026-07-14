@@ -1,4 +1,3 @@
-import React from "react" ;
 import { Star, StarHalf } from 'lucide-react';
 
 interface DynamicStarProps {
@@ -7,7 +6,6 @@ interface DynamicStarProps {
 
 export const DynamicStar = ({ rating }: DynamicStarProps) => {
   const starsOutOfFive = rating / 2;
-  const hasHalfStar = rating % 1 >= 0.5;
 
   return (
     <div className="flex gap-0.5 text-gray-300">

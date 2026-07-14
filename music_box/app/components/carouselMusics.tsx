@@ -1,5 +1,6 @@
 "use client";
-import react, { useRef, useState, useEffect } from "react";
+
+import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../context/auth"
 import { MusicCarouselCard }  from "./musicCarouselCard";
 
@@ -29,10 +30,8 @@ export const CarouselMusics = () => {
 
     useEffect(() => {
         const fetchMusics = async() => {
-
             if(!user?.id) return
             try{
-                // arrumar o end point :)
                 const res = await fetch("http://seu-backend/api/login/", {
                         method: "GET",
                         headers: { "Content-Type": "application/json" },
@@ -59,7 +58,7 @@ export const CarouselMusics = () => {
         <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl font-bold text-gray-100 mb-4">Last Reviews</h2>
             <div className="flex gap-2">
-                <button 
+                <button
                     onClick={scrollLeft}
                     className="w-10 h-10 flex items-center justify-center duration-300 hover:shadow-2xl bg-[#525B5B] text-white rounded-full hover:bg-gray-400 transition-colors duration-200"
                     aria-label="Rolar para a esquerda"

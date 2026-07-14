@@ -1,5 +1,6 @@
 "use client";
-import React, { useState, useEffect } from "react";
+
+import { useState, useEffect } from "react";
 import { MusicCarouselCard } from "./musicCarouselCard";
 
 interface searchResult {
@@ -39,10 +40,10 @@ export const SearchMusicBar = () => {
                 }
                 const data = await response.json();
                 setResults(data.items || data)
-        } 
+        }
         catch (error) {
             console.error('Error fetching music data:', error);
-        } 
+        }
         finally {
             setIsLoading(false);
         }

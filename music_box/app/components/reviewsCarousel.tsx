@@ -1,5 +1,6 @@
 "use client";
-import react, { useRef, useState, useEffect } from "react";
+
+import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../context/auth"
 import { MusicCarouselCard }  from "./musicCarouselCard";
 

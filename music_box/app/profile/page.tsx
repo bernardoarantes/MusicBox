@@ -2,7 +2,9 @@
 
 "use client";
 
+import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/auth";
 import { listUserEntries } from "../../services/entries";
@@ -19,7 +21,8 @@ interface Entry {
 }
 
 export default function Profile() {
-    const { user } = useAuth();
+    const router = useRouter();
+    const { user, logout } = useAuth();
     const [entries, setEntries] = useState<any[]>([]);
 
     useEffect(() => {
@@ -48,17 +51,25 @@ export default function Profile() {
 
             <div className="flex-col flex space-y-3 pb-20">
                 {entries.map((entry) => (
-                    <CardMusicReview
-                        id={entry.id}
-                        title={entry.title}
-                        artist={entry.artist}
-                        duration={entry.duration}
-                        rating={entry.rating}
-                        coverImg={entry.coverImg}
-                        album={entry.album}
-                        commentary={entry.commentary}
-                    />
+                    <Link href={"search/" + entry.target_id}>
+                        <CardMusicReview
+                            id={entry.id}
+                            title={entry.title}
+                            artist={entry.artist}
+                            duration={entry.duration}
+                            rating={entry.rating}
+                            coverImg={entry.coverImg}
+                            album={entry.album}
+                            commentary={entry.commentary}
+                        />
+                    </Link>
                 ))}
+            </div>
+
+            <div className="flex items-center pb-20 hover-y-1">
+                <button onClick={() => { logout(); router.push("/auth/login"); }}>
+                    Logout
+                </button>
             </div>
         </div>
     )
