@@ -22,7 +22,11 @@ export default function Login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-    if(!res.ok)return;
+    if(!res.ok) {
+      const errorMsg = await res.text();
+      setErrors({ email: "", password: errorMsg || "Credenciais invalidas." });
+      return;
+    }
     const data = await res.json();
     login({ id: data.user_id, name: data.name, email: email , password: password});
     router.replace("/main");

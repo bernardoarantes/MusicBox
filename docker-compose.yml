@@ -12,6 +12,7 @@ services:
       - ./backend/data:/app/data
     environment:
       - PORT=8080
+      - SPOTIFY_API_KEY=${SPOTIFY_API_KEY}
 
   frontend:
     build:

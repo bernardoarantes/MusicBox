@@ -9,14 +9,16 @@
 #include "service/MusicQueryInterface.cpp"
 #include "service/SpotifyAPIQueryService.cpp"
 #include "service/persistence/Repository.cpp"
+#include <cstdlib>
 
 #define ENTRIES_PATH "data/entries.jsonl"
 #define USERS_PATH "data/users.jsonl"
-#define API_KEY "SOME_KEY"
 
 int main() {
     httplib::Server svr;
 
+    const char* spotify_api_key_env = std::getenv("SPOTIFY_API_KEY");
+    std::string spotify_api_key = spotify_api_key_env ? spotify_api_key_env : "SOME_KEY";
 
     Repository users(USERS_PATH, UserParser());
     Repository entries(ENTRIES_PATH, EntryParser());
@@ -27,7 +29,7 @@ int main() {
     UserService user_service(workspace, registry);
     EntryService entry_service(workspace, registry);
 
-    SpotifyAPIQueryService spotify_api_query_service(API_KEY);
+    SpotifyAPIQueryService spotify_api_query_service(spotify_api_key);
 
     EndpointFactory endpoint_factory(svr, entry_service, user_service, spotify_api_query_service);
 

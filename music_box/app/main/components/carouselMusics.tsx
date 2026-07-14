@@ -35,14 +35,14 @@ export const CarouselMusics = () => {
             if(!user?.id) return
             
             try{
-                    const data = await listUserEntries({ user_id : user?.id || "" });
-                    setMusics(data)
-                }
-                catch(error){
-                    console.error("Erro ao buscar reviews.")
-                }
-                fetchMusics();
+                const data = await listUserEntries({ user_id : user?.id || "" });
+                setMusics(data)
+            }
+            catch(error){
+                console.error("Erro ao buscar reviews.")
+            }
         }
+        fetchMusics();
     }, [user?.id])
 
     if(!musics || musics.length == 0){
