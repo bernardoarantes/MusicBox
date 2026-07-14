@@ -13,6 +13,7 @@
 #include "service/handler/LoginHandler.cpp"
 #include "service/handler/SearchQueryHandler.cpp"
 #include "service/handler/FetchQueryHandler.cpp"
+#include "service/handler/CheckForEntryHandler.cpp"
 
 using httplib::Request;
 using httplib::Response;
@@ -37,6 +38,7 @@ class EndpointFactory {
             registerGetEndpoint(svr, "/fetch",              FetchQueryHandler(music_query_interface));
             registerGetEndpoint(svr, "/list-random-musics", ListRandomMusicsHandler(music_query_interface));
             registerGetEndpoint(svr, "/get-user",           GetUserHandler(user_service));
+            registerGetEndpoint(svr, "/check-for-entry",    CheckForEntryHandler(entry_service));
         }
 
         void registerGetEndpoint(Server &svr, string pattern, Server::Handler handler) {
