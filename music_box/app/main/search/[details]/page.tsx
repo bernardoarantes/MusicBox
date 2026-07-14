@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getAlbum, getArtists } from "@/services/entries";
 import { useParams } from "next/navigation";
 import { getMusic } from "@/services/entries";
 import { ReviewForm } from "@/app/main/components/review_form";
@@ -22,6 +23,9 @@ export default function MusicDetails(){
     const [isReviewOpen, setIsReviewOpen] = useState(false)
     const [music, setMusic] = useState<MusicDetailsProps | null>(null);
     const [loading, setLoading] = useState(true);
+    const [albumEntity, setAlbum] = useState<string>("");
+    const [artistList, setArtistList] = useState<string>("");
+
 
     useEffect(() => {
         if(!music_id)return;
@@ -47,6 +51,25 @@ export default function MusicDetails(){
         return <div className="p-4 text-gray-400">Musica nao encontrada.</div>;
     }
 
+    async function fetchAlbum(){
+        try{
+            const data = await getAlbum({album_id : music?.album || ""});
+            setAlbum(data.title);
+        }
+        catch(error){
+            console.error("Album não encontrado")
+        }
+    }fetchAlbum();
+    
+    async function fetchArtist(){
+        try{
+            const data = await getArtists({artists_id : music?.artists || ""});
+            setArtistList(data.name);
+        }catch(error){
+            console.error("Artistas não encontrado")
+        }
+    }fetchArtist();
+
     return(
         <div className="flex flex-col w-full items-center justify-center min-h-screen py-2">
             <div className="flex flex-col gap-4 items-center justify-center">
@@ -55,11 +78,11 @@ export default function MusicDetails(){
                 </div>
                 <h2 className="font-black">{music.title ? music.title : "undefined"}</h2>
                 <div className="flex flex-row w-full gap-2 text-[#727979]">
-                    <p>{music.artists ? music.artists : "undefined Artist"}</p>
+                    <p>{artistList ? artistList : ""}</p>
                     <span>&middot;</span>
-                    <p>{music.duration ? music.duration/1000 + "s" : "undefined Duration"}</p>
+                    <p>{music.duration ? (music.duration/1000).toFixed(0) + "s" : ""}</p>
                     <span>&middot;</span>
-                    <p>{music.album ? music.album : "undefined Album"}</p>
+                    <p>{albumEntity ? albumEntity : ""}</p>
                 </div>
                     {music.isReviewed ? (
                         <button disabled className="rounded-md bg-green-400 text-white px-4 py-2 hover:bg-green-600">
