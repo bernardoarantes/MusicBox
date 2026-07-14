@@ -8,6 +8,14 @@ export interface ListEntryMusic {
   music_id: string,
 }
 
+export interface ListEntryAlbum {
+  album_id: string,
+}
+
+export interface ListArtistsAlbum{
+  artists_id : string,
+}
+
 // returns a json list with id, title, artist, duration, album, cover_img
 export async function listUserEntries(data: ListEntryUser) {
   return apiGetRequest(`/list-user-entries?user_id=${data.user_id}`);
@@ -20,4 +28,12 @@ export async function listMusicEntries(data: ListEntryMusic) {
 
 export async function getUsername(data: ListEntryUser){
   return apiGetRequest(`/get-user?user_id=${data.user_id}`);
+}
+
+export async function getAlbum(data: ListEntryAlbum){
+  return apiGetRequest(`/fetch?type=albums&query=${data.album_id}`)
+}
+
+export async function getArtists(data: ListArtistsAlbum){
+  return apiGetRequest(`/fetch?type=artists&query=${data.artists_id}`)
 }
