@@ -6,7 +6,7 @@ import { MusicCarouselCard }  from "./musicCarouselCard";
 import { listUserEntries } from "@/services/entries";
 
 interface Music {
-    musicId: string,
+    music_id: string,
     title: string,
     artists: string[],
     album: string,
@@ -39,11 +39,11 @@ export const CarouselMusics = () => {
                     setMusics(data)
                 }
                 catch(error){
-                }
                     console.error("Erro ao buscar reviews.")
                 }
                 fetchMusics();
-    }, [])
+        }
+    }, [user?.id])
 
     if(!musics || musics.length == 0){
         return <div className="p-4 text-gray-400">Nenhuma música encontrada.</div>
@@ -76,9 +76,9 @@ export const CarouselMusics = () => {
         style={{ scrollbarWidth: 'none' }}
         >
             {musics.map((music) => (
-            <div key={music.musicId} className="snap-start shrink-0 w-[300px] my-6 ">
+            <div key={music.music_id} className="snap-start shrink-0 w-[300px] my-6 ">
                 <MusicCarouselCard
-                id={music.musicId}
+                id={music.music_id}
                 title={music.title}
                 artists={music.artists}
                 duration={music.duration/1000}
