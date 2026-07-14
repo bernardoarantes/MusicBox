@@ -38,13 +38,13 @@ class EntryEntity : public Entity {
         }
 
         json toJson() const override {
-            return "{\"id\":\"" + id + 
+            return json::parse("{\"id\":\"" + id + 
                    "\",\"owner_id\":\"" + owner_id +
                    "\",\"type\":\"" + type +
                    "\",\"target_id\":\"" + target_id +
                    "\",\"comment\":\"" + comment +
-                   "\",\"rating\":\"" + std::to_string(rating) +
-                   "}";
+                   "\",\"rating\":" + std::to_string(rating) +
+                   "}");
         }
 
 };

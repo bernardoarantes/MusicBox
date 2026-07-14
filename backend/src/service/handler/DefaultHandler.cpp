@@ -44,6 +44,9 @@ class DefaultHandler : public Server::Handler {
             } catch (ValidationException e) {
                 res.status = 400;
                 res.set_content(e.what(), "text/plain");
+            } catch (EntityNotFoundException e) {
+                res.status = 400;
+                res.set_content(e.what(), "text/plain");
             } catch (json::exception e) {
                 res.status = 400;
                 res.set_content(e.what(), "text/plain");

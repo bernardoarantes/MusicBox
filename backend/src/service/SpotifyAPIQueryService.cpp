@@ -32,10 +32,7 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
             music["album"] = api_music["album"]["id"];
             music["cover"] = api_music["album"]["images"][0]["url"];
             music["duration"] = api_music["duration_ms"];
-            music["artists"] = json::array();
-
-            for (json artist : api_music["artists"])
-                music["artists"] += artist["id"];
+            music["artists"] = api_music["artists"][0]["id"];
 
             return music;
         }
@@ -47,10 +44,7 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
             album["type"] = api_album["type"];
             album["release_date"] = api_album["release_date"];
             album["cover"] = api_album["images"][0]["url"];
-            album["artists"] = json::array();
-
-            for (json artist : api_album["artists"])
-                album["artists"] += artist["id"];
+            album["artists"] = api_album["artists"][0]["id"];
 
             return album;
         }
@@ -115,17 +109,17 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
              }
 
              const json fetch(const string &type, const string &ids) override {
-                 if (auto res = cli.Get("/v1/" + type + "/ids=" + ids, getHeaders())) {
+                 if (auto res = cli.Get("/v1/" + type + "/" + ids, getHeaders())) {
                      json data = json::parse(res->body);
-                     json j = json::array();
+                     json j;
+                     string dat = data.dump();
 
-                     for (json item : data[type])
                          if (type == "tracks")
-                             j += formatMusic(item);
+                             j = formatMusic(data);
                          else if (type == "albums")
-                             j += formatAlbum(item);
+                             j = formatAlbum(data);
                          else if (type == "artists")
-                             j += formatArtist(item);
+                             j = formatArtist(data);
 
                      return j;
 

@@ -23,8 +23,6 @@ class FetchQueryHandler : public DefaultHandler {
         }
 
         const json getData(const Request &req) override {
-            
-
             if (!req.has_param("type"))
                 throw FormatException("missing 'type' param");
 

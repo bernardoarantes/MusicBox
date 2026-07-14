@@ -17,11 +17,11 @@ class RegistryService {
             entry_count(entry_count) {}
 
         string generateUserId() {
-            return to_string(entry_count);
+            return to_string(user_count);
         }
 
         string generateEntryId() {
-            return to_string(user_count);
+            return to_string(entry_count);
         }
 
         void incrementUserCount() {
