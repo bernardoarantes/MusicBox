@@ -83,6 +83,11 @@ export const CardMusicReview = ({ id, target_id, type, rating, comment }: CardMu
         }
       } catch (err) {
         console.error("Erro ao carregar detalhes do item:", err);
+        setDetails({
+          title: "Item no Spotify",
+          artist: `ID: ${target_id}`,
+          coverImg: "/assets/music_logo.png"
+        });
       }
     }
     fetchDetails();

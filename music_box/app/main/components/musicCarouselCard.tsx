@@ -84,6 +84,12 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
                 }
             } catch (error) {
                 console.error("Erro ao buscar detalhes no carrossel:", error);
+                setDetails({
+                    title: "Item no Spotify",
+                    artist: `ID: ${id}`,
+                    cover: "/assets/music_logo.png",
+                    duration: ""
+                });
             }
         }
         fetchDetails();

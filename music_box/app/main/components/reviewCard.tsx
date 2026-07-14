@@ -45,6 +45,7 @@ export const ReviewCard: React.FC<ReviewData> = ({ id, owner_id, target_id, comm
                 }
             }catch(error){
                 console.error("Capa da musica não encontrada.", error);
+                setAlbumCover("/assets/Person.png");
             }
         }
         fetchAlbumCover();
