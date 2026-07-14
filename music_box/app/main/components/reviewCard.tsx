@@ -24,7 +24,8 @@ export const ReviewCard: React.FC<ReviewData> = ({ id, owner_id, target_id, comm
                 const data = await getUsername({ user_id: owner_id });
                 setUsername(data.name || "");
             }catch(Err){
-                console.error("Não foi possível obter username.")
+                console.error("Não foi possível obter username.", Err);
+                setUsername("Usuário Desconhecido");
             }
         }
         fetchUsername();
