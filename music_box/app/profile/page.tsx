@@ -51,7 +51,7 @@ export default function Profile() {
 
             <div className="flex-col flex space-y-3 pb-20">
                 {entries.map((entry) => (
-                    <Link href={"search/" + entry.target_id}>
+                    // <Link href={"search/" + entry.target_id}>
                         <CardMusicReview
                             id={entry.id}
                             title={entry.title}
@@ -62,7 +62,7 @@ export default function Profile() {
                             album={entry.album}
                             commentary={entry.commentary}
                         />
-                    </Link>
+                    // </Link>
                 ))}
             </div>
 

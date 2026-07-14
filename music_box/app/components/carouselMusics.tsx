@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../context/auth"
 import { MusicCarouselCard }  from "./musicCarouselCard";
+import { listUserEntries } from "@/services/entries";
 
 interface Music {
     musicId: string,
@@ -17,6 +18,7 @@ export const CarouselMusics = () => {
     const { user } = useAuth();
     const [musics, setMusics] = useState<Music[]>([]);
     const carouselRef = useRef<HTMLDivElement>(null);
+
     const scrollLeft = () => {
         if(carouselRef.current){
             carouselRef.current.scrollBy({ left: -320, behavior: "smooth" });
@@ -29,19 +31,11 @@ export const CarouselMusics = () => {
     }
 
     useEffect(() => {
-        const fetchMusics = async() => {
+        async function fetchMusics() {
             if(!user?.id) return
+            
             try{
-                // arrumar o end point :)
-                const res = await fetch("http://localhost:8080/", {
-                        method: "GET",
-                        headers: { "Content-Type": "application/json" },
-                        body: undefined,
-                    });
-                    if(!res.ok){
-                        throw new Error("Falha na requisação");
-                    }
-                    const data: Music[] = await res.json();
+                    const data = await listUserEntries({ id : user?.id || "" });
                     setMusics(data)
                 }
                 catch(error){
@@ -49,7 +43,7 @@ export const CarouselMusics = () => {
                     console.error("Erro ao buscar reviews.")
                 }
                 fetchMusics();
-    }, [user?.id])
+    }, [])
 
     if(!musics || musics.length == 0){
         return <div className="p-4 text-gray-400">Nenhuma música encontrada.</div>
