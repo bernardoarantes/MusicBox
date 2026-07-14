@@ -197,17 +197,35 @@ class MockQueryService : public MusicQueryInterface {
                         return track;
                     }
                 }
+                if (!tracks.empty()) {
+                    json fallback = tracks[0];
+                    fallback["id"] = ids;
+                    fallback["title"] = fallback["title"].get<string>() + " (Fallback)";
+                    return fallback;
+                }
             } else if (type == "albums") {
                 for (const auto &album : albums) {
                     if (album["id"] == ids) {
                         return album;
                     }
                 }
+                if (!albums.empty()) {
+                    json fallback = albums[0];
+                    fallback["id"] = ids;
+                    fallback["title"] = fallback["title"].get<string>() + " (Fallback)";
+                    return fallback;
+                }
             } else if (type == "artists") {
                 for (const auto &artist : artists) {
                     if (artist["id"] == ids) {
                         return artist;
                     }
+                }
+                if (!artists.empty()) {
+                    json fallback = artists[0];
+                    fallback["id"] = ids;
+                    fallback["name"] = fallback["name"].get<string>() + " (Fallback)";
+                    return fallback;
                 }
             }
             throw EntityNotFoundException("Mock entity not found: " + type + " / " + ids);
