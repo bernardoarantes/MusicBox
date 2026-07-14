@@ -19,7 +19,7 @@ export default function MusicDetails({ id, title, artist, duration, album, cover
     const [isReviewOpen, setIsReviewOpen] = useState(false)
 
     return(
-        <div className="flex flex-col w-full items-center justify-center min-h-screen py-2 mt-10">
+        <div className="flex flex-col w-full items-center justify-center min-h-screen py-2">
             <div className="flex flex-col gap-4 items-center justify-center">
                 <div className="w-80 h-80 bg-black rounded-lg flex-shrink-0 shadow-md">
                     <img src={coverImg} alt={"Capa de " + title} className="w-64 h-64 object-cover rounded-md"/>
