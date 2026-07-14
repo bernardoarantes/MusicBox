@@ -30,7 +30,7 @@ export function ReviewForm({isOpen, onClose, music_id, musicTitle, cover, initia
       const res = await fetch("http://localhost:8080/create-entry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({user_id: user?.id || "", music_id: musicId, comment: comment, rating: (rating*2), type: type, }),
+        body: JSON.stringify({user_id: user?.id || "", target_id: musicId, comment: comment, rating: (rating*2), type: type, }),
       });
       if (!res.ok) {
         return (<div className="font-semibold">
@@ -52,7 +52,14 @@ export function ReviewForm({isOpen, onClose, music_id, musicTitle, cover, initia
       <div className="flex flex-col gap-4 bg-[#122022] w-flex min-w-[40%] px-10 py-8 rounded-lg">
         <div className="flex w-full h-4 border-gray-300 border-b-1 items-center"><h3 className="flex pb-4 font-bold">I listened...</h3></div>
         <div className="flex flex-row gap-10 items-center">
-          <img src={cover} alt={"Capa de " + {musicTitle}} className="w-12 h-12 rounded object-cover"/>
+
+
+
+        <div className="w-1/10 flex ">
+          <img src={cover} alt={"Capa de " + {musicTitle}} className="fill flex rounded object-cover"/>
+        </div>
+
+
           <div className="flex flex-col w-full gap-4">
           <h3 className="font-bold">{musicTitle}</h3>
             <div className="flex items-center gap-6">
@@ -83,7 +90,7 @@ export function ReviewForm({isOpen, onClose, music_id, musicTitle, cover, initia
                         <div
                           className="absolute top-0 right-0 w-1/2 h-full z-10"
                           onMouseEnter={() => setHoverRating(index)}
-                          onClick={() => setRating(index*2)}
+                          onClick={() => setRating(index)}
                         />
                       </div>
                     )
