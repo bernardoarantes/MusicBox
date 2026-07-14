@@ -8,7 +8,7 @@ import { listUserEntries } from "@/services/entries";
 interface Music {
     music_id: string,
     title: string,
-    artists: string[],
+    artists: string,
     album: string,
     duration: number,
     cover: string

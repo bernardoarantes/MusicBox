@@ -1,7 +1,7 @@
 interface CardMusicProp {
     id: string,
     title: string,
-    artist: string[],
+    artist: string,
     duration: number,
     album: string,
     coverImg: string

@@ -4,7 +4,7 @@ import React, {useState} from "react";
 interface MusicCarouselCardProps {
     id: string;
     title: string;
-    artists: string[];
+    artists: string;
     duration: number;
     album: string;
     cover: string;

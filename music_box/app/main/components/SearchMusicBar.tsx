@@ -5,7 +5,7 @@ import { MusicCarouselCard } from "./musicCarouselCard";
 interface searchResult {
     id: string;
     title: string;
-    artists: string[];
+    artists: string;
     duration: number;
     album: string;
     cover: string;
