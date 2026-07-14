@@ -1,6 +1,6 @@
 import { Star, StarHalf } from 'lucide-react';
-import {useState} from 'react';
-import { getMusic } from '@/services/entries';
+import { getMusic, getAlbum, getArtists } from "@/services/entries";
+import React, { useEffect, useState } from "react";
 
 interface DynamicStarProps {
   rating: number;
@@ -27,49 +27,89 @@ export const DynamicStar = ({ rating }: DynamicStarProps) => {
 };
 
 interface CardMusicReviewProps {
-    id: string,
-    title: string,
-    artist: string,
-    duration: number,
-    rating: number,
-    coverImg: string,
-    album: string,
-    commentary: string,
-    target: string
+    id: string;
+    target_id: string;
+    type: string;
+    rating: number;
+    comment: string;
 }
 
-export const CardMusicReview = ({id, title, artist, rating, coverImg, commentary, target}: CardMusicReviewProps) => {
-    const [albumCover, setAlbumCover] = useState<string>("");
-    const [duration, setDuration] = useState<number>(0);
+export const CardMusicReview = ({ id, target_id, type, rating, comment }: CardMusicReviewProps) => {
+  const [details, setDetails] = useState<{ title: string; artist: string; coverImg: string } | null>(null);
 
-    async function fetchAlbumCover(){
-        try{
-            const data = await getMusic({music_id: target})
-            setAlbumCover(data.cover);
-            setDuration(data.duration);
-        }catch(error){
-            console.error("Capa da musica não encontrada.")
+  useEffect(() => {
+    async function fetchDetails() {
+      if (!target_id) return;
+      try {
+        if (type === "track" || type === "music") {
+          const data = await getMusic({ music_id: target_id });
+          let artistName = "";
+          if (data.artists) {
+            try {
+              const artistData = await getArtists({ artists_id: data.artists });
+              artistName = artistData.name || "";
+            } catch (e) {
+              artistName = data.artists;
+            }
+          }
+          setDetails({
+            title: data.title || "",
+            artist: artistName,
+            coverImg: data.cover || ""
+          });
+        } else if (type === "album") {
+          const data = await getAlbum({ album_id: target_id });
+          let artistName = "";
+          if (data.artists) {
+            try {
+              const artistData = await getArtists({ artists_id: data.artists });
+              artistName = artistData.name || "";
+            } catch (e) {
+              artistName = data.artists;
+            }
+          }
+          setDetails({
+            title: data.title || "",
+            artist: artistName,
+            coverImg: data.cover || ""
+          });
+        } else if (type === "artist") {
+          const data = await getArtists({ artists_id: target_id });
+          setDetails({
+            title: data.name || "",
+            artist: "Artist",
+            coverImg: "/assets/Person.png"
+          });
         }
-    }fetchAlbumCover();
-
-  const duration_treated = (duration/1000).toFixed(0);
+      } catch (err) {
+        console.error("Erro ao carregar detalhes do item:", err);
+      }
+    }
+    fetchDetails();
+  }, [target_id, type]);
 
   return (
-    <div className="flex items-center gap-4 p-4 rounded-md w-full max-w-md">
-      <div className="w-16 h-16 rounded-lg flex-shrink-0 space-y-2">
-        <img src={albumCover} alt={"Capa de " + title} className="w-16 h-16 bg-[#3C4445] object-cover rounded-md"/>
-      </div>
-      <div className="flex items-center gap-4 mt-1">
-        <div className="flex flex-col gap-0.5 ml-2 items-start">
-          <h3 className="maintext">{title}</h3>
-          <p className="subtext">{artist}</p>
-          <p className="subtext">{duration_treated} s</p>
+    <div className="flex flex-col gap-2 p-4 bg-[#1b2b2d] rounded-lg w-full max-w-md shadow-md text-left border border-surface2/30">
+      <div className="flex items-center gap-4">
+        <img 
+          src={details?.coverImg || "/assets/music_logo.png"} 
+          alt={details?.title || "Capa do item"} 
+          className="w-16 h-16 bg-[#3C4445] object-cover rounded-md flex-shrink-0"
+        />
+        <div className="flex flex-col flex-1 min-w-0">
+          <h3 className="text-white font-bold truncate">{details?.title || "Carregando..."}</h3>
+          <p className="text-gray-400 text-sm truncate">{details?.artist || ""}</p>
         </div>
-        <div className="flex flex-col gap-0.5">
+        <div className="flex flex-col items-end gap-1 flex-shrink-0">
           <DynamicStar rating={rating} />
-          <span className="subtext">{rating.toFixed(1) / 2} / 5</span>
+          <span className="text-gray-400 text-xs font-semibold">{rating} / 10</span>
         </div>
       </div>
+      {comment && (
+        <div className="mt-2 pt-2 border-t border-[#3C4445]/50">
+          <p className="text-gray-300 text-sm italic">"{comment}"</p>
+        </div>
+      )}
     </div>
   );
-}
+};

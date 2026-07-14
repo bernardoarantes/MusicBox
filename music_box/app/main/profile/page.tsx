@@ -26,15 +26,16 @@ export default function Profile() {
 
     useEffect(() => {
         async function fetchEntries() {
+            if (!user?.id) return;
             try {
-                const data = await listUserEntries({ user_id : user?.id || "" });
+                const data = await listUserEntries({ user_id : user.id });
                 setEntries(data);
             } catch (err) {
                 console.error(err);
             }
         }
         fetchEntries();
-    }, []);
+    }, [user?.id]);
 
     return(
         <div className="items-center text-center flex flex-col py-5">
@@ -50,19 +51,14 @@ export default function Profile() {
 
             <div className="flex-col flex space-y-3 pb-20">
                 {entries.map((entry) => (
-                    // <Link href={"search/" + entry.target_id}>
-                        <CardMusicReview
-                            key={entry.id}
-                            id={entry.id}
-                            title={entry.title}
-                            artist={entry.artist}
-                            rating={entry.rating}
-                            coverImg={entry.coverImg}
-                            album={entry.album}
-                            commentary={entry.commentary}
-                            target={entry.target_id}
-                        />
-                    // </Link>
+                    <CardMusicReview
+                        key={entry.id}
+                        id={entry.id}
+                        target_id={entry.target_id}
+                        type={entry.type}
+                        rating={Number(entry.rating)}
+                        comment={entry.comment}
+                    />
                 ))}
             </div>
 
