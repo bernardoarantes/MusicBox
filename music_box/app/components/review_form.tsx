@@ -83,7 +83,7 @@ export function ReviewForm({isOpen, onClose, musicId, musicTitle, cover, initial
                         <div
                           className="absolute top-0 right-0 w-1/2 h-full z-10"
                           onMouseEnter={() => setHoverRating(index)}
-                          onClick={() => setRating(index)}
+                          onClick={() => setRating(index*2)}
                         />
                       </div>
                     )

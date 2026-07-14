@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div >
       {/* ver como o musicsCarousel receberá as musicas */}
-      <div className="flex min-h-screen flex-col items-center justify-between p-24">
+      <div className="flex min-h-screen flex-col items-center justify-center gap-30 p-24">
         <ReviewsCarousel />
         <CarouselMusics/>
       </div>
