@@ -6,9 +6,11 @@
 #include "service/UserService.cpp"
 #include "service/handler/CreateEntryHandler.cpp"
 #include "service/handler/CreateUserHandler.cpp"
-#include "service/handler/ListEntryHandler.cpp"
+#include "service/handler/ListEntryByUserHandler.cpp"
+#include "service/handler/ListEntryByMusicHandler.cpp"
 #include "service/handler/LoginHandler.cpp"
-#include "service/handler/QueryHandler.cpp"
+#include "service/handler/SearchQueryHandler.cpp"
+#include "service/handler/FetchQueryHandler.cpp"
 
 using httplib::Request;
 using httplib::Response;
@@ -27,8 +29,10 @@ class EndpointFactory {
             registerPostEndpoint(svr, "/create-user",  CreateUserHandler(user_service));
             registerPostEndpoint(svr, "/login",        LoginHandler(user_service));
 
-            registerGetEndpoint(svr, "/list-entry",   ListEntryHandler(entry_service));
-            registerGetEndpoint(svr, "/search",       QueryHandler(music_query_interface));
+            registerGetEndpoint(svr, "/list-user-entries",  ListEntryByUserHandler(entry_service));
+            registerGetEndpoint(svr, "/list-music-entries", ListEntryByMusicHandler(entry_service));
+            registerGetEndpoint(svr, "/search",             SearchQueryHandler(music_query_interface));
+            registerGetEndpoint(svr, "/fecth",              FetchQueryHandler(music_query_interface));
         }
 
         void registerGetEndpoint(Server &svr, string pattern, Server::Handler handler) {

@@ -1,5 +1,5 @@
-#ifndef QUERYHANDLER
-#define QUERYHANDLER
+#ifndef SEARCHQUERYHANDLER
+#define SEARCHQUERYHANDLER
 
 #include "httplib.h"
 #include "json.hpp"
@@ -13,12 +13,12 @@ using httplib::Server;
 using nlohmann::json;
 using std::string;
 
-class QueryHandler : public DefaultHandler {
+class SearchQueryHandler : public DefaultHandler {
     private:
         MusicQueryInterface *music_query_interface;
 
     public:
-        QueryHandler(MusicQueryInterface &music_query_interface) {
+        SearchQueryHandler(MusicQueryInterface &music_query_interface) {
             this->music_query_interface = &music_query_interface;
         }
 

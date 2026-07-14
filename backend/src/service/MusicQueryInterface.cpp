@@ -17,6 +17,8 @@ class MusicQueryInterface {
 
         virtual const json findAlbumByArtist(const string &artistId, unsigned page) = 0;
 
+        virtual const json fetch(const string &type, const string &ids) = 0;
+
 };
 
 #endif

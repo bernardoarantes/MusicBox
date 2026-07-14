@@ -22,7 +22,6 @@ class ListEntryByUserHandler : public DefaultHandler {
         }
 
         const json getData(const Request &req) override {
-            std::cout << "Getting here!";
             if (!req.has_param("user_id"))
                 throw FormatException("missing user_id param");
 

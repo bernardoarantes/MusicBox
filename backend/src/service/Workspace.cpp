@@ -64,6 +64,17 @@ class Workspace {
             return user_entries;
         };
 
+        vector<EntryEntity> listEntriesByMusic(const string& music_id){
+            vector<EntryEntity> user_entries = vector<EntryEntity>();
+
+            for (const Entity *_entry : *entries) {
+                EntryEntity *entry = (EntryEntity *) _entry;
+                if (entry->getTargetId() == music_id && entry->getType() == "track")
+                    user_entries.push_back(*entry);
+            }
+            return user_entries;
+        };
+
         const UserEntity getUser(const string& user_id){
             for (const Entity *user : *users) {
                 if (user->getId() == user_id) {

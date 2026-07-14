@@ -68,8 +68,7 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
              const json query(const string &type, const string &query, unsigned page = 0) override {
                  if (auto res = cli.Get("/v1/search?limit=10&q=" + query + "&type=" + type + "&offset=" + std::to_string(10 * page), getHeaders())) {
                      json data = json::parse(res->body);
-                     json j;
-                     j["items"] = json::array();
+                     json j = json::array();
 
                      for (json item : data[type + "s"]["items"])
                          if (type == "track")
@@ -110,6 +109,26 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
                      }
 
                      return j;
+                 } else {
+                     throw EntityNotFoundException("failed to fetch from spotify api");
+                 }
+             }
+
+             const json fetch(const string &type, const string &ids) override {
+                 if (auto res = cli.Get("/v1/" + type + "/ids=" + ids, getHeaders())) {
+                     json data = json::parse(res->body);
+                     json j = json::array();
+
+                     for (json item : data[type])
+                         if (type == "tracks")
+                             j += formatMusic(item);
+                         else if (type == "albums")
+                             j += formatAlbum(item);
+                         else if (type == "artists")
+                             j += formatArtist(item);
+
+                     return j;
+
                  } else {
                      throw EntityNotFoundException("failed to fetch from spotify api");
                  }

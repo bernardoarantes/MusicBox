@@ -31,6 +31,14 @@ class EntryService {
 
             return entries;
         }
+
+        json fetchEntriesFromMusic(const string &music_id) {
+            json entries = json::array();
+            for (EntryEntity entry : workspace->listEntriesByMusic(music_id))
+                entries += entry.toJson();
+
+            return entries;
+        }
 };
 
 #endif
