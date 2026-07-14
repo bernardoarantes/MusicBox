@@ -74,7 +74,7 @@ export default function MusicDetails(){
     async function fetchIsReviewed(){
         const user_id = user?.id || "";
         try{
-            const data = await getIsReviewed({user_id: user_id, music_id: music_id});
+            const data = await getIsReviewed({user_id: user_id, target_id: music_id});
             setIsReviewed(data.bool)
         }catch(error){
             console.error("Não foi possível verificar se a review foi feita")

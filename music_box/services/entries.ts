@@ -18,7 +18,7 @@ export interface ListArtistsAlbum{
 
 export interface ListUserAndMusic{
   user_id: string,
-  music_id: string,
+  target_id: string,
 }
 
 // returns a json list with id, title, artist, duration, album, cover_img
@@ -48,5 +48,5 @@ export async function getMusic(data: ListEntryMusic){
 }
 
 export async function getIsReviewed(data: ListUserAndMusic ){
-  return apiGetRequest(`/check-for-entry?user_id=${data.user_id}&music_id=${data.music_id}`)
+  return apiGetRequest(`/check-for-entry?user_id=${data.user_id}&target_id=${data.target_id}`)
 }
