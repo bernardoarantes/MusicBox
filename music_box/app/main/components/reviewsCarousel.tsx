@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import { useAuth } from "../../context/auth"
+import { useAuth } from "../../../context/auth"
 import { MusicCarouselCard }  from "./musicCarouselCard";
 import { listUserEntries } from "@/services/entries";
 

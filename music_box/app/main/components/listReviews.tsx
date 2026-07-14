@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { ReviewCard } from "./reviewCard";
 import { useAuth } from "@/context/auth";
-import { listMusicEntries } from "../../services/entries"
+import { listMusicEntries } from "../../../services/entries"
 
 interface reviews {
     id: string,

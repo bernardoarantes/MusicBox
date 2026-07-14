@@ -6,8 +6,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
-import { useAuth } from "../../context/auth";
-import { listUserEntries } from "../../services/entries";
+import { useAuth } from "@/context/auth"; 
+import { listUserEntries } from "@/services/entries";
 import { CardMusicReview } from "../components/card_musicReview";
 
 interface Entry {

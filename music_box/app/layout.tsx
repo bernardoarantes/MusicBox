@@ -1,7 +1,5 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Header } from "./components/header";
-import { Footer } from "./components/footer";
 import { AuthProvider } from "@/context/auth";
 import { RouteGuard } from "@/context/routes";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -38,13 +36,11 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"></link>
       </head>
       <body className="min-h-full flex flex-col bg-[#122022]">
-        <Header/>
         <AuthProvider>
-            <RouteGuard>
+            {/* <RouteGuard> */}
                 {children}
-            </RouteGuard>
+            {/* </RouteGuard> */}
         </AuthProvider>
-        <Footer/>
       </body>
     </html>
   );
