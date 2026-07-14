@@ -51,7 +51,7 @@ export default function MusicDetails(){
         <div className="flex flex-col w-full items-center justify-center min-h-screen py-2">
             <div className="flex flex-col gap-4 items-center justify-center">
                 <div className="w-80 h-80 bg-black rounded-lg flex-shrink-0 shadow-md">
-                    <img src={music.cover} alt={"Capa de " + music.title} className="w-64 h-64 object-cover rounded-md"/>
+                    <img src={music.cover} alt={"Capa de " + music.title} className="w-80 h-80 object-cover rounded-md"/>
                 </div>
                 <h2 className="font-black">{music.title ? music.title : "undefined"}</h2>
                 <div className="flex flex-row w-full gap-2 text-[#727979]">
@@ -75,7 +75,7 @@ export default function MusicDetails(){
             <ReviewForm
                 isOpen = {isReviewOpen}
                 onClose = {() => setIsReviewOpen(false)}
-                musicId = {music.id}
+                music_id = {music.id}
                 musicTitle = {music.title}
                 cover = {music.cover}
             />

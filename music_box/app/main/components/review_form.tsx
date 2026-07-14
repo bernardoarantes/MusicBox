@@ -7,7 +7,7 @@ import { error } from "console";
 interface ReviewFormProps {
   isOpen: boolean,
   onClose: () => void,
-  musicId: string,
+  music_id: string,
   musicTitle: string,
   cover: string,
   initialComment?: string;
@@ -18,8 +18,8 @@ interface ReviewFormProps {
 }
 
 
-export function ReviewForm({isOpen, onClose, musicId, musicTitle, cover, initialComment = "", initialRating = 0, type = "music", onSubmit }: ReviewFormProps) {
-  const music_id = musicId;
+export function ReviewForm({isOpen, onClose, music_id, musicTitle, cover, initialComment = "", initialRating = 0, type = "music", onSubmit }: ReviewFormProps) {
+  const musicId = music_id;
   const { user } = useAuth();
   const [comment, setComment] = useState(initialComment);
   const [rating, setRating] = useState(initialRating);
@@ -30,7 +30,7 @@ export function ReviewForm({isOpen, onClose, musicId, musicTitle, cover, initial
       const res = await fetch("http://localhost:8080/create-entry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({userId: user?.id || "", musicId: musicId, comment: comment, rating: rating, type: type, }),
+        body: JSON.stringify({user_id: user?.id || "", music_id: musicId, comment: comment, rating: (rating*2), type: type, }),
       });
       if (!res.ok) {
         return (<div className="font-semibold">

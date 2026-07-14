@@ -37,9 +37,9 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col bg-[#122022]">
         <AuthProvider>
-            {/* <RouteGuard> */}
+            <RouteGuard>
                 {children}
-            {/* </RouteGuard> */}
+            </RouteGuard>
         </AuthProvider>
       </body>
     </html>
