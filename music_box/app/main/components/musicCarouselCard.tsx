@@ -23,32 +23,37 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
     const [details, setDetails] = useState<{ title: string; artist: string; cover: string; duration: string } | null>(null);
 
     useEffect(() => {
-        if (title && cover) {
-            const dur = typeof duration === "number" ? duration + " s" : duration || "";
-            setDetails({
-                title,
-                artist: String(artists || ""),
-                cover,
-                duration: dur
-            });
-            return;
+        async function resolveArtistName(rawArtist: string) {
+            if (rawArtist && rawArtist.length === 22 && /^[a-zA-Z0-9]+$/.test(rawArtist)) {
+                try {
+                    const artistData = await getArtists({ artists_id: rawArtist });
+                    return artistData.name || rawArtist;
+                } catch (e) {
+                    return rawArtist;
+                }
+            }
+            return rawArtist;
         }
 
         async function fetchDetails() {
+            if (title && cover) {
+                const dur = typeof duration === "number" ? duration + " s" : duration || "";
+                const artistName = await resolveArtistName(artists || "");
+                setDetails({
+                    title,
+                    artist: artistName,
+                    cover,
+                    duration: dur
+                });
+                return;
+            }
+
             if (!id) return;
             try {
                 const resolvedType = type || "track";
                 if (resolvedType === "track" || resolvedType === "music") {
                     const data = await getMusic({ music_id: id });
-                    let artistName = "";
-                    if (data.artists) {
-                        try {
-                            const artistData = await getArtists({ artists_id: data.artists });
-                            artistName = artistData.name || "";
-                        } catch (e) {
-                            artistName = data.artists;
-                        }
-                    }
+                    const artistName = await resolveArtistName(data.artists || "");
                     const durationSec = data.duration ? (data.duration / 1000).toFixed(0) : "0";
                     setDetails({
                         title: data.title || "",
@@ -58,15 +63,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
                     });
                 } else if (resolvedType === "album") {
                     const data = await getAlbum({ album_id: id });
-                    let artistName = "";
-                    if (data.artists) {
-                        try {
-                            const artistData = await getArtists({ artists_id: data.artists });
-                            artistName = artistData.name || "";
-                        } catch (e) {
-                            artistName = data.artists;
-                        }
-                    }
+                    const artistName = await resolveArtistName(data.artists || "");
                     setDetails({
                         title: data.title || "",
                         artist: artistName,
