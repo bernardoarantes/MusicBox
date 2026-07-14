@@ -5,11 +5,13 @@
 import Link from "next/link";
 import { useState, FormEvent } from "react";
 import { nameValidator, emailValidator, passwordValidator } from "../../../core/utils";
+import { useRouter } from "next/navigation"; 
 
 export default function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const router = useRouter();
   const [errors, setErrors] = useState({ name: "", email: "", password: "", body: "" });
 
   async function handleRegister(name:string,email:string,password:string):Promise<string>
@@ -88,7 +90,7 @@ export default function Register() {
           {errors.password && <p className="mt-1 text-left text-xs text-red-400">{errors.password}</p>}
         </div>
         <button
-          type="submit"
+          type="submit" onClick={() => {router.push("./auth/login");}}
           className="enter_btn w-full rounded-md border border-surface2 bg-surface px-3 py-2.5 text-sm text-fog outline-none"
         >
           Cadastrar

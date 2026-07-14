@@ -91,12 +91,12 @@ export default function Login() {
         </Link>
       </div>
 
-      <div className="items-center py-5">
+      {/* <div className="items-center py-5">
         <p>Esqueceu a senha?</p>
         <Link href="/auth/forgot_password" className="links">
           Redefinir Senha
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }

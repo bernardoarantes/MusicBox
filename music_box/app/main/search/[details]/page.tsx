@@ -1,7 +1,7 @@
 "use client";
-import { ReviewsList } from "@/app/components/listReviews";
-import { ReviewForm } from "@/app/components/review_form";
-import { ReviewCard } from "@/app/components/reviewCard";
+import { ReviewsList } from "@/app/main/components/listReviews";
+import { ReviewForm } from "@/app/main/components/review_form";
+import { ReviewCard } from "@/app/main/components/reviewCard";
 import react, { useState } from "react";
 
 interface MusicDetailsProps {

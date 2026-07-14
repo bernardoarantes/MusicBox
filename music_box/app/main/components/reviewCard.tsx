@@ -1,6 +1,6 @@
 "use client";
 
-import { useAuth } from "../../context/auth";
+import { useAuth } from "../../../context/auth";
 import { DynamicStar } from "./card_musicReview";
 
 interface reviewCard {
