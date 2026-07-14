@@ -1,4 +1,6 @@
 import { Star, StarHalf } from 'lucide-react';
+import {useState} from 'react';
+import { getMusic } from '@/services/entries';
 
 interface DynamicStarProps {
   rating: number;
@@ -27,22 +29,35 @@ export const DynamicStar = ({ rating }: DynamicStarProps) => {
 interface CardMusicReviewProps {
     id: string,
     title: string,
-    artist: Array<string>,
+    artist: string,
     duration: number,
     rating: number,
     coverImg: string,
     album: string,
     commentary: string,
+    target: string
 }
 
-export const CardMusicReview = ({id, title, artist, duration, rating, coverImg, commentary }: CardMusicReviewProps) => {
+export const CardMusicReview = ({id, title, artist, rating, coverImg, commentary, target}: CardMusicReviewProps) => {
+    const [albumCover, setAlbumCover] = useState<string>("");
+    const [duration, setDuration] = useState<number>(0);
 
-  const duration_treated = ((duration/1000)).toFixed(0)
+    async function fetchAlbumCover(){
+        try{
+            const data = await getMusic({music_id: target})
+            setAlbumCover(data.cover);
+            setDuration(data.duration);
+        }catch(error){
+            console.error("Capa da musica não encontrada.")
+        }
+    }fetchAlbumCover();
+
+  const duration_treated = (duration/1000).toFixed(0);
 
   return (
     <div className="flex items-center gap-4 p-4 rounded-md w-full max-w-md">
       <div className="w-16 h-16 rounded-lg flex-shrink-0 space-y-2">
-        <img src={coverImg} alt={"Capa de " + title} className="w-16 h-16 bg-[#3C4445] object-cover rounded-md"/>
+        <img src={albumCover} alt={"Capa de " + title} className="w-16 h-16 bg-[#3C4445] object-cover rounded-md"/>
       </div>
       <div className="flex items-center gap-4 mt-1">
         <div className="flex flex-col gap-0.5 ml-2 items-start">
@@ -52,7 +67,7 @@ export const CardMusicReview = ({id, title, artist, duration, rating, coverImg, 
         </div>
         <div className="flex flex-col gap-0.5">
           <DynamicStar rating={rating} />
-          <span className="subtext">{rating.toFixed(1)} / 10</span>
+          <span className="subtext">{rating.toFixed(1) / 2} / 5</span>
         </div>
       </div>
     </div>

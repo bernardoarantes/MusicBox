@@ -13,7 +13,6 @@ import { CardMusicReview } from "../components/card_musicReview";
 interface Entry {
   title: string;
   artist: Array<string>;
-  duration: number;
   album: string;
   coverImg: string;
   rating: number;
@@ -53,14 +52,15 @@ export default function Profile() {
                 {entries.map((entry) => (
                     // <Link href={"search/" + entry.target_id}>
                         <CardMusicReview
+                            key={entry.id}
                             id={entry.id}
                             title={entry.title}
                             artist={entry.artist}
-                            duration={entry.duration}
                             rating={entry.rating}
                             coverImg={entry.coverImg}
                             album={entry.album}
                             commentary={entry.commentary}
+                            target={entry.target_id}
                         />
                     // </Link>
                 ))}
