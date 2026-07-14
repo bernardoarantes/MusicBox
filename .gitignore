@@ -1,6 +1,16 @@
 # Prerequisites
 *.d
 
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
 # Compiled Object files
 *.slo
 *.lo
@@ -68,5 +78,16 @@ vcpkg_installed/
 Testing/
 .cache/
 
-#LSP files
+# LSP files
 .ccls
+
+# node_modules and frontend dependencies
+node_modules/
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
