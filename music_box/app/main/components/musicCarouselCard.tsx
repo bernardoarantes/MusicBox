@@ -44,7 +44,7 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
   return (
     <div className="w-full">
         <a
-            href={`main/search/${id}/`}
+            href={`/main/search/${id}/`}
             className="block hover:-translate-y-1 duration-300 ease-in-out hover:shadow-lg hover:shadow-green-500/30 rounded-md"
         >
             <div className="flex flex-col gap-4 bg-[#525B5B] items-center p-6 rounded-md w-full max-w-md">
