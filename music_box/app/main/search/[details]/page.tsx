@@ -1,10 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { getAlbum, getArtists } from "@/services/entries";
+import { getAlbum, getArtists, getIsReviewed } from "@/services/entries";
 import { useParams } from "next/navigation";
 import { getMusic } from "@/services/entries";
 import { ReviewForm } from "@/app/main/components/review_form";
+import { useAuth } from "@/context/auth";
 
 interface MusicDetailsProps {
     id: string;
@@ -13,14 +14,14 @@ interface MusicDetailsProps {
     duration: any;
     album: string;
     cover: string;
-    isReviewed?: boolean;
 }
 
 export default function MusicDetails(){
     const params = useParams<{details: string }>();
     const music_id = params.details ? decodeURIComponent(params.details) : "";
-
+    const { user } = useAuth();
     const [isReviewOpen, setIsReviewOpen] = useState(false)
+    const [isReviewed, setIsReviewed] = useState(false)
     const [music, setMusic] = useState<MusicDetailsProps | null>(null);
     const [loading, setLoading] = useState(true);
     const [albumEntity, setAlbum] = useState<string>("");
@@ -70,6 +71,16 @@ export default function MusicDetails(){
         }
     }fetchArtist();
 
+    async function fetchIsReviewed(){
+        const user_id = user?.id || "";
+        try{
+            const data = await getIsReviewed({user_id: user_id, music_id: music_id});
+            setIsReviewed(data.bool)
+        }catch(error){
+            console.error("Não foi possível verificar se a review foi feita")
+        }
+    }fetchIsReviewed();
+
     return(
         <div className="flex flex-col w-full items-center justify-center min-h-screen py-2">
             <div className="flex flex-col gap-4 items-center justify-center">
@@ -84,7 +95,7 @@ export default function MusicDetails(){
                     <span>&middot;</span>
                     <p>{albumEntity ? albumEntity : ""}</p>
                 </div>
-                    {music.isReviewed ? (
+                    {isReviewed ? (
                         <button disabled className="rounded-md bg-green-400 text-white px-4 py-2 hover:bg-green-600">
                             Review
                         </button>
