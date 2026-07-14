@@ -20,6 +20,7 @@ export default function Login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
+    if(!res)return;
     const data = await res.json();
     login({ id: data.user_id, name: data.name, email: email , password: password}); // token
   }

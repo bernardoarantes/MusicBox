@@ -22,6 +22,7 @@ export default function Register() {
       body: JSON.stringify({ name, email, password }),
     });
     const data = await res.json();
+    if(!res) throw new Error(data.message ?? "Erro ao criar conta");
     return data;
   }
 
@@ -32,10 +33,12 @@ export default function Register() {
     const emailError = emailValidator(email);
     const passwordError = passwordValidator(password);
 
+    setErrors({ name: nameError, email: emailError, password: passwordError, body: ""});
+
     if (nameError || emailError || passwordError) return;
 
     handleRegister(name,email,password).then((response)=>{
-        setErrors({ name: nameError, email: emailError, password: passwordError, body: response});
+       setErrors((prev) => ({ ...prev, body: response }));
     })
   }
 
