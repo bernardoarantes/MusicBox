@@ -54,7 +54,7 @@ export function ReviewForm({isOpen, onClose, music_id, musicTitle, cover, initia
         <div className="flex flex-row gap-10 items-center">
           <img src={cover} alt={"Capa de " + {musicTitle}} className="w-12 h-12 rounded object-cover"/>
           <div className="flex flex-col w-full gap-4">
-          <h3 className="font-bold">{musicTitle}title</h3>
+          <h3 className="font-bold">{musicTitle}</h3>
             <div className="flex items-center gap-6">
               <div className="w-full flex flex-row items-center justify-between">
                 <span className="flex font-semibold">Rating:</span>
