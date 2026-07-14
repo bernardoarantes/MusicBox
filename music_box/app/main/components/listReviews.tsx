@@ -6,11 +6,12 @@ import { useAuth } from "@/context/auth";
 import { listMusicEntries } from "../../../services/entries"
 
 interface reviews {
-    id: string,
-    username: string,
-    title: string,
+    id: string;
+    owner_id: string;
+    target_id: string,
     rating: number,
-    text: string
+    type: string,
+    comment: string
 }
 export const ReviewsList = ( { params }: { params: { musicId:string }}) => {
     const [reviews, setReviews] = useState<reviews[]>([])
@@ -28,7 +29,7 @@ export const ReviewsList = ( { params }: { params: { musicId:string }}) => {
                 console.error("Erro ao buscar Reviews.")
             } fetchReviews();
         }
-    })
+    }, [musicId]);
 
     return (
         <div className="flex flex-col w-full max-w-4xl mt-8 px-4 pb-20">
@@ -41,10 +42,11 @@ export const ReviewsList = ( { params }: { params: { musicId:string }}) => {
                     <ReviewCard
                         key={review.id}
                         id={review.id}
-                        username={user?.name || ""}
-                        title={review.title}
+                        owner_id={review.owner_id}
+                        target={review.target_id}
+                        comment={review.comment}
+                        type={review.type}
                         rating={review.rating}
-                        text={review.text}
                     />
                 ))}
             </div>

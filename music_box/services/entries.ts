@@ -17,3 +17,7 @@ export async function listUserEntries(data: ListEntryUser) {
 export async function listMusicEntries(data: ListEntryMusic) {
   return apiGetRequest(`/list-music-entries?music_id=${data.music_id}`);
 }
+
+export async function getUsername(data: ListEntryUser){
+  return apiGetRequest(`/get-user?user_id=${data.user_id}`);
+}

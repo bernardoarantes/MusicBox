@@ -6,13 +6,18 @@ import { MusicCarouselCard }  from "./musicCarouselCard";
 import { ReviewCard } from "./reviewCard";
 import { listUserEntries } from "@/services/entries";
 
-interface ReviewIds{
+interface ReviewData {
     id: string,
+    owner_id: string,
+    target: string,
+    comment: string,
+    rating: number;
+    type: string,
 }
 
 export const ReviewsCarousel = () => {
     const { user } = useAuth();
-    const [reviewedMusics, setReviewedMusics] = useState<ReviewIds[]>([]);
+    const [reviewedMusics, setReviewedMusics] = useState<ReviewData[]>([]);
     const carouselRef = useRef<HTMLDivElement>(null);
     const scrollLeft = () => {
         if(carouselRef.current){
@@ -74,6 +79,11 @@ export const ReviewsCarousel = () => {
             <div key={index.id} className="snap-start shrink-0 w-[300px] my-6 ">
                 <ReviewCard
                 id={index.id}
+                target={index.target}
+                owner_id={index.owner_id}
+                comment={index.comment}
+                rating={index.rating}
+                type={index.type}
                 />
             </div>
             ))}
