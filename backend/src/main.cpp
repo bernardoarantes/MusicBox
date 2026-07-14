@@ -7,12 +7,14 @@
 #include "service/EntryParser.cpp"
 #include "service/EntryService.cpp"
 #include "service/MusicQueryInterface.cpp"
-#include "service/SpotifyAPIQueryService.cpp"
+// #include "service/SpotifyAPIQueryService.cpp"
+#include "service/LocalQueryService.cpp"
 #include "service/persistence/Repository.cpp"
 #include <cstdlib>
 
 #define ENTRIES_PATH "data/entries.jsonl"
 #define USERS_PATH "data/users.jsonl"
+#define LOCAL_MUSIC_REPOSITORY_PATH "data/local_music_repository.json"
 
 int main() {
     httplib::Server svr;
@@ -29,9 +31,10 @@ int main() {
     UserService user_service(workspace, registry);
     EntryService entry_service(workspace, registry);
 
-    SpotifyAPIQueryService spotify_api_query_service(spotify_api_key);
+    // SpotifyAPIQueryService spotify_api_query_service(spotify_api_key);
+    LocalQueryService local_query_service(LOCAL_MUSIC_REPOSITORY_PATH);
 
-    EndpointFactory endpoint_factory(svr, entry_service, user_service, spotify_api_query_service);
+    EndpointFactory endpoint_factory(svr, entry_service, user_service, local_query_service);
 
     svr.set_pre_routing_handler([](const httplib::Request &req, httplib::Response &res) {
             res.set_header("Access-Control-Allow-Origin", "*"); 

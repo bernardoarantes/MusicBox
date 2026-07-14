@@ -1,0 +1,484 @@
+{
+    "tracks": [
+        {
+            "id": "TRK01",
+            "name": "Creep",
+            "duration_ms": 238000,
+            "album": {
+                "id": "ALB01",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART01"
+                }
+            ]
+        },
+        {
+            "id": "TRK02",
+            "name": "Karma Police",
+            "duration_ms": 264000,
+            "album": {
+                "id": "ALB02",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART01"
+                }
+            ]
+        },
+        {
+            "id": "TRK03",
+            "name": "Paranoid Android",
+            "duration_ms": 383000,
+            "album": {
+                "id": "ALB02",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART01"
+                }
+            ]
+        },
+        {
+            "id": "TRK04",
+            "name": "Shake It Off",
+            "duration_ms": 219000,
+            "album": {
+                "id": "ALB03",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART02"
+                }
+            ]
+        },
+        {
+            "id": "TRK05",
+            "name": "Blank Space",
+            "duration_ms": 231000,
+            "album": {
+                "id": "ALB03",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART02"
+                }
+            ]
+        },
+        {
+            "id": "TRK06",
+            "name": "Toxicity",
+            "duration_ms": 218000,
+            "album": {
+                "id": "ALB04",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART03"
+                }
+            ]
+        },
+        {
+            "id": "TRK07",
+            "name": "Chop Suey!",
+            "duration_ms": 210000,
+            "album": {
+                "id": "ALB04",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART03"
+                }
+            ]
+        },
+        {
+            "id": "TRK08",
+            "name": "Aerials",
+            "duration_ms": 234000,
+            "album": {
+                "id": "ALB04",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART03"
+                }
+            ]
+        },
+        {
+            "id": "TRK09",
+            "name": "Echoes",
+            "duration_ms": 1410000,
+            "album": {
+                "id": "ALB05",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART04"
+                }
+            ]
+        },
+        {
+            "id": "TRK10",
+            "name": "Dogs",
+            "duration_ms": 1024000,
+            "album": {
+                "id": "ALB06",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART04"
+                }
+            ]
+        },
+        {
+            "id": "TRK11",
+            "name": "Shine On You Crazy Diamond (Pts. 1-5)",
+            "duration_ms": 811000,
+            "album": {
+                "id": "ALB07",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART04"
+                }
+            ]
+        },
+        {
+            "id": "TRK12",
+            "name": "Wish You Were Here",
+            "duration_ms": 334000,
+            "album": {
+                "id": "ALB07",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART04"
+                }
+            ]
+        },
+        {
+            "id": "TRK13",
+            "name": "Starless",
+            "duration_ms": 736000,
+            "album": {
+                "id": "ALB08",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART05"
+                }
+            ]
+        },
+        {
+            "id": "TRK14",
+            "name": "Epitaph",
+            "duration_ms": 527000,
+            "album": {
+                "id": "ALB09",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART05"
+                }
+            ]
+        },
+        {
+            "id": "TRK15",
+            "name": "21st Century Schizoid Man",
+            "duration_ms": 444000,
+            "album": {
+                "id": "ALB09",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART05"
+                }
+            ]
+        },
+        {
+            "id": "TRK16",
+            "name": "Come Together",
+            "duration_ms": 259000,
+            "album": {
+                "id": "ALB10",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART06"
+                }
+            ]
+        },
+        {
+            "id": "TRK17",
+            "name": "Something",
+            "duration_ms": 182000,
+            "album": {
+                "id": "ALB10",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART06"
+                }
+            ]
+        },
+        {
+            "id": "TRK18",
+            "name": "Here Comes The Sun",
+            "duration_ms": 185000,
+            "album": {
+                "id": "ALB10",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART06"
+                }
+            ]
+        },
+        {
+            "id": "TRK19",
+            "name": "Bohemian Rhapsody",
+            "duration_ms": 354000,
+            "album": {
+                "id": "ALB11",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART07"
+                }
+            ]
+        },
+        {
+            "id": "TRK20",
+            "name": "Love of My Life",
+            "duration_ms": 219000,
+            "album": {
+                "id": "ALB11",
+                "images": [
+                    {
+                        "url": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b"
+                    }
+                ]
+            },
+            "artists": [
+                {
+                    "id": "ART07"
+                }
+            ]
+        }
+    ],
+    "albums": [
+        {
+            "id": "ALB01",
+            "title": "Pablo Honey",
+            "type": "album",
+            "release_date": "1993-02-22",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART01"}]
+        },
+        {
+            "id": "ALB02",
+            "title": "OK Computer",
+            "type": "album",
+            "release_date": "1997-05-21",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART01"}]
+        },
+        {
+            "id": "ALB03",
+            "title": "1989",
+            "type": "album",
+            "release_date": "2014-10-27",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART02"}]
+        },
+        {
+            "id": "ALB04",
+            "title": "Toxicity",
+            "type": "album",
+            "release_date": "2001-09-04",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART03"}]
+        },
+        {
+            "id": "ALB05",
+            "title": "Meddle",
+            "type": "album",
+            "release_date": "1971-10-31",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART04"}]
+        },
+        {
+            "id": "ALB06",
+            "title": "Animals",
+            "type": "album",
+            "release_date": "1977-01-21",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART04"}]
+        },
+        {
+            "id": "ALB07",
+            "title": "Wish You Were Here",
+            "type": "album",
+            "release_date": "1975-09-12",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART04"}]
+        },
+        {
+            "id": "ALB08",
+            "title": "Red",
+            "type": "album",
+            "release_date": "1974-10-06",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART05"}]
+        },
+        {
+            "id": "ALB09",
+            "title": "In the Court of the Crimson King",
+            "type": "album",
+            "release_date": "1969-10-10",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART05"}]
+        },
+        {
+            "id": "ALB10",
+            "title": "Abbey Road",
+            "type": "album",
+            "release_date": "1969-09-26",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART06"}]
+        },
+        {
+            "id": "ALB11",
+            "title": "A Night at the Opera",
+            "type": "album",
+            "release_date": "1975-11-21",
+            "cover": "https://i.scdn.co/image/ab67616d0000b273d856de25c19b8d3ab027c17b",
+            "artists": [{"id":"ART07"}]
+        }
+    ],
+    "artists": [
+        {
+            "id": "ART01",
+            "name": "Radiohead"
+        },
+        {
+            "id": "ART02",
+            "name": "Taylor Swift"
+        },
+        {
+            "id": "ART03",
+            "name": "System of a Down"
+        },
+        {
+            "id": "ART04",
+            "name": "Pink Floyd"
+        },
+        {
+            "id": "ART05",
+            "name": "King Crimson"
+        },
+        {
+            "id": "ART06",
+            "name": "The Beatles"
+        },
+        {
+            "id": "ART07",
+            "name": "Queen"
+        }
+    ]
+}
