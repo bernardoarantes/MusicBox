@@ -6,12 +6,14 @@
 #include "json.hpp"
 #include "service/MusicQueryInterface.cpp"
 #include <iostream>
+#include <string>
 
 #define SPOTIFY_ENDPOINT "https://api.spotify.com"
 
 using httplib::Client;
 using httplib::Headers;
 using nlohmann::json;
+using std::string;
 
 class SpotifyAPIQueryService : public MusicQueryInterface {
     private:
@@ -23,7 +25,6 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
                 { "Authorization", "Bearer " + api_key},
             };
         }
-
 
         const json formatMusic(const json &api_music) const {
             json music;
@@ -61,6 +62,9 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
 
              const json query(const string &type, const string &query, unsigned page = 0) override {
                  if (auto res = cli.Get("/v1/search?limit=10&q=" + query + "&type=" + type + "&offset=" + std::to_string(10 * page), getHeaders())) {
+                     if (res->status != 200) {
+                         throw EntityNotFoundException("Spotify API error " + std::to_string(res->status) + ": " + res->body);
+                     }
                      json data = json::parse(res->body);
                      json j = json::array();
 
@@ -74,12 +78,15 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
 
                      return j;
                  } else {
-                     throw EntityNotFoundException("failed to fetch from spotify api");
+                     throw EntityNotFoundException("failed to connect to spotify api");
                  }
              }
 
              const json findMusicByAlbum(const string &album_id, unsigned page) override {
                  if (auto res = cli.Get("/v1/albums/" + album_id + "/tracks?offset=" + std::to_string(10 * page), getHeaders())) {
+                     if (res->status != 200) {
+                         throw EntityNotFoundException("Spotify API error " + std::to_string(res->status) + ": " + res->body);
+                     }
                      json data = json::parse(res->body);
                      json j = json::array();
 
@@ -88,13 +95,15 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
 
                      return j;
                  } else {
-                     throw EntityNotFoundException("failed to fetch from spotify api");
+                     throw EntityNotFoundException("failed to connect to spotify api");
                  }
              }
 
-
              const json findAlbumByArtist(const string &artist_id, unsigned page) override {
                  if (auto res = cli.Get("/v1/artist/" + artist_id + "/albums?offset=" + std::to_string(10 * page), getHeaders())) {
+                     if (res->status != 200) {
+                         throw EntityNotFoundException("Spotify API error " + std::to_string(res->status) + ": " + res->body);
+                     }
                      json data = json::parse(res->body);
                      json j = json::array();
 
@@ -104,45 +113,51 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
 
                      return j;
                  } else {
-                     throw EntityNotFoundException("failed to fetch from spotify api");
+                     throw EntityNotFoundException("failed to connect to spotify api");
                  }
              }
 
              const json fetch(const string &type, const string &ids) override {
                  if (auto res = cli.Get("/v1/" + type + "/" + ids, getHeaders())) {
+                     if (res->status != 200) {
+                         throw EntityNotFoundException("Spotify API error " + std::to_string(res->status) + ": " + res->body);
+                     }
                      json data = json::parse(res->body);
                      json j;
-                     string dat = data.dump();
 
-                         if (type == "tracks")
-                             j = formatMusic(data);
-                         else if (type == "albums")
-                             j = formatAlbum(data);
-                         else if (type == "artists")
-                             j = formatArtist(data);
+                     if (type == "tracks")
+                         j = formatMusic(data);
+                     else if (type == "albums")
+                         j = formatAlbum(data);
+                     else if (type == "artists")
+                         j = formatArtist(data);
 
                      return j;
-
                  } else {
-                     throw EntityNotFoundException("failed to fetch from spotify api");
+                     throw EntityNotFoundException("failed to connect to spotify api");
                  }
              }
 
              const json queryRandomMusics() override {
-                 if (auto res_1 = cli.Get("/v1/featured-playlists?limit=1")) {
+                 if (auto res_1 = cli.Get("/v1/featured-playlists?limit=1", getHeaders())) {
+                     if (res_1->status != 200) {
+                         throw EntityNotFoundException("Spotify API error " + std::to_string(res_1->status) + ": " + res_1->body);
+                     }
                      json data = json::parse(res_1->body);
                      json j = json::array();
-                     if (auto res = cli.Get(data["playlists"]["items"][0]["items"]["href"])) {
+                     if (auto res = cli.Get(data["playlists"]["items"][0]["items"]["href"], getHeaders())) {
+                         if (res->status != 200) {
+                             throw EntityNotFoundException("Spotify API error " + std::to_string(res->status) + ": " + res->body);
+                         }
                          for (json music : data["tracks"]["items"])
                              j += formatMusic(music);
 
                          return j;
                      } else {
-                         throw EntityNotFoundException("failed to fetch from spotify api");
+                         throw EntityNotFoundException("failed to connect to spotify api");
                      }
-
                  } else {
-                     throw EntityNotFoundException("failed to fetch from spotify api");
+                     throw EntityNotFoundException("failed to connect to spotify api");
                  }
              }
 };
