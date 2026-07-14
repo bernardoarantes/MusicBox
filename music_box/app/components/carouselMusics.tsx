@@ -32,7 +32,8 @@ export const CarouselMusics = () => {
         const fetchMusics = async() => {
             if(!user?.id) return
             try{
-                const res = await fetch("http://seu-backend/api/login/", {
+                // arrumar o end point :)
+                const res = await fetch("http://localhost:8080/", {
                         method: "GET",
                         headers: { "Content-Type": "application/json" },
                         body: undefined,
@@ -40,7 +41,7 @@ export const CarouselMusics = () => {
                     if(!res.ok){
                         throw new Error("Falha na requisação");
                     }
-                    const data: Music[] = await res.json(); //recebe ids de cada music
+                    const data: Music[] = await res.json();
                     setMusics(data)
                 }
                 catch(error){
