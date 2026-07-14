@@ -8,7 +8,7 @@ import { ReviewForm } from "@/app/main/components/review_form";
 interface MusicDetailsProps {
     id: string;
     title: string;
-    artists: string[];
+    artists: string;
     duration: any;
     album: string;
     cover: string;
@@ -55,7 +55,7 @@ export default function MusicDetails(){
                 </div>
                 <h2 className="font-black">{music.title ? music.title : "undefined"}</h2>
                 <div className="flex flex-row w-full gap-2 text-[#727979]">
-                    <p>{music.artists ? music.artists.join(", ") : "undefined Artist"}</p>
+                    <p>{music.artists ? music.artists : "undefined Artist"}</p>
                     <span>&middot;</span>
                     <p>{music.duration ? music.duration/1000 + "s" : "undefined Duration"}</p>
                     <span>&middot;</span>
