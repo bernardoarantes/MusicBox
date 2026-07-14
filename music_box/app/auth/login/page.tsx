@@ -4,6 +4,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/navigation"
 import { useState, FormEvent } from "react";
 import { useAuth } from "../../../context/auth";
 import { emailValidator, passwordValidator } from "../../../core/utils";
@@ -13,6 +14,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({ email: "", password: "" });
   const { login } = useAuth();
+  const router = useRouter();
 
   async function handleLogin(email:string, password:string){
     const res = await fetch("http://localhost:8080/login", {
@@ -20,9 +22,10 @@ export default function Login() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password }),
     });
-    if(!res)return;
+    if(!res.ok)return;
     const data = await res.json();
     login({ id: data.user_id, name: data.name, email: email , password: password});
+    router.replace("/main");
   }
 
   function handleSubmit(e: FormEvent) {

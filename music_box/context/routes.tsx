@@ -18,6 +18,7 @@ export function RouteGuard({ children }: { children: React.ReactNode }) {
 
     if (!user && !isPublicRoute) {
       router.replace("/auth/login");
+      // router.push("/auth/login");
     }
 
     if (user && isPublicRoute) {

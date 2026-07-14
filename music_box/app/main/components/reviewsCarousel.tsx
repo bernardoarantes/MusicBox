@@ -38,11 +38,11 @@ export const ReviewsCarousel = () => {
                     const data = await listUserEntries({ user_id : user?.id || "" })
                     setReviewedMusics(data)
                 }
-                catch(error){
-                }
+            catch(error){
                     console.error("Erro ao buscar reviews.")
                 }
                 fetchUserReviews();
+            }
     }, [user?.id])
 
     if(!reviewedMusics || reviewedMusics.length == 0){
@@ -61,7 +61,7 @@ export const ReviewsCarousel = () => {
                     <span className="material-symbols-outlined">arrow_back</span>
                 </button>
                 
-                <button 
+                <button
                     onClick={scrollRight}
                     className="w-10 h-10 flex items-center justify-center duration-300 hover:shadow-2xl bg-[#525B5B] text-white rounded-full hover:bg-gray-400 transition-colors duration-200"
                     aria-label="Rolar para a direita"
@@ -75,18 +75,11 @@ export const ReviewsCarousel = () => {
         className="flex gap-6 py-8 px-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
         style={{ scrollbarWidth: 'none' }}
         >
-            {reviewedMusics.map((index) => (
-            <div key={index.id} className="snap-start shrink-0 w-[300px] my-6 ">
-                <ReviewCard
-                id={index.id}
-                target={index.target}
-                owner_id={index.owner_id}
-                comment={index.comment}
-                rating={index.rating}
-                type={index.type}
-                />
+            {reviewedMusics.map((review) => (
+            <div key={review.id} className="snap-start shrink-0 w-[300px] my-6">
+                <ReviewCard {...review} />
             </div>
-            ))}
+        ))}
       </div>
     </div>
   );
