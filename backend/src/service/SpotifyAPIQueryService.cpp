@@ -71,7 +71,7 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
                      json j;
                      j["items"] = json::array();
 
-                     for (json item : data[type]["items"])
+                     for (json item : data[type + "s"]["items"])
                          if (type == "track")
                              j += formatMusic(item);
                          else if (type == "album")

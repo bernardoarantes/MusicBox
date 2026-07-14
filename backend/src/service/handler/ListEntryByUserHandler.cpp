@@ -1,5 +1,5 @@
-#ifndef LISTENTRYHANDLER
-#define LISTENTRYHANDLER
+#ifndef LISTENTRYBYUSERHANDLER
+#define LISTENTRYBYUSERHANDLER
 
 #include "httplib.h"
 #include "json.hpp"
@@ -12,19 +12,19 @@ using httplib::Server;
 using nlohmann::json;
 using std::string;
 
-class ListEntryHandler : public DefaultHandler {
+class ListEntryByUserHandler : public DefaultHandler {
     private:
         EntryService *entry_service;
 
     public:
-        ListEntryHandler(EntryService &entry_service) {
+        ListEntryByUserHandler(EntryService &entry_service) {
             this->entry_service = &entry_service;
         }
 
         const json getData(const Request &req) override {
             std::cout << "Getting here!";
             if (!req.has_param("user_id"))
-                throw FormatException("missing q param");
+                throw FormatException("missing user_id param");
 
             auto a = req.get_param_value("user_id");
 

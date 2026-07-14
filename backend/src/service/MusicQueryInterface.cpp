@@ -11,7 +11,7 @@ class MusicQueryInterface {
     public:
         virtual ~MusicQueryInterface() = default;
 
-        virtual const json query(const string &type, const string &query, unsigned page) = 0;
+        virtual const json query(const string &type, const string &query, unsigned page = 0) = 0;
 
         virtual const json findMusicByAlbum(const string &albumId, unsigned page) = 0;
 

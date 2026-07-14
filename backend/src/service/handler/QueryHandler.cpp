@@ -23,14 +23,20 @@ class QueryHandler : public DefaultHandler {
         }
 
         const json getData(const Request &req) override {
-            if (!req.has_param("q"))
-                throw FormatException("missing 'q' param");
+            
+
+            if (!req.has_param("type"))
+                throw FormatException("missing 'type' param");
+
+            if (!req.has_param("query"))
+                throw FormatException("missing 'query' param");
 
             // if (!req.has_param("page"))
             //     throw FormatException("missing 'page' param");
 
             json j;
-            j["query"] = req.get_param_value("q");
+            j["query"] = req.get_param_value("query");
+            j["type"] = req.get_param_value("type");
             // j["page"] = req.get_param_value("page");
             return j;
         }

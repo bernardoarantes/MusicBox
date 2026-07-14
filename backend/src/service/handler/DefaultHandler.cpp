@@ -37,7 +37,7 @@ class DefaultHandler : public Server::Handler {
                 json data = getData(req);
                 json j = handle(data);
                 res.status = 200;
-                res.set_content(j.dump(), "text/plain");
+                res.set_content(j.dump(), "application/json");
             } catch (FormatException e) {
                 res.status = 400;
                 res.set_content(e.what(), "text/plain");
