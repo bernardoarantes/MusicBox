@@ -1,0 +1,363 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[portuguese]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{geometry}
+\geometry{top=3cm, bottom=2.5cm, left=3cm, right=2cm}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{booktabs}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{positioning,shapes.geometric,arrows.meta,calc}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.96,0.96,0.94}
+\definecolor{unicampblue}{RGB}{20,40,100}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{blue}\bfseries,
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=unicampblue,
+    filecolor=magenta,      
+    urlcolor=blue,
+    pdftitle={Relatório Técnico - MusicBox},
+    pdfpagemode=FullScreen,
+}
+
+\begin{document}
+
+% --- CAPA ---
+\begin{titlepage}
+    \centering
+    \vspace*{1cm}
+    {\large \textbf{Universidade Estadual de Campinas}}\\
+    {\large \textbf{Instituto de Computação}}\\
+    \vspace*{1.5cm}
+    \vspace*{1cm}
+    {\large \textbf{MC322 - Programação Orientada a Objetos}}\\
+    {\large Primeiro Semestre de 2026}\\
+    \vspace*{2cm}
+    {\Huge \bfseries MusicBoxd} \\
+    \vspace*{0.5cm}
+    {\Large \textbf{Relatório Técnico de Engenharia de Software e Arquitetura}} \\
+    \vspace*{2cm}
+    
+    \begin{minipage}{0.6\textwidth}
+        \begin{flushleft} \large
+            \textbf{Grupo:}\\
+            Bernardo Arantes -- RA 247125\\
+            Matheus Menezes -- RA 258602\\
+            Vinicius Almeida -- RA 259205\\
+            Victor Marques -- RA 242650\\
+            Kayky Gibran -- RA 173048
+        \end{flushleft}
+    \end{minipage}
+    \begin{minipage}{0.35\textwidth}
+        \begin{flushright} \large
+            \textbf{Professor:}\\
+            Marcos M. Raimundo
+        \end{flushright}
+    \end{minipage}
+    
+    \vfill
+    {\large \textbf{Repositório Git Público:}}\\
+    \vspace*{0.2cm}
+    \url{https://github.com/bernardoarantes/MusicBox}\\
+    \vspace*{1.5cm}
+    {\large Campinas\\ \today}
+\end{titlepage}
+
+\newpage
+\tableofcontents
+\newpage
+
+\section{Introdução e Domínio do Problema}
+O projeto \textbf{MusicBoxd} consiste em uma rede social voltada para a catalogação, avaliação e resenha de músicas, álbuns e artistas. Fortemente inspirado em plataformas de catalogação de cinema como o \textit{Letterboxd}, o sistema permite aos usuários criar contas, registrar que ouviram determinado item de áudio (seja uma faixa individual, um álbum completo ou uma obra vinculada a um artista), atribuir notas de 0 a 10 (representado por estrelas inteiras e meias-estrelas de 1 a 5 no frontend) e escrever críticas descritivas.
+
+Do ponto de vista do ecossistema de software, o \textbf{MusicBoxd} é composto por:
+\begin{itemize}
+    \item \textbf{Backend (C++17)}: Um servidor HTTP robusto e modular construído sobre a biblioteca \texttt{cpp-httplib}. Ele gerencia a persistência de dados no formato de linhas JSON (\texttt{.jsonl}), encapsula as regras de negócio em camadas de serviços bem definidas e realiza a integração em tempo real com a API oficial do Spotify para pesquisa e recuperação de metadados musicais.
+    \item \textbf{Frontend (Next.js 14 e TypeScript)}: Uma aplicação web moderna que interage com o backend via requisições assíncronas (\texttt{fetch} API), provendo uma interface responsiva, com carrosséis interativos, formulários de criação de resenhas com avaliação por estrelas, busca dinâmica e perfil de usuário.
+\end{itemize}
+
+O principal objetivo de engenharia de software desse projeto é demonstrar a aplicação de boas práticas de \textbf{Programação Orientada a Objetos (POO)}, o cumprimento das diretrizes de baixo acoplamento e alta coesão, e a blindagem lógica de domínios ricos diante de pressões de infraestrutura externa.
+
+\subsection{Mapeamento do Domínio e Justificativa Semântica das Entidades}
+As entidades de domínio foram definidas de forma a isolar as regras de negócio do sistema de qualquer infraestrutura de persistência ou interface gráfica. São elas:
+\begin{enumerate}
+    \item \textbf{UserEntity}: Representa o usuário cadastrado no sistema. Contém atributos privados de identificação única (\texttt{id}), nome de exibição (\texttt{name}), credencial de login (\texttt{email}) e autenticação básica (\texttt{password}). Esta entidade encapsula a validação estrutural do e-mail e do nome de usuário durante sua instanciação, garantindo um \textit{Fail-Fast} na própria fronteira do objeto de domínio.
+    \item \textbf{EntryEntity}: Representa a atividade ou resenha criada por um usuário. Associa o identificador do dono (\texttt{owner\_id}) a um recurso específico (\texttt{target\_id}, que pode ser um ID de faixa, álbum ou artista no Spotify), com o tipo de mídia (\texttt{type}), comentário descritivo (\texttt{comment}) e classificação numérica de avaliação (\texttt{rating}).
+    \item \textbf{MusicEntity, AlbumEntity, ArtistEntity}: Entidades que mapeiam a estrutura de metadados retornados pelo catálogo musical. Elas garantem que a representação de uma música, um álbum ou um artista no sistema obedeça a contratos estritos de tipos no backend C++, isolando a estrutura interna retornada pelo provedor externo (Spotify) do modelo interno consumido pelos serviços.
+\end{enumerate}
+
+\section{Justificativa Arquitetural: A Opção pelo C++}
+Por mais que a diretriz original do projeto recomende a linguagem Java, o grupo optou pela utilização de \textbf{C++17} para o desenvolvimento do backend. Essa decisão é baseada em três pilares técnicos:
+\begin{enumerate}
+    \item \textbf{Abstrações de Custo Zero (Zero-Cost Abstractions)}: O compilador C++ permite construir interfaces puras e hierarquias polimórficas complexas sem incorrer nos gargalos de \textit{garbage collection} e de \textit{boxing/unboxing} comuns na Máquina Virtual Java (JVM).
+    \item \textbf{Eficiência de Memória e Baixa Latência}: Projetos focados em catálogo musical de grande escala e processamento de áudio exigem previsibilidade no tempo de resposta. A alocação manual e o uso de referências e ponteiros constantes (\texttt{const}) no C++ minimizam a pegada de memória do servidor.
+    \item \textbf{Compilação de Unidade Traduzida Única}: O backend foi desenhado de forma a compilar como uma única unidade de tradução (\texttt{\#include} de arquivos de implementação a partir do \texttt{main.cpp}), o que permite ao compilador aplicar otimizações agressivas entre procedimentos (\textit{Interprocedural Optimization - IPO}) e embutimento (\textit{Inlining}) de funções virtuais onde o tipo estático é inferido em tempo de compilação.
+\end{enumerate}
+
+\subsection{Preservação da Programação Orientada a Objetos em C++}
+Embora o C++ seja uma linguagem multi-paradigma, o código do backend foi estruturado estritamente segundo as regras da engenharia de componentes orientados a objetos:
+\begin{itemize}
+    \item \textbf{Interfaces Claras}: Interfaces puras são implementadas utilizando classes abstratas com métodos virtuais puros. Exemplo: a classe \texttt{Entity} em \texttt{Entity.cpp} e a classe \texttt{MusicQueryInterface} em \texttt{MusicQueryInterface.cpp}.
+    \item \textbf{Polimorfismo Dinâmico}: O sistema utiliza despacho dinâmico através de tabelas virtuais (\textit{vtables}) para interagir com diferentes representações de entidades no repositório persistido e serviços de busca.
+    \item \textbf{Encapsulamento Estrito}: Todos os atributos de dados das entidades são definidos como privados (\texttt{private}) ou protegidos (\texttt{protected}), expostos apenas através de comportamentos públicos bem-definidos. O uso da palavra-chave \texttt{const} garante a imutabilidade dos estados de entidades já carregadas na memória.
+    \item \textbf{Gerenciamento de Ciclo de Vida}: Os serviços utilizam referências (\texttt{\&}) de C++ para indicar colaborações duradouras que não transferem posse de memória (inversão de dependência via injeção por construtor), evitando o acoplamento físico à inicialização dos recursos.
+\end{itemize}
+
+\newpage
+
+\section{Diagrama de Classes UML}
+Abaixo apresenta-se a estrutura de colaborações das classes do backend desenhada no padrão UML. O diagrama destaca a separação entre o Espaço do Problema (interfaces abstratas) e o Espaço da Solução (implementações concretas de serviços, persistência e manipuladores de rotas HTTP).
+
+\begin{figure}[htbp]
+    \centering
+    \resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[
+        class/.style={draw=black, fill=unicampblue!10, thick, text width=5.5cm, align=left, font=\ttfamily\scriptsize, minimum height=1.2cm},
+        interface/.style={draw=black, fill=green!10, thick, dashed, text width=5.5cm, align=left, font=\ttfamily\scriptsize, minimum height=1.2cm},
+        arrowRealize/.style={-{Triangle[open]}, dashed, thick},
+        arrowInherit/.style={-{Triangle[open]}, thick},
+        arrowAssoc/.style={-Latex, thick},
+        arrowAgg/.style={{Diamond[open]}-Latex, thick},
+        arrowComp/.style={{Diamond}-Latex, thick},
+        node distance=2cm and 2.5cm
+    ]
+        % Coluna 1: Entidades e Parsers
+        \node[interface] (Entity) {\textbf{<<interface>> Entity} \\ + getId(): string = 0 \\ + toJson(): json = 0};
+        
+        \node[class, below=1.2cm of Entity] (UserEntity) {\textbf{UserEntity} \\ - id, name, email, password \\ + validateEmail() \\ + validateName() \\ + hasEmail(email): bool};
+        
+        \node[class, right=0.8cm of UserEntity] (EntryEntity) {\textbf{EntryEntity} \\ - id, owner\_id, type, target\_id \\ - comment, rating \\ + getOwnerId(): string \\ + getTargetId(): string};
+
+        % Coluna 2: Persistência
+        \node[class, right=1.5cm of Entity] (Repository) {\textbf{Repository} \\ - file\_path: string \\ - entities: vector<const Entity*> \\ + findById(id): Entity\& \\ + save(entity: Entity*)};
+        
+        \node[interface, above=1.0cm of Repository] (EntityParser) {\textbf{<<interface>> EntityParser} \\ + parseJson(j: json): Entity* = 0};
+        
+        \node[class, right=0.8cm of EntityParser] (UserParser) {\textbf{UserParser} \\ + parseJson(j): UserEntity*};
+
+        % Coluna 3: Workspace e Serviços
+        \node[class, right=1.5cm of Repository] (Workspace) {\textbf{Workspace} \\ - users: Repository* \\ - entries: Repository* \\ + addEntry(e: EntryEntity*) \\ + checkLogin(e, p): string};
+
+        \node[class, below=1.5cm of Workspace] (UserService) {\textbf{UserService} \\ - workspace: Workspace* \\ - registry: RegistryService* \\ + addUser(n, e, p) \\ + checkLogin(e, p): string};
+
+        % Conexões
+        \draw[arrowRealize] (UserEntity) -- (Entity);
+        \draw[arrowRealize] (EntryEntity) |- (Entity);
+        \draw[arrowRealize] (UserParser) -- (EntityParser);
+        \draw[arrowAgg] (Repository) -- (Entity);
+        \draw[arrowAssoc] (Repository) -- (EntityParser);
+        \draw[arrowAgg] (Workspace) -- (Repository);
+        \draw[arrowAssoc] (UserService) -- (Workspace);
+        
+    \end{tikzpicture}%
+    }
+    \caption{Hierarquia simplificada de Entidades, Persistência e Serviços do backend do MusicBox.}
+    \label{fig:uml_diagram}
+\end{figure}
+
+\newpage
+
+\section{Matriz de Justificativa de Design}
+A engenharia de objetos do \textbf{MusicBoxd} fundamentou-se nos princípios estruturais do SOLID e diretrizes de acoplamento limpo. A tabela abaixo resume a aplicação prática desses conceitos no código do projeto:
+
+\begin{table}[htbp]
+    \centering
+    \scriptsize
+    \begin{tabular}{@{}llp{8.5cm}@{}}
+        \toprule
+        \textbf{Princípio / Conceito} & \textbf{Elemento do Código} & \textbf{Justificativa e Ganho Arquitetural} \\ \midrule
+        \textbf{TRUE} & \texttt{Repository} & O repositório é \textit{Transparent} (operações de IO e vetor de ponteiros isoladas), \textit{Reasonable} (mudanças nas regras de arquivo não alteram os serviços), \textit{Usable} (pode ser instanciado com qualquer tipo de parser de entidade) e \textit{Exemplary} (padroniza a interface de acesso a dados). \\ \addlinespace
+        \textbf{Tell, Don't Ask} & \texttt{UserEntity::hasPassword} & Em vez de expor a senha por meio de um \textit{getter} e realizar a validação de credenciais de forma externa no \texttt{Workspace}, o próprio \texttt{UserEntity} responde se a senha informada corresponde ao seu hash (\texttt{user.hasPassword(password)}), blindando seu estado interno. \\ \addlinespace
+        \textbf{Liskov Substitution (LSP)} & \texttt{Entity} / \texttt{UserEntity} & Objetos da classe \texttt{UserEntity} ou \texttt{EntryEntity} podem ser tratados uniformemente como \texttt{Entity} em qualquer estrutura polimórfica (como no vetor do \texttt{Repository}) sem violar o comportamento esperado pela classe base. \\ \addlinespace
+        \textbf{Open/Closed (OCP)} & \texttt{MusicQueryInterface} & O sistema está fechado para modificações de infraestrutura e aberto para extensões de provedores. A inserção de uma nova API de busca (ex: Apple Music) requer apenas a criação de uma nova classe que implemente \texttt{MusicQueryInterface}, sem tocar em nenhum \texttt{Handler} ou rota HTTP. \\ \addlinespace
+        \textbf{Inversão de Dependência} & \texttt{EndpointFactory} & O construtor de \texttt{EndpointFactory} recebe referências de interfaces e serviços abstratos (\texttt{EntryService\&}, \texttt{UserService\&}, \texttt{MusicQueryInterface\&}) em vez de instanciá-los diretamente, quebrando o acoplamento físico entre os componentes. \\ \bottomrule
+    \end{tabular}
+    \caption{Matriz de Justificativa de Design aplicada à arquitetura de classes.}
+    \label{tab:design_matrix}
+\end{table}
+
+\newpage
+
+\subsection{Implementação de Padrões de Projeto (Design Patterns)}
+Pelo menos quatro Design Patterns do catálogo \textbf{GoF (Gang of Four)} foram aplicados de forma consciente para solucionar problemas estruturais de fluxo:
+\begin{enumerate}
+    \item \textbf{Strategy Pattern}:
+    A classe \texttt{Repository} utiliza como dependência uma estratégia de parser (\texttt{EntityParser}) injetada no construtor. Ao salvar e carregar dados estruturados, o repositório executa a deserialização delegando o comportamento para a estratégia configurada (\texttt{UserParser} ou \texttt{EntryParser}). Da mesma forma, a busca musical utiliza o \texttt{MusicQueryInterface} como uma estratégia intercambiável para buscar dados do Spotify.
+    \item \textbf{Template Method Pattern}:
+    O processador de rotas HTTP básico \texttt{DefaultHandler} (classe abstrata em \texttt{DefaultHandler.cpp}) define o esqueleto do algoritmo de tratamento de requisições web no operador \texttt{operator()}:
+    \begin{lstlisting}[language=C++]
+void operator()(const Request &req, Response &res) {
+    try {
+        json data = getData(req); // Passo customizado
+        json j = handle(data);     // Passo customizado
+        res.status = 200;
+        res.set_content(j.dump(), "application/json");
+    } catch (FormatException e) { ... } // Tratamento unificado
+}
+    \end{lstlisting}
+    As subclasses herdadas como \texttt{SearchQueryHandler} ou \texttt{LoginHandler} apenas sobrescrevem os passos primitivos (\texttt{getData} e \texttt{handle}), mantendo o controle de exceções, formatação HTTP e cabeçalhos CORS centralizados na classe base.
+    \item \textbf{Factory Pattern}:
+    A classe \texttt{EndpointFactory} funciona como uma fábrica de mapeamento de endpoints HTTP. Ela encapsula a complexidade de instanciar cada manipulador concreto de requisição (\texttt{DefaultHandler}) e associá-los às rotas do servidor do framework \texttt{cpp-httplib}.
+    \item \textbf{Adapter Pattern (Adaptador)}:
+    A classe \texttt{SpotifyAPIQueryService} funciona como um adaptador para a API Rest externa do Spotify. Como o provedor externo retorna os dados catalogados em um formato JSON proprietário e complexo (com listas aninhadas de imagens, artistas e durações em milissegundos), a classe de integração adapta esses retornos brutos para a estrutura limpa e normalizada esperada pelo frontend através de métodos privados como \texttt{formatMusic}, \texttt{formatAlbum} e \texttt{formatArtist}, satisfazendo o contrato unificado de \texttt{MusicQueryInterface}.
+\end{enumerate}
+
+% --- GUIA DE EXECUÇÃO RAPIDA ---
+\section{Guia de Execução Rápida Automatizado}
+Esta seção descreve as etapas necessárias para compilar e inicializar tanto o backend quanto o frontend da aplicação em um ambiente Linux.
+
+\subsection{Backend (C++)}
+\textbf{Pré-requisitos}: Compilador compatível com C++17 (\texttt{g++} 9 ou superior) e biblioteca de criptografia do sistema ativa para o suporte SSL da API do Spotify (\texttt{libssl-dev} e \texttt{libcrypto-dev}).
+
+Para compilar o backend a partir do diretório raiz:
+\begin{lstlisting}[language=bash]
+# Navegar ate a pasta do backend
+cd backend
+
+% Compilar o codigo-fonte em um unico binario de execucao rapida
+g++ -std=c++17 -O3 src/main.cpp -lpthread -lssl -lcrypto -o musicbox
+
+# Executar o servidor backend
+./musicbox
+\end{lstlisting}
+O servidor backend iniciará e escutará por conexões na porta \texttt{8080} (\texttt{http://localhost:8080}).
+
+\subsection{Frontend (Next.js)}
+\textbf{Pré-requisitos}: Gerenciador de pacotes \texttt{npm} ou \texttt{yarn} instalado, além da runtime de Javascript \texttt{Node.js} (versão 18 ou superior).
+
+Para instalar as dependências e iniciar o servidor de desenvolvimento do frontend:
+\begin{lstlisting}[language=bash]
+# A partir da raiz do repositorio, alternar para a branch do frontend (front)
+git checkout front
+
+# Navegar ate o diretorio do projeto Next.js
+cd music_box
+
+# Instalar as dependencias do projeto
+npm install
+
+# Iniciar o servidor de desenvolvimento
+npm run dev
+\end{lstlisting}
+O frontend estará acessível no navegador através do endereço \texttt{http://localhost:3000}.
+
+\subsection{Execução Simplificada via Docker e Docker Compose}
+Para facilitar a inicialização e evitar a necessidade de instalar compiladores e runtimes de Node.js localmente, foi estruturado um ambiente completo em contêineres utilizando \textbf{Docker} e \textbf{Docker Compose} na branch \texttt{docker}.
+
+O ecossistema é orquestrado por meio do arquivo \texttt{docker-compose.yml} na raiz do projeto, mapeando as portas \texttt{8080} (backend) e \texttt{3000} (frontend) para o host local e definindo um volume persistente para os arquivos de banco de dados (\texttt{.jsonl}) em \texttt{backend/data}.
+
+Para compilar e inicializar toda a aplicação:
+\begin{lstlisting}[language=bash]
+# Alternar para a branch docker
+git checkout docker
+
+# Exportar a chave de API do Spotify
+export SPOTIFY_API_KEY="sua_chave_bearer"
+
+# Inicializar os servicos com build automatico
+docker compose up --build
+\end{lstlisting}
+
+\newpage
+\section{Análise Crítica de Integração, Robustez e Defeitos}
+Durante o desenvolvimento e integração entre o backend C++ e o frontend Next.js, a equipe realizou uma auditoria rigorosa de arquitetura e encontrou incompatibilidades que poderiam comprometer a robustez do ecossistema. Abaixo detalham-se os defeitos identificados, suas causas e as correções indicadas para garantir 100\% de estabilidade:
+
+\begin{enumerate}
+    \item \textbf{Vazamento de Memória nos Parsers de Entidade e Repositório}:
+    \begin{itemize}
+        \item \textit{Problema}: No arquivo \texttt{UserParser.cpp} (linha 11) e \texttt{EntryParser.cpp} (linha 10), as entidades são instanciadas na heap via \texttt{new UserEntity(...)} e \texttt{new EntryEntity(...)}. O \texttt{Repository} armazena esses ponteiros em um vetor \texttt{vector<const Entity*> entities}. Contudo, o repositório não define um destrutor para liberar a memória alocada, resultando em vazamento de memória (\textit{Memory Leak}) à medida que dados são carregados e o servidor permanece online.
+        \item \textit{Solução}: Substituir o uso de ponteiros brutos por ponteiros inteligentes gerenciados pela biblioteca padrão do C++17, alterando o tipo do vetor para \texttt{std::vector<std::shared\_ptr<const Entity>>} ou liberar manualmente a memória no destrutor do \texttt{Repository}.
+    \end{itemize}
+    
+    \item \textbf{Erro de Tipo no Retorno de \texttt{EntryEntity::getType()}}:
+    \begin{itemize}
+        \item \textit{Problema}: No arquivo \texttt{EntryEntity.cpp} (linha 36-38), a função foi implementada incorretamente:
+        \begin{lstlisting}[language=C++]
+const string getType() {
+    return this->target_id; // Deveria ser return this->type;
+}
+        \end{lstlisting}
+        \item \textit{Impacto}: A função retorna o ID do recurso (Spotify ID) em vez do literal de tipo (ex: \texttt{"track"}, \texttt{"album"}). Isso impede que o filtro de busca por faixa na base de resenhas local funcione (\texttt{entry->getType() == "track"} sempre falha), quebrando o endpoint de listagem por música.
+    \end{itemize}
+    
+    \item \textbf{Queda de Requisição GET no Endpoint \texttt{/list-random-musics}}:
+    \begin{itemize}
+        \item \textit{Problema}: A classe \texttt{ListRandomMusicsHandler} herda o comportamento padrão de extração de dados \texttt{getData(req)} de \texttt{DefaultHandler.cpp}, o qual tenta processar o corpo da requisição \texttt{json::parse(req.body)}. Como requisições do tipo \texttt{GET} não possuem corpo, o parser de JSON falha e arremessa uma exceção do tipo \texttt{json::exception}, fazendo o endpoint falhar com código \texttt{400 Bad Request}.
+        \item \textit{Solução}: Sobrescrever a função \texttt{getData} em \texttt{ListRandomMusicsHandler} para simplesmente retornar um objeto JSON vazio, evitando o parse no corpo nulo da requisição.
+    \end{itemize}
+    
+    \item \textbf{Requisições à API do Spotify sem Cabeçalho de Autorização}:
+    \begin{itemize}
+        \item \textit{Problema}: No arquivo \texttt{SpotifyAPIQueryService.cpp} (linha 131-147), o método \texttt{queryRandomMusics} faz requisições externas para carregar músicas sugeridas utilizando a biblioteca de HTTP, mas omite o parâmetro \texttt{getHeaders()} (que anexa a chave de autorização Bearer):
+        \begin{lstlisting}[language=C++]
+if (auto res_1 = cli.Get("/v1/featured-playlists?limit=1")) // Faltou getHeaders()
+        \end{lstlisting}
+        Isso faz com que o Spotify rejeite a requisição imediatamente com erro \texttt{401 Unauthorized}.
+    \end{itemize}
+
+    \item \textbf{Incompatibilidade no Nome dos Parâmetros de Busca e Rotas}:
+    \begin{itemize}
+        \item \textit{Problema}: O frontend Next.js realiza requisições para a rota com parâmetros de busca mapeados no formato \texttt{/search?type=track\&query=termo}. Contudo, a documentação original do backend exigia o parâmetro de busca nomeado como \texttt{q}. O código foi alinhado na branch para receber \texttt{query}, resolvendo a incompatibilidade, mas gerando desvio em relação ao documento original da API.
+        \item \textit{Incompatibilidade de Rotas de Busca direta (\texttt{/fetch})}: O frontend busca recursos específicos usando rotas de caminho (\texttt{/fetch/albums/\{id\}}). No entanto, o backend registra o endpoint estático literal \texttt{/search} e \texttt{/fetch} e espera a passagem de chaves por parâmetros de busca na URL (\texttt{query string}). Sem correções no roteamento do backend ou do frontend, essas requisições retornam \texttt{404 Not Found}.
+    \end{itemize}
+\end{enumerate}
+
+\newpage
+% --- DIVISÃO DE TAREFAS ---
+\section{Divisão de Tarefas (Esquema de Trabalho)}
+A tabela abaixo explicupa a alocação de responsabilidades no desenvolvimento do ecossistema MusicBox, baseada na especialização técnica e nas contribuições documentadas no histórico de controle de versão (Git):
+
+\begin{table}[htbp]
+    \centering
+    \small
+    \begin{tabular}{@{}llp{8.5cm}@{}}
+        \toprule
+        \textbf{Membro do Grupo} & \textbf{Função Principal} & \textbf{Detalhes das Atividades Desenvolvidas} \\ \midrule
+        \textbf{Bernardo Arantes} & Dev. Backend e Negócio & Implementação do núcleo de domínio (\texttt{Workspace}, \texttt{UserEntity}, \texttt{EntryEntity}), lógica de repositório e escrita rápida na base JSONL. \\ \addlinespace
+        \textbf{Matheus Menezes} & Dev. Frontend React/Next & Criação da arquitetura de rotas dinâmicas, controle de sessões e contextos no React (\texttt{auth.tsx}) e conexões assíncronas com os serviços. \\ \addlinespace
+        \textbf{Vinicius Almeida} & Designer e Dev. UI & Design das telas de login, cadastro, estilização do carrossel e painel de avaliações, uso de tokens de design e responsividade CSS. (\texttt{SpotifyAPIQueryService}), estruturação do roteamento HTTP das APIs e tratamento de exceções. \\ \addlinespace
+        \textbf{Kayky Gibran} & Engenheiro de Software/Doc & Escrita do relatório técnico, mapeamento de UML, modelagem de cenários de teste de integração e depuração dos defeitos descritos na seção 7. \\ 
+        \textbf{Victor Marques} & Dev. Integração Spotify  & Busca, estudo e criação da camada de busca externa no Spotify. Ponte entre o banco de dados externo e o servico da aplicacao. \\ 
+        \addlinespace
+        \bottomrule
+    \end{tabular}
+    \caption{Distribuição de atribuições e tarefas entre os integrantes do grupo.}
+    \label{tab:task_division}
+\end{table}
+
+\section{Conclusão}
+O desenvolvimento do ecossistema \textbf{MusicBoxd} provou-se um excelente exercício prático de transição entre o desenvolvimento simples baseado em classes e a verdadeira engenharia de software baseada em componentes orientados a objetos. O backend em C++17 provou que é possível construir sistemas de alto desempenho mantendo um alinhamento estrito com os princípios de encapsulamento operacional, Liskov Substitution, Open/Closed e padrões clássicos do GoF como Strategy e Template Method.
+
+A detecção de incompatibilidades entre o cliente (Next.js) e o servidor (C++), documentada em nosso relatório técnico, destaca a importância da definição de contratos formais de API nas fases iniciais do projeto. Com as devidas correções apontadas, o ecossistema atinge plena maturidade e robustez para implantação em produção.
+
+\end{document}
+
