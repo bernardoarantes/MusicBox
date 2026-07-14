@@ -43,7 +43,7 @@ export const ReviewsList = ( { params }: { params: { musicId:string }}) => {
                         key={review.id}
                         id={review.id}
                         owner_id={review.owner_id}
-                        target={review.target_id}
+                        target_id={review.target_id}
                         comment={review.comment}
                         type={review.type}
                         rating={review.rating}

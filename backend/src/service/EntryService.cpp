@@ -41,10 +41,10 @@ class EntryService {
         }
 
         json checkForEntry(const string &user_id, const string &target_id) {
-            for (EntryEntity entry : workspace->listEntriesByMusic(user_id))
+            for (EntryEntity entry : workspace->listEntriesByUser(user_id))
                 if (entry.getTargetId() == target_id)
-                    return json::parse("{\"bool\":false}");
-            return json::parse("{\"bool\":true}");
+                    return json::parse("{\"bool\":true}");
+            return json::parse("{\"bool\":false}");
         }
 };
 

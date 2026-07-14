@@ -26,19 +26,19 @@ class CheckForEntryHandler : public DefaultHandler {
             if (!req.has_param("user_id"))
                 throw FormatException("missing 'user_id' param");
 
-            if (!req.has_param("music_id"))
-                throw FormatException("missing 'track_id' param");
+            if (!req.has_param("target_id"))
+                throw FormatException("missing 'target_id' param");
 
             json j;
             j["user_id"] = req.get_param_value("user_id");
-            j["music_id"] = req.get_param_value("track_id");
+            j["target_id"] = req.get_param_value("target_id");
             return j;
         }
 
         const json handle(const json &j) override {
-            const string user_id  = extract(j, "user_id");
-            const string track_id = extract(j, "track_id");
-            return entry_service->checkForEntry(user_id, track_id);
+            const string user_id   = extract(j, "user_id");
+            const string target_id = extract(j, "target_id");
+            return entry_service->checkForEntry(user_id, target_id);
         }
 };
 
