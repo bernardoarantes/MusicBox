@@ -3,19 +3,15 @@
 import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../../../context/auth"
 import { MusicCarouselCard }  from "./musicCarouselCard";
+import { ReviewCard } from "./reviewCard";
 
-interface Music {
-    musicId: string,
-    title: string,
-    artists: string[],
-    album: string,
-    duration: number,
-    cover: string
+interface ReviewIds{
+    id: string,
 }
 
 export const ReviewsCarousel = () => {
     const { user } = useAuth();
-    const [reviewedMusics, setReviewedMusics] = useState<Music[]>([]);
+    const [reviewedMusics, setReviewedMusics] = useState<ReviewIds[]>([]);
     const carouselRef = useRef<HTMLDivElement>(null);
     const scrollLeft = () => {
         if(carouselRef.current){
@@ -34,7 +30,7 @@ export const ReviewsCarousel = () => {
             if(!user?.id) return
             try{
                 // arrumar o end point :)
-                const res = await fetch("http://seu-backend/api/login/", {
+                const res = await fetch("", {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({ userId : user?.id }),
@@ -42,7 +38,7 @@ export const ReviewsCarousel = () => {
                     if(!res.ok){
                         throw new Error("Falha na requisação");
                     }
-                    const data: Music[] = await res.json(); //recebe ids de cada music
+                    const data: ReviewIds[] = await res.json(); //recebe ids de cada music
                     setReviewedMusics(data)
                 }
                 catch(error){
@@ -82,15 +78,10 @@ export const ReviewsCarousel = () => {
         className="flex gap-6 py-8 px-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-transparent"
         style={{ scrollbarWidth: 'none' }}
         >
-            {reviewedMusics.map((music) => (
-            <div key={music.musicId} className="snap-start shrink-0 w-[300px] my-6 ">
-                <MusicCarouselCard
-                id={music.musicId}
-                title={music.title}
-                artists={music.artists}
-                duration={music.duration/1000}
-                album={music.album}
-                cover={music.cover}
+            {reviewedMusics.map((index) => (
+            <div key={index.id} className="snap-start shrink-0 w-[300px] my-6 ">
+                <ReviewCard
+                id={index.id}
                 />
             </div>
             ))}
