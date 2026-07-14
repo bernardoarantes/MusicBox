@@ -20,15 +20,16 @@ export const ReviewCard: React.FC<ReviewData> = ({ id, owner_id, target, comment
 
     useEffect(() => {
         async function fetchUsername(){
+            if (!owner_id) return;
             try{
-                //getuser
-                const data = await getUsername({ user_id: owner_id ? owner_id : "" })
-                setUsername(data);
+                const data = await getUsername({ user_id: owner_id });
+                setUsername(data.name || "");
             }catch(Err){
                 console.error("Não foi possível obter username.")
             }
-        }fetchUsername();
-    },[username]);
+        }
+        fetchUsername();
+    }, [owner_id]);
 
     return(
         <div className="flex flex-col content-start px-4 w-full h-flex ">

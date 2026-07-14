@@ -19,27 +19,32 @@ export const MusicCarouselCard: React.FC<MusicCarouselCardProps> = ({
     album,
     cover
 }) => {
-    const [albumEntity, setAlbum] = useState<String>();
-    const [artistList, setArtistList] = useState<String>()
+    const [albumEntity, setAlbum] = useState<string>("");
+    const [artistList, setArtistList] = useState<string>("");
 
-    async function fetchAlbum(){
-        try{
-            const data = await getAlbum({album_id : album});
-            setAlbum(data);
+    React.useEffect(() => {
+        async function fetchAlbum(){
+            try{
+                const data = await getAlbum({album_id : album});
+                setAlbum(data.title || "");
+            }
+            catch(error){
+                console.error("Album não encontrado")
+            }
         }
-        catch(error){
-            console.error("Album não encontrado")
+        
+        async function fetchArtist(){
+            try{
+                const data = await getArtists({artists_id : artists});
+                setArtistList(data.name || "");
+            }catch(error){
+                console.error("Artistas não encontrado")
+            }
         }
-    }fetchAlbum();
-    
-    async function fetchArtist(){
-        try{
-            const data = await getArtists({artists_id : artists});
-            setArtistList(data);
-        }catch(error){
-            console.error("Artistas não encontrado")
-        }
-    }fetchArtist();
+
+        if (album) fetchAlbum();
+        if (artists) fetchArtist();
+    }, [album, artists]);
 
   return (
     <div className="w-full">
