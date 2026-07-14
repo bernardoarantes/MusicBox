@@ -17,33 +17,40 @@ using std::vector;
 
 class Repository {
     private:
-        fstream file;
+        const string file_path;
         vector<const Entity *> entities;
 
+        void update() {
+            fstream w_file(file_path, ios::out);
+
+            if (!w_file.is_open())
+                throw EntityNotFoundException("Bad input file path " + file_path);
+
+            json j = json::array();
+            for (const Entity *entity : entities)
+                j += entity->toJson();
+
+            w_file << j.dump();
+            w_file.close();
+        }
+
     public:
-        Repository(const string &file_path, const EntityParser &entity_parser) {
+        Repository(const string &file_path, const EntityParser &entity_parser) : file_path(file_path) {
             fstream in_file;
             in_file.open(file_path, ios::in);
 
             if (!in_file.is_open())
                 throw EntityNotFoundException("Bad input file path " + file_path);
             
-            json data = json::array();
+            json data;
 
-            if (!std::filesystem::is_empty(file_path)) {
-                string line;
-                while (std::getline(in_file, line)) {
-                    if (line.empty()) continue;
-                    data += json::parse(line);
-                }
-            }
+            if (!std::filesystem::is_empty(file_path))
+                data = json::parse(in_file);
 
             in_file.close();
 
             for (json j : data)
                 entities.push_back(entity_parser.parseJson(j));
-
-            file.open(file_path, ios::app);
         }
 
         const Entity &findById(const string &id) const {
@@ -60,7 +67,7 @@ class Repository {
 
         void save(const Entity *entity) {
             entities.push_back(entity);
-            file << "\n" + entity->toJson().dump();
+            update();
         }
 
         vector<const Entity *>::iterator begin() {
