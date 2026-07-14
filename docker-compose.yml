@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      # Mount local data directory to persist user and entry JSONL files on the host
+      - ./backend/data:/app/data
+    environment:
+      - PORT=8080
+
+  frontend:
+    build:
+      context: ./music_box
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
