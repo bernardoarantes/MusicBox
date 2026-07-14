@@ -31,7 +31,7 @@ class SpotifyAPIQueryService : public MusicQueryInterface {
             music["title"] = api_music["name"];
             music["album"] = api_music["album"]["id"];
             music["cover"] = api_music["album"]["images"][0]["url"];
-            music["duration"] = api_music["duration"];
+            music["duration"] = api_music["duration_ms"];
             music["artists"] = json::array();
 
             for (json artist : api_music["artists"])
